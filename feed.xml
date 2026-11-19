@@ -2,7 +2,7 @@
 <rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
   <channel>
     <title>Veille Hebdomadaire : Immunologie Clinique &amp; DIP</title>
-    <link>https://votre-compte.github.io/immunology-curator/archives</link>
+    <link>https://f-bm.github.io/immunology-curator/archives</link>
     <description>Revue hebdomadaire de la littérature scientifique en immunologie clinique, déficits immunitaires primitifs (IEI) et maladies auto-inflammatoires.</description>
     <language>fr</language>
     <itunes:author>Dr. Veille Immunologie</itunes:author>
@@ -20,8 +20,8 @@ Cette semaine, le focus est mis sur la précision diagnostique et la reclassific
 2. **Avancées en Génétique** : L'identification de mutations de `IKZF4` élargit le spectre des déficits humoraux, illustrant la complexité du paysage des facteurs de transcription IKAROS dans l'homéostasie lymphocytaire.
 3. **Physiopathologie** : Une remise en question conceptuelle majeure sur les signatures interféron suggère une transition : du statut de 'biomarqueur passif' vers celui de 'cœur de cible thérapeutique' en raison de leur implication dans la dysfonction mitochondriale.</description>
       <pubDate>Thu, 19 Nov 2026 15:12:48 +0000</pubDate>
-      <guid>https://votre-compte.github.io/immunology-curator/archives/episode_2026-W46.mp3</guid>
-      <enclosure url="https://votre-compte.github.io/immunology-curator/archives/episode_2026-W46.mp3" length="609408" type="audio/mpeg" />
+      <guid>https://f-bm.github.io/immunology-curator/archives/episode_2026-W46.mp3</guid>
+      <enclosure url="https://f-bm.github.io/immunology-curator/archives/episode_2026-W46.mp3" length="609408" type="audio/mpeg" />
       <itunes:title>Immunologie Hebdo - Semaine 46 (19/11/2026)</itunes:title>
       <itunes:summary>### Synthèse hebdomadaire en Immunologie Clinique
 
