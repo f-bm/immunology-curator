@@ -1,0 +1,58 @@
+name: Veille Hebdomadaire Immunologie Clinique
+
+on:
+  schedule:
+    # Tous les lundis à 06:00 UTC (07:00 heure de Paris)
+    - cron: '0 6 * * 1'
+  workflow_dispatch: # Permet de lancer manuellement d'un clic depuis l'interface GitHub
+
+permissions:
+  contents: write
+  pages: write
+
+jobs:
+  run-curator:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupération du code
+        uses: actions/checkout@v4
+
+      - name: Configuration de Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Installation des dépendances
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Exécution de la veille et génération du podcast
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+          NOTION_ROOT_PAGE_ID: ${{ secrets.NOTION_ROOT_PAGE_ID }}
+          PODCAST_BASE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+        run: |
+          python main.py
+
+      - name: Publication de la release audio GitHub
+        uses: softprops/action-gh-release@v2
+        if: success()
+        with:
+          tag_name: episode-${{ github.run_number }}
+          name: "Épisode Audio - Semaine ${{ github.run_number }}"
+          files: archives/*.mp3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Sauvegarde et publication du flux RSS et des archives
+        if: success()
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add feed.xml archives/*.json
+          git commit -m "Mise à jour de la veille et du flux RSS [skip ci]" || echo "Aucune modification à commiter"
+          git push

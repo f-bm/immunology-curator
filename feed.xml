@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
+  <channel>
+    <title>Veille Hebdomadaire : Immunologie Clinique &amp; DIP</title>
+    <link>https://votre-compte.github.io/immunology-curator/archives</link>
+    <description>Revue hebdomadaire de la littérature scientifique en immunologie clinique, déficits immunitaires primitifs (IEI) et maladies auto-inflammatoires.</description>
+    <language>fr</language>
+    <itunes:author>Dr. Veille Immunologie</itunes:author>
+    <itunes:summary>Revue hebdomadaire de la littérature scientifique en immunologie clinique, déficits immunitaires primitifs (IEI) et maladies auto-inflammatoires.</itunes:summary>
+    <itunes:category text="Science">
+      <itunes:category text="Medicine" />
+    </itunes:category>
+    <item>
+      <title>Immunologie Hebdo - Semaine 46 (19/11/2026)</title>
+      <description>### Synthèse hebdomadaire en Immunologie Clinique
+
+Cette semaine, le focus est mis sur la précision diagnostique et la reclassification mécanistique des erreurs innées de l'immunité (EII). 
+
+1. **Reclassification et Consensus** : Les nouvelles recommandations pour l'angiite du SNC chez l'enfant marquent un tournant en abandonnant les terminologies floues pour une approche mécanistique (idiopathique vs secondaire), soulignant l'importance du séquençage génomique systématique.
+2. **Avancées en Génétique** : L'identification de mutations de `IKZF4` élargit le spectre des déficits humoraux, illustrant la complexité du paysage des facteurs de transcription IKAROS dans l'homéostasie lymphocytaire.
+3. **Physiopathologie** : Une remise en question conceptuelle majeure sur les signatures interféron suggère une transition : du statut de 'biomarqueur passif' vers celui de 'cœur de cible thérapeutique' en raison de leur implication dans la dysfonction mitochondriale.</description>
+      <pubDate>Thu, 19 Nov 2026 15:12:48 +0000</pubDate>
+      <guid>https://votre-compte.github.io/immunology-curator/archives/episode_2026-W46.mp3</guid>
+      <enclosure url="https://votre-compte.github.io/immunology-curator/archives/episode_2026-W46.mp3" length="609408" type="audio/mpeg" />
+      <itunes:title>Immunologie Hebdo - Semaine 46 (19/11/2026)</itunes:title>
+      <itunes:summary>### Synthèse hebdomadaire en Immunologie Clinique
+
+Cette semaine, le focus est mis sur la précision diagnostique et la reclassification mécanistique des erreurs innées de l'immunité (EII). 
+
+1. **Reclassification et Consensus** : Les nouvelles recommandations pour l'angiite du SNC chez l'enfant marquent un tournant en abandonnant les terminologies floues pour une approche mécanistique (idiopathiqu</itunes:summary>
+    </item>
+    <item>
+      <title>Immunologie Hebdo - Semaine 46 (19/11/2026)</title>
+      <description>Cette semaine a été marquée par une convergence entre la génomique fonctionnelle et l'optimisation des thérapeutiques ciblées dans les maladies rares du système immunitaire. L'avancée majeure réside dans la validation clinique des anti-IL-1 durant la grossesse, offrant une perspective thérapeutique indispensable pour les femmes atteintes de pathologies auto-inflammatoires systémiques, auparavant largement privées d'options sécurisées.
+
+Sur le plan diagnostique et clinique, la compréhension du spectre des maladies auto-inflammatoires s'étend, notamment avec la mise en évidence d'atteintes viscérales sévères (hépatiques, cardiaques) dans des syndromes comme l'HA20 et le syndrome VEXAS. Ces découvertes soulignent l'importance d'une vigilance accrue sur les manifestations extra-cutanées ou extra-rhumatologiques.
+
+Enfin, la gestion des déficits immunitaires complexes, comme illustré par le cas de leucoencéphalopathie multifocale progressive dans le cadre d'un déficit en CD40L, rappelle les défis persistants de la prise en charge infectieuse des patients immunodéprimés. L'innovation dans l'IA appliquée aux registres de maladies rares émerge comme un outil puissant pour surmonter les biais statistiques inhérents aux cohortes réduites.</description>
+      <pubDate>Thu, 19 Nov 2026 14:45:50 +0000</pubDate>
+      <guid>https://votre-compte.github.io/immunology-curator/archives/episode_2026-W46.mp3</guid>
+      <enclosure url="https://votre-compte.github.io/immunology-curator/archives/episode_2026-W46.mp3" length="1052064" type="audio/mpeg" />
+      <itunes:title>Immunologie Hebdo - Semaine 46 (19/11/2026)</itunes:title>
+      <itunes:summary>Cette semaine a été marquée par une convergence entre la génomique fonctionnelle et l'optimisation des thérapeutiques ciblées dans les maladies rares du système immunitaire. L'avancée majeure réside dans la validation clinique des anti-IL-1 durant la grossesse, offrant une perspective thérapeutique indispensable pour les femmes atteintes de pathologies auto-inflammatoires systémiques, auparavant l</itunes:summary>
+    </item>
+  </channel>
+</rss>
