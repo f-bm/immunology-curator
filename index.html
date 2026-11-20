@@ -1,0 +1,1838 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Atlas IUIS 2024 — Erreurs Innées de l'Immunité</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    .tab-active {
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+    }
+    .tab-inactive {
+      background-color: transparent;
+      color: var(--muted-foreground);
+    }
+    .tab-inactive:hover {
+      background-color: var(--secondary);
+      color: var(--foreground);
+    }
+    .badge-done {
+      background-color: color-mix(in srgb, var(--success) 16%, transparent);
+      color: var(--success);
+      border: 1px solid color-mix(in srgb, var(--success) 35%, transparent);
+    }
+    .badge-queue {
+      background-color: color-mix(in srgb, var(--primary) 14%, transparent);
+      color: var(--primary);
+      border: 1px solid color-mix(in srgb, var(--primary) 30%, transparent);
+    }
+    .badge-new2024 {
+      background-color: color-mix(in srgb, var(--warning) 16%, transparent);
+      color: var(--warning);
+      border: 1px solid color-mix(in srgb, var(--warning) 35%, transparent);
+    }
+    .badge-pending {
+      background-color: var(--secondary);
+      color: var(--muted-foreground);
+      border: 1px solid var(--border);
+    }
+    .tldr-box {
+      background-color: color-mix(in srgb, var(--primary) 7%, var(--card));
+      border-left: 3px solid var(--primary);
+    }
+    .pearl-card {
+      background-color: color-mix(in srgb, var(--warning) 7%, var(--card));
+      border: 1px solid color-mix(in srgb, var(--warning) 28%, var(--border));
+    }
+    .danger-box {
+      background-color: color-mix(in srgb, var(--error) 8%, var(--card));
+      border: 1px solid color-mix(in srgb, var(--error) 30%, var(--border));
+    }
+    .quiz-opt {
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+    }
+    .quiz-opt:hover:not(:disabled) {
+      border-color: var(--primary);
+      background-color: color-mix(in srgb, var(--primary) 6%, var(--card));
+    }
+    .quiz-correct {
+      border-color: var(--success) !important;
+      background-color: color-mix(in srgb, var(--success) 12%, var(--card)) !important;
+    }
+    .quiz-wrong {
+      border-color: var(--error) !important;
+      background-color: color-mix(in srgb, var(--error) 12%, var(--card)) !important;
+    }
+    .scroll-smooth { scroll-behavior: smooth; }
+  </style>
+</head>
+<body class="bg-[var(--background)] text-[var(--foreground)] antialiased m-0 p-0 scroll-smooth">
+  <div class="min-h-screen flex flex-col">
+    <!-- Top Header -->
+    <header class="sticky top-0 z-30 bg-[var(--card)] border-b border-[var(--border)] px-4 sm:px-6 py-3">
+      <div class="max-w-7xl mx-auto flex flex-col gap-3">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center font-semibold text-sm bg-[var(--primary)] text-[var(--primary-foreground)]">
+              IUIS
+            </div>
+            <div>
+              <h1 class="text-base font-semibold tracking-tight leading-tight text-[var(--foreground)]">
+                Atlas IUIS 2024 — Erreurs Innées de l'Immunité
+              </h1>
+              <p class="text-xs text-[var(--muted-foreground)]">
+                Classification officielle Poli et al. (2024/2025) · 555 IEI monogéniques · 17 phénocopies · 10 Tables
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--secondary)] border border-[var(--border)] text-xs">
+              <span class="text-[var(--muted-foreground)]">Progression</span>
+              <span class="font-mono font-semibold tabular-nums text-[var(--foreground)]">2 / 555</span>
+              <span class="text-[var(--muted-foreground)]">·</span>
+              <span class="font-medium text-[var(--primary)]">Semaine 1, Jour 2</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <nav class="flex flex-wrap items-center gap-1.5" role="tablist">
+          <button onclick="switchTab('taxonomy')" id="tab-taxonomy" class="tab-btn tab-active px-3 py-1.5 rounded-md text-xs font-medium transition cursor-pointer">
+            Classification IUIS 2024
+          </button>
+          <button onclick="switchTab('queue')" id="tab-queue" class="tab-btn tab-inactive px-3 py-1.5 rounded-md text-xs font-medium transition cursor-pointer">
+            File prioritaire (Pertinence)
+          </button>
+          <button onclick="openArticle()" id="tab-article" class="tab-btn tab-inactive px-3 py-1.5 rounded-md text-xs font-medium transition cursor-pointer flex items-center gap-1.5">
+            <span id="tab-article-label">Fiches Deep Research (2)</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-[var(--success)]"></span>
+          </button>
+          <button onclick="switchTab('quiz')" id="tab-quiz" class="tab-btn tab-inactive px-3 py-1.5 rounded-md text-xs font-medium transition cursor-pointer">
+            Quiz hebdomadaire (S1)
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-5">
+
+      <!-- ==================== VIEW 1: TAXONOMY ==================== -->
+      <section id="view-taxonomy" class="space-y-4">
+        <!-- Search & Filter Bar -->
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 space-y-3">
+          <div class="flex flex-col sm:flex-row gap-3">
+            <div class="flex-1 relative">
+              <input
+                id="search-input"
+                type="text"
+                placeholder="Rechercher une IEI, un gène (BTK, IL2RG, STAT3, MEFV, UBA1...), un OMIM ou une table..."
+                class="w-full px-3.5 py-2 rounded-lg text-sm bg-[var(--background)] border border-[var(--border)] text-[var(--foreground)] placeholder:text-[var(--placeholder)] focus:outline-none focus:border-[var(--primary)]"
+                oninput="renderTaxonomy()"
+              />
+            </div>
+            <div class="flex flex-wrap items-center gap-1.5">
+              <button onclick="setFilter('all')" id="flt-all" class="flt-btn tab-active px-2.5 py-1.5 rounded-md text-xs font-medium cursor-pointer">Toutes</button>
+              <button onclick="setFilter('done')" id="flt-done" class="flt-btn tab-inactive px-2.5 py-1.5 rounded-md text-xs font-medium cursor-pointer">Synthétisées (2)</button>
+              <button onclick="setFilter('queue')" id="flt-queue" class="flt-btn tab-inactive px-2.5 py-1.5 rounded-md text-xs font-medium cursor-pointer">File S1–S5</button>
+              <button onclick="setFilter('new2024')" id="flt-new2024" class="flt-btn tab-inactive px-2.5 py-1.5 rounded-md text-xs font-medium cursor-pointer">Nouvelles 2024</button>
+            </div>
+          </div>
+
+          <!-- Compact KPI strip -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 border-t border-[var(--card-border)] text-xs">
+            <div class="px-2.5 py-1.5 rounded-lg bg-[var(--background)] border border-[var(--card-border)]">
+              <div class="text-[var(--muted-foreground)]">Tables IUIS 2024</div>
+              <div class="font-mono font-semibold text-sm text-[var(--foreground)]">10 Tables · 40 sous-tables</div>
+            </div>
+            <div class="px-2.5 py-1.5 rounded-lg bg-[var(--background)] border border-[var(--card-border)]">
+              <div class="text-[var(--muted-foreground)]">Total référentiel</div>
+              <div class="font-mono font-semibold text-sm text-[var(--foreground)]">555 IEI + 17 phénocopies</div>
+            </div>
+            <div class="px-2.5 py-1.5 rounded-lg bg-[var(--background)] border border-[var(--card-border)]">
+              <div class="text-[var(--muted-foreground)]">Fiches rédigées</div>
+              <div class="font-mono font-semibold text-sm text-[var(--success)]">2 fiches complètes (#001–#002)</div>
+            </div>
+            <div class="px-2.5 py-1.5 rounded-lg bg-[var(--background)] border border-[var(--card-border)]">
+              <div class="text-[var(--muted-foreground)]">Prochaine fiche (J3)</div>
+              <div class="font-medium text-sm text-[var(--primary)] truncate">SCID lié à l'X (IL2RG, Table I.1)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tables Accordion -->
+        <div id="taxonomy-container" class="space-y-3"></div>
+      </section>
+
+      <!-- ==================== VIEW 2: PRIORITY QUEUE ==================== -->
+      <section id="view-queue" class="hidden space-y-4">
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 sm:p-5 space-y-2">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h2 class="text-base font-semibold text-[var(--foreground)]">File de révision priorisée par pertinence clinique</h2>
+              <p class="text-xs text-[var(--muted-foreground)] mt-0.5">
+                Ordre indépendant de la numérotation IUIS : IEI historiques, prévalentes et à forte littérature en premier, jusqu'aux déficits ultrarares. Chaque semaine se conclut par un quiz (5 récentes + 5 rétrospectives).
+              </p>
+            </div>
+            <span class="badge-queue px-2.5 py-1 rounded-md text-xs font-medium">35 premières fiches planifiées (Semaines 1 à 5)</span>
+          </div>
+        </div>
+
+        <div id="queue-container" class="space-y-4"></div>
+      </section>
+
+      <!-- ==================== VIEW 3: ARTICLE VIEW (FICHES DEEP RESEARCH) ==================== -->
+      <section id="view-article" class="hidden space-y-4">
+        <!-- Fiche Selector Bar -->
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-3 flex flex-wrap items-center justify-between gap-2">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-xs font-semibold uppercase tracking-wider text-[var(--muted-foreground)] px-1">Fiches synthétisées :</span>
+            <button onclick="selectFiche('xla-btk')" id="btn-fiche-xla-btk" class="tab-inactive px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer border border-[var(--border)]">
+              #001 · XLA (BTK)
+            </button>
+            <button onclick="selectFiche('cvid')" id="btn-fiche-cvid" class="tab-active px-3 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer border border-[var(--border)]">
+              #002 · DICV / CVID (Table III.2)
+            </button>
+          </div>
+          <span class="text-xs font-mono text-[var(--muted-foreground)]">Format 11 blocs + 2 schémas SVG</span>
+        </div>
+
+        <div id="fiche-xla-btk" class="hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+          <!-- Sticky Sidebar TOC -->
+          <aside class="lg:col-span-3 lg:sticky lg:top-28 bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 space-y-3">
+            <div class="text-xs font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Sommaire — Deep Research</div>
+            <ul class="space-y-1 text-xs">
+              <li><a href="#sec-tldr" class="block py-1 px-2 rounded hover:bg-[var(--secondary)] text-[var(--foreground)]">1. TL;DR</a></li>
+              <li><a href="#sec-hist" class="block py-1 px-2 rounded hover:bg-[var(--secondary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]">2. Contexte historique</a></li>
+              <li><a href="#sec-epi" class="block py-1 px-2 rounded hover:bg-[var(--secondary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]">3. Épidémiologie &amp; Registres</a></li>
+              <li><a href="#sec-physio" class="block py-1 px-2 rounded hover:bg-[var(--secondary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]">4. Physiopathologie &amp; Schéma 1</a></li>
+              <li><a href="#sec-clinique" class="block py-1 px-2 rounded hover:bg-[var(--secondary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]">5. Clinique, Pathogènes &amp; Immuno</a></li>
+              <li><a href="#sec-complic" class="block py-1 px-2 rounded hover:bg-[var(--secondary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]">6. Complications &amp; Défis non résolus</a></li>
+              <li><a href="#sec-therap" class="block py-1 px-2 rounded hover:bg-[var(--secondary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]">7. Avenues thérapeutiques</a></li>
+              <li><a href="#sec-pratique" class="block py-1 px-2 rounded hover:bg-[var(--secondary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]">8. Pratique, Schéma 2 &amp; Perles</a></li>
+              <li><a href="#sec-news" class="block py-1 px-2 rounded hover:bg-[var(--secondary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]">9. Nouveautés (2024–2026)</a></li>
+              <li><a href="#sec-refs" class="block py-1 px-2 rounded hover:bg-[var(--secondary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]">10. Références vérifiées (11)</a></li>
+            </ul>
+            <div class="pt-3 border-t border-[var(--card-border)] space-y-1.5 text-xs">
+              <div class="flex justify-between"><span class="text-[var(--muted-foreground)]">Table IUIS</span><span class="font-medium">III.1</span></div>
+              <div class="flex justify-between"><span class="text-[var(--muted-foreground)]">Gène</span><span class="font-mono italic font-semibold">BTK (Xq22.1)</span></div>
+              <div class="flex justify-between"><span class="text-[var(--muted-foreground)]">Transmission</span><span class="font-mono">XL (LOF)</span></div>
+              <div class="flex justify-between"><span class="text-[var(--muted-foreground)]">OMIM</span><span class="font-mono">#300755</span></div>
+              <div class="flex justify-between"><span class="text-[var(--muted-foreground)]">Variants LOVD</span><span class="font-mono">&gt; 2 400</span></div>
+              <div class="flex justify-between"><span class="text-[var(--muted-foreground)]">Priorité</span><span class="font-mono text-[var(--primary)]">#1 / 555</span></div>
+            </div>
+            <button onclick="switchTab('quiz')" class="w-full py-2 px-3 rounded-lg bg-[var(--primary)] text-[var(--primary-foreground)] text-xs font-medium cursor-pointer hover:opacity-90 transition">
+              Tester mes connaissances (Quiz)
+            </button>
+          </aside>
+
+          <!-- Main Review Article Content -->
+          <article class="lg:col-span-9 bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 sm:p-7 space-y-6 leading-relaxed text-sm">
+            <!-- Article Header -->
+            <div class="border-b border-[var(--card-border)] pb-4 space-y-2">
+              <div class="flex flex-wrap items-center gap-2 text-xs">
+                <span class="badge-done px-2 py-0.5 rounded font-medium">Fiche #001 · Deep Research</span>
+                <span class="badge-queue px-2 py-0.5 rounded font-medium">2 schémas intégrés</span>
+                <span class="badge-pending px-2 py-0.5 rounded font-mono">Table III.1 · Déficits prédominants de l'immunité humorale</span>
+                <span class="badge-pending px-2 py-0.5 rounded font-mono">BTK · Xq22.1 · XL</span>
+              </div>
+              <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-[var(--foreground)]">
+                Agammaglobulinémie liée à l'X (XLA / Maladie de Bruton)
+              </h2>
+              <p class="text-xs text-[var(--muted-foreground)]">
+                Semaine 1 · Jour 1 · Synthèse approfondie · Mise à jour littéraire : novembre 2026
+              </p>
+            </div>
+
+            <!-- 1. TL;DR -->
+            <div id="sec-tldr" class="tldr-box rounded-r-lg p-4 space-y-1.5">
+              <div class="text-xs font-semibold uppercase tracking-wider text-[var(--primary)]">1. TL;DR — Synthèse exécutive</div>
+              <p class="text-sm text-[var(--foreground)]">
+                L'<strong>agammaglobulinémie liée à l'X (XLA)</strong>, due à des variants perte de fonction de <em>BTK</em> (Xq22.1), représente ~85 % des agammaglobulinémies congénitales et constitue l'IEI princeps (Bruton, 1952). La perte de la tyrosine kinase de Bruton interrompt la signalisation en aval du <strong>pré-BCR</strong> (LYN/SYK → PI3K/PIP3 → BTK → PLCγ2 → Ca²⁺/NFAT &amp; NF-κB), bloquant la lymphopoïèse B médullaire à la <strong>transition pro-B → pré-B</strong>. Il en résulte une quasi-absence de lymphocytes B circulants (<strong>CD19+ &lt; 2 %</strong>), une aplasie/hypoplasie des amygdales et ganglions et une pan-hypogammaglobulinémie profonde, avec des lymphocytes T et NK normaux. Dès <strong>4–6 mois</strong> (déclin des IgG maternelles), les garçons développent des infections à bactéries encapsulées (<em>H. influenzae</em>, <em>S. pneumoniae</em>) et une vulnérabilité redoutable aux <strong>entérovirus</strong> (méningo-encéphalite chronique), à <em>Giardia</em>, <em>Mycoplasma/Ureaplasma</em> et aux <em>Helicobacter</em> entérohépatiques (<em>H. cinaedi</em>). Malgré la substitution à vie par immunoglobulines (IgIV/IgSC) et la contre-indication absolue aux vaccins vivants (VPO++), des défis majeurs persistent : bronchectasies, neurodégénérescence progressive, néphrites (CGN vs TIN sous IgIV) et <strong>adénocarcinomes digestifs précoces (&lt; 40 ans)</strong>. Le dépistage néonatal <strong>KREC + NGS</strong> et l'édition génomique <strong>CRISPR-Cas9/rAAV6</strong> redessinent l'avenir de la maladie.
+              </p>
+            </div>
+
+            <!-- 2. Contexte historique -->
+            <div id="sec-hist" class="space-y-2">
+              <h3 class="text-base font-semibold text-[var(--foreground)] border-b border-[var(--card-border)] pb-1">2. Contexte historique</h3>
+              <ul class="list-disc pl-5 space-y-1.5 text-[var(--foreground)]">
+                <li><strong>1952 — Naissance de l'immunologie clinique</strong> : Le pédiatre américain <strong>Ogden C. Bruton</strong> (Walter Reed Army Hospital) décrit un garçon de 8 ans ayant subi 19 sepsis à pneumocoque depuis l'âge de 4 ans, sans pic des γ-globulines à l'électrophorèse (normale : 10,5–20,3 %). L'administration sous-cutanée de fraction II de Cohn remonte la fraction γ à 4,6 % et interrompt les infections — premier diagnostic biologique et premier traitement substitutif d'une IEI.</li>
+                <li><strong>1993 — Clonage simultané de <em>BTK</em></strong> : Identification indépendante en Xq21.3–Xq22 par <strong>Tsukada et al.</strong> (<em>Cell</em>, « BPK ») et <strong>Vetrie et al.</strong> (<em>Nature</em>, « ATK »), rebaptisée <strong>BTK</strong> en hommage à Bruton.</li>
+                <li><strong>1996 — Syndrome contigu XLA-MTS</strong> : Description des délétions englobant <em>BTK</em> et <em>TIMM8A</em> (situé à 770 pb en position centromérique), associant XLA et surdité/dystonie de Mohr-Tranebjaerg.</li>
+                <li><strong>2000–2026</strong> : Généralisation des IgSC, dépistage néonatal multiplex <strong>TREC/KREC + NGS</strong> (2025), 1re enquête internationale d'allogreffe de CSH (n = 22, 89 % d'arrêt des IgRT à 1 an) et validation préclinique de l'édition génomique <strong>CRISPR-Cas9/rAAV6</strong> au locus endogène <em>BTK</em> (Kohn et al., 2025).</li>
+              </ul>
+            </div>
+
+            <!-- 3. Épidémiologie & Registres -->
+            <div id="sec-epi" class="space-y-3">
+              <h3 class="text-base font-semibold text-[var(--foreground)] border-b border-[var(--card-border)] pb-1">3. Épidémiologie &amp; Données de registres</h3>
+              <div class="grid grid-cols-1 sm:grid-cols-4 gap-2.5 text-xs">
+                <div class="p-3 rounded-lg bg-[var(--background)] border border-[var(--card-border)]">
+                  <div class="text-[var(--muted-foreground)]">Incidence</div>
+                  <div class="font-semibold text-sm mt-0.5">1 / 100k – 200k</div>
+                  <div class="text-[var(--muted-foreground)] mt-0.5">~85 % des agammaglobulinémies</div>
+                </div>
+                <div class="p-3 rounded-lg bg-[var(--background)] border border-[var(--card-border)]">
+                  <div class="text-[var(--muted-foreground)]">Mutations <em>de novo</em></div>
+                  <div class="font-semibold text-sm mt-0.5">30 % – 50 %</div>
+                  <div class="text-[var(--muted-foreground)] mt-0.5">Cas sporadiques fréquents</div>
+                </div>
+                <div class="p-3 rounded-lg bg-[var(--background)] border border-[var(--card-border)]">
+                  <div class="text-[var(--muted-foreground)]">Âge au diagnostic</div>
+                  <div class="font-semibold text-sm mt-0.5">2,59 vs 5,37 ans</div>
+                  <div class="text-[var(--muted-foreground)] mt-0.5">Avec vs sans ATCD familial (US, n=201)</div>
+                </div>
+                <div class="p-3 rounded-lg bg-[var(--background)] border border-[var(--card-border)]">
+                  <div class="text-[var(--muted-foreground)]">Registre USIDNET</div>
+                  <div class="font-semibold text-sm mt-0.5">77,8 % ORL · 16 % Arthrite</div>
+                  <div class="text-[var(--muted-foreground)] mt-0.5">72,5 % respiratoire · 4 % Crohn</div>
+                </div>
+              </div>
+              <p class="text-xs text-[var(--muted-foreground)]">
+                <strong>Données de cohortes (USIDNET n = 226 &amp; IPINet Italie)</strong> : Avant diagnostic, 60 % des garçons sporadiques sont reconnus lors d'une infection sévère (pneumonie/empyème, méningite, sepsis). Dans IPINet, les pathogènes prédominants sont <em>H. influenzae</em> (53,6 %) et <em>S. pneumoniae</em> (17,9 %) dans les expectorations, <em>Giardia lamblia</em> (48,7 %) dans le tube digestif, et <em>S. aureus</em> (75,8 %) sur la peau. De rares cas féminins existent (inactivation biaisée de l'X, syndrome de Turner 45,X0) ainsi qu'un cas rapporté avec syndrome de Klinefelter (47,XXY).
+              </p>
+            </div>
+
+            <!-- 4. Physiopathologie, Génétique moléculaire & Schéma 1 -->
+            <div id="sec-physio" class="space-y-4">
+              <h3 class="text-base font-semibold text-[var(--foreground)] border-b border-[var(--card-border)] pb-1">4. Physiopathologie, Génétique moléculaire &amp; Schéma 1</h3>
+
+              <p>
+                La protéine <strong>BTK</strong> (659 aa, famille TEC) comporte 5 domaines conservés : <strong>PH</strong> (liaison membranaire au PIP3), <strong>TH</strong> (motif zinc), <strong>SH3</strong> (site d'autophosphorylation <strong>Y223</strong>), <strong>SH2</strong> (liaison à l'adaptateur <strong>BLNK/SLP-65</strong>) et <strong>SH1 / Kinase</strong> (transphosphorylation <strong>Y551</strong> par SYK/LYN et poche catalytique ATP C481). En plus de son activité enzymatique (activation de <strong>PLCγ2</strong> → IP3/Ca²⁺/NFAT + DAG/PKCβ/NF-κB + MAPK), BTK possède une <strong>fonction d'échafaudage non catalytique</strong> (TLR9, HCK, ILK) et participe à la signalisation des <strong>TLR dans les cellules myéloïdes et la microglie du SNC</strong>.
+              </p>
+
+              <!-- SCHÉMA 1 : SVG VECTORIEL THÈME-ADAPTATIF -->
+              <div id="sec-schema1" class="rounded-xl border border-[var(--border)] bg-[var(--background)] p-4 space-y-2">
+                <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+                  <span class="font-semibold text-[var(--foreground)]">Schéma 1 — Architecture de BTK, cascade pré-BCR et blocage médullaire pro-B → pré-B</span>
+                  <span class="font-mono text-[var(--muted-foreground)]">Xq22.1 · 659 aa · 5 domaines</span>
+                </div>
+                <div class="overflow-x-auto">
+                  <svg viewBox="0 0 820 355" class="w-full h-auto min-w-[640px]" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schéma physiopathologique de BTK et blocage pro-B vers pré-B">
+                    <defs>
+                      <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--muted-foreground)"/>
+                      </marker>
+                      <marker id="arr-err" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                        <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--error)"/>
+                      </marker>
+                    </defs>
+
+                    <!-- Top strip: BTK 5 domains -->
+                    <text x="16" y="22" font-size="11" font-weight="600" fill="var(--muted-foreground)">STRUCTURE DE LA PROTÉINE BTK (659 aa · &gt; 2 400 variants LOVD, ~50 % dans SH1)</text>
+                    <rect x="16" y="32" width="135" height="36" rx="6" fill="var(--card)" stroke="var(--primary)" stroke-width="1.5"/>
+                    <text x="83" y="48" text-anchor="middle" font-size="12" font-weight="700" fill="var(--primary)">PH (1–138)</text>
+                    <text x="83" y="62" text-anchor="middle" font-size="10" fill="var(--muted-foreground)">Liaison PIP3</text>
+
+                    <rect x="159" y="32" width="95" height="36" rx="6" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+                    <text x="206" y="48" text-anchor="middle" font-size="12" font-weight="700" fill="var(--foreground)">TH</text>
+                    <text x="206" y="62" text-anchor="middle" font-size="10" fill="var(--muted-foreground)">Zn²⁺ / Pro</text>
+
+                    <rect x="262" y="32" width="115" height="36" rx="6" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+                    <text x="319" y="48" text-anchor="middle" font-size="12" font-weight="700" fill="var(--foreground)">SH3 (216–280)</text>
+                    <text x="319" y="62" text-anchor="middle" font-size="10" fill="var(--warning)">Autophos. Y223</text>
+
+                    <rect x="385" y="32" width="135" height="36" rx="6" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+                    <text x="452" y="48" text-anchor="middle" font-size="12" font-weight="700" fill="var(--foreground)">SH2 (281–377)</text>
+                    <text x="452" y="62" text-anchor="middle" font-size="10" fill="var(--muted-foreground)">Adaptateur BLNK</text>
+
+                    <rect x="528" y="32" width="276" height="36" rx="6" fill="var(--card)" stroke="var(--error)" stroke-width="1.5"/>
+                    <text x="666" y="48" text-anchor="middle" font-size="12" font-weight="700" fill="var(--error)">SH1 — Domaine Kinase (378–659)</text>
+                    <text x="666" y="62" text-anchor="middle" font-size="10" fill="var(--muted-foreground)">Y551 (SYK/LYN) · Site ATP C481 · Hotspot XLA</text>
+
+                    <!-- Divider -->
+                    <line x1="16" y1="84" x2="804" y2="84" stroke="var(--card-border)" stroke-dasharray="4 4"/>
+
+                    <!-- Left: Signaling cascade -->
+                    <text x="16" y="104" font-size="11" font-weight="600" fill="var(--muted-foreground)">CASCADE PRÉ-BCR / BCR</text>
+
+                    <rect x="16" y="114" width="250" height="40" rx="7" fill="var(--card)" stroke="var(--border)"/>
+                    <text x="141" y="131" text-anchor="middle" font-size="11" font-weight="600" fill="var(--foreground)">Pré-BCR (Chaîne µ + λ5/VpreB + Igα/β)</text>
+                    <text x="141" y="146" text-anchor="middle" font-size="10" fill="var(--muted-foreground)">Activation LYN / SYK + PI3K (PIP2 → PIP3)</text>
+
+                    <line x1="141" y1="154" x2="141" y2="174" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arr)"/>
+
+                    <rect x="16" y="176" width="250" height="44" rx="7" fill="var(--card)" stroke="var(--error)" stroke-width="2"/>
+                    <text x="141" y="194" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--error)">BTK (recrutée via PH–PIP3 &amp; SH2–BLNK)</text>
+                    <text x="141" y="210" text-anchor="middle" font-size="10" fill="var(--muted-foreground)">Transphos. Y551 → Autophos. Y223 → PLCγ2</text>
+
+                    <line x1="141" y1="220" x2="141" y2="240" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arr)"/>
+
+                    <rect x="16" y="242" width="120" height="46" rx="6" fill="var(--card)" stroke="var(--border)"/>
+                    <text x="76" y="260" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--foreground)">IP3 → Ca²⁺</text>
+                    <text x="76" y="276" text-anchor="middle" font-size="9.5" fill="var(--muted-foreground)">Calcineurine → NFAT</text>
+
+                    <rect x="146" y="242" width="120" height="46" rx="6" fill="var(--card)" stroke="var(--border)"/>
+                    <text x="206" y="260" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--foreground)">DAG → PKCβ</text>
+                    <text x="206" y="276" text-anchor="middle" font-size="9.5" fill="var(--muted-foreground)">CBM → NF-κB / MAPK</text>
+
+                    <!-- Myeloid/CNS box -->
+                    <rect x="16" y="302" width="250" height="40" rx="7" fill="var(--secondary)" stroke="var(--border)"/>
+                    <text x="141" y="319" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--foreground)">Rôle hors lignée B (TLR2/4/7/9)</text>
+                    <text x="141" y="334" text-anchor="middle" font-size="9.5" fill="var(--muted-foreground)">Monocytes/PNN (neutropénie) · Microglie SNC</text>
+
+                    <!-- Right: B-cell maturation block -->
+                    <text x="305" y="104" font-size="11" font-weight="600" fill="var(--muted-foreground)">LYMPHOPOÏÈSE B MÉDULLAIRE &amp; CONSÉQUENCES DANS LA XLA</text>
+
+                    <!-- Pro-B -->
+                    <rect x="305" y="122" width="102" height="52" rx="8" fill="var(--card)" stroke="var(--success)" stroke-width="1.5"/>
+                    <text x="356" y="144" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--foreground)">Cellule Pro-B</text>
+                    <text x="356" y="160" text-anchor="middle" font-size="9.5" fill="var(--success)">Présente (Moelle)</text>
+
+                    <!-- Blocked arrow -->
+                    <line x1="407" y1="148" x2="462" y2="148" stroke="var(--error)" stroke-width="2" stroke-dasharray="4 3" marker-end="url(#arr-err)"/>
+                    <rect x="411" y="114" width="48" height="20" rx="4" fill="var(--error)"/>
+                    <text x="435" y="128" text-anchor="middle" font-size="9.5" font-weight="700" fill="var(--primary-foreground)">BLOC</text>
+                    <text x="435" y="168" text-anchor="middle" font-size="9" font-weight="600" fill="var(--error)">Déficit BTK</text>
+
+                    <!-- Pre-B -->
+                    <rect x="466" y="122" width="102" height="52" rx="8" fill="var(--card)" stroke="var(--border)" stroke-dasharray="4 3"/>
+                    <text x="517" y="144" text-anchor="middle" font-size="11.5" font-weight="600" fill="var(--muted-foreground)">Cellule Pré-B</text>
+                    <text x="517" y="160" text-anchor="middle" font-size="9.5" fill="var(--error)">Arrêt maturation</text>
+
+                    <line x1="568" y1="148" x2="594" y2="148" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#arr)"/>
+
+                    <!-- Mature B -->
+                    <rect x="598" y="122" width="96" height="52" rx="8" fill="var(--card)" stroke="var(--border)" stroke-dasharray="4 3"/>
+                    <text x="646" y="144" text-anchor="middle" font-size="11.5" font-weight="600" fill="var(--muted-foreground)">B mature</text>
+                    <text x="646" y="160" text-anchor="middle" font-size="9.5" fill="var(--error)">CD19+ &lt; 2 %</text>
+
+                    <line x1="694" y1="148" x2="714" y2="148" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#arr)"/>
+
+                    <!-- Plasma cell -->
+                    <rect x="718" y="122" width="86" height="52" rx="8" fill="var(--card)" stroke="var(--border)" stroke-dasharray="4 3"/>
+                    <text x="761" y="144" text-anchor="middle" font-size="11" font-weight="600" fill="var(--muted-foreground)">Plasmocyte</text>
+                    <text x="761" y="160" text-anchor="middle" font-size="9.5" fill="var(--error)">IgG/A/M ≈ 0</text>
+
+                    <!-- Downstream clinical consequences grid -->
+                    <rect x="305" y="196" width="242" height="68" rx="8" fill="var(--card)" stroke="var(--border)"/>
+                    <text x="319" y="216" font-size="11" font-weight="700" fill="var(--error)">Compartiment humoral effondré</text>
+                    <text x="319" y="233" font-size="10" fill="var(--foreground)">• Amygdales &amp; ganglions hypoplasiques</text>
+                    <text x="319" y="249" font-size="10" fill="var(--foreground)">• KREC &amp; sBCMA indétectables · Ac vaccinaux = 0</text>
+
+                    <rect x="562" y="196" width="242" height="68" rx="8" fill="var(--card)" stroke="var(--success)"/>
+                    <text x="576" y="216" font-size="11" font-weight="700" fill="var(--success)">Immunité cellulaire préservée</text>
+                    <text x="576" y="233" font-size="10" fill="var(--foreground)">• Lymphocytes T (CD3/4/8) normaux (BTK−)</text>
+                    <text x="576" y="249" font-size="10" fill="var(--foreground)">• Cellules NK normales · Réponse T vaccinale OK</text>
+
+                    <!-- Genetic pitfalls banner -->
+                    <rect x="305" y="278" width="499" height="64" rx="8" fill="var(--secondary)" stroke="var(--warning)"/>
+                    <text x="319" y="297" font-size="11" font-weight="700" fill="var(--warning)">Pièges génétiques majeurs (Kanegane &amp; Ochs, 2025)</text>
+                    <text x="319" y="314" font-size="10" fill="var(--foreground)">1. Variants non codants (promoteur PU.1/Sp1, exon −1) &amp; introniques profonds (c.840-272G&gt;T) : manqués par WES !</text>
+                    <text x="319" y="330" font-size="10" fill="var(--foreground)">2. Délétion contiguë BTK–TIMM8A (XLA-MTS : surdité 78 %, dystonie 22 %) · 3. Formes hypomorphes mimant un DICV.</text>
+                  </svg>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                <div class="p-3.5 rounded-lg bg-[var(--background)] border border-[var(--card-border)] space-y-1.5">
+                  <div class="font-semibold text-[var(--foreground)]">Spectre mutationnel (LOVD 2025 : &gt; 2 400 variants)</div>
+                  <p class="text-[var(--muted-foreground)]">
+                    Faux-sens (20–37 %), délétions (17–38 %), non-sens (12–23 %), épissage (0–20 %), insertions (3–8 %), concentrés dans le domaine kinase <strong>SH1</strong> (~50 %). Environ 1 % affectent le promoteur / 5'-UTR (sites <strong>PU.1</strong> et <strong>Sp1</strong>, à rapprocher de l'agammaglobulinémie <strong>PU.MA</strong> par mutation de <em>SPI1</em>) ou des <strong>introns profonds</strong> (<em>c.840-272G&gt;T</em>) invisibles au WES → indiquer <strong>cytométrie BTK + cDNA/WGS/SpliceAI</strong>.
+                  </p>
+                </div>
+                <div class="p-3.5 rounded-lg bg-[var(--background)] border border-[var(--card-border)] space-y-1.5">
+                  <div class="font-semibold text-[var(--foreground)]">Syndrome contigu XLA–Mohr-Tranebjaerg (XLA-MTS)</div>
+                  <p class="text-[var(--muted-foreground)]">
+                    Délétion englobant <em>BTK</em> et <em>TIMM8A</em> (à 770 pb, parfois jusqu'à <em>TAF7L/DRP2</em>). Sur 23 patients compilés (Kanegane 2025) : <strong>surdité neurosensorielle progressive 78 %</strong> (médiane 3,5 ans), retard de langage 52 % (3 ans), <strong>dystonie 22 %</strong> (5 ans), troubles visuels 13 % (15 ans), dysgraphie/DI 9 % (17,5 ans).
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 5. Présentation clinique et immunologique -->
+            <div id="sec-clinique" class="space-y-3">
+              <h3 class="text-base font-semibold text-[var(--foreground)] border-b border-[var(--card-border)] pb-1">5. Présentation clinique, pathogènes &amp; phénotype immunologique</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="p-3.5 rounded-lg bg-[var(--background)] border border-[var(--card-border)] space-y-2">
+                  <div class="text-xs font-semibold uppercase tracking-wider text-[var(--primary)]">Spectre infectieux &amp; signes cliniques</div>
+                  <ul class="list-disc pl-4 space-y-1.5 text-xs">
+                    <li><strong>Bactéries encapsulées (dès 4–6 mois)</strong> : <em>H. influenzae</em>, <em>S. pneumoniae</em>, <em>S. aureus</em>, <em>P. aeruginosa</em> → OMA, sinusites, pneumonies, empyèmes, sepsis, méningites.</li>
+                    <li><strong><em>Helicobacter</em> (gastrique &amp; NHPH)</strong> : <em>H. pylori</em> (gastrite atrophique → cancer gastrique) ; <strong><em>H. cinaedi / H. bilis</em> (NHPH)</strong> → <strong>cellulites chroniques, ulcères cutanés, pyoderma gangrenosum</strong> (non prévenus par IgRT ; hémocultures prolongées + PCR 16S + antibiothérapie ≥ 6 sem).</li>
+                    <li><strong>Entérovirus &amp; virus émergents</strong> : <em>Echovirus/Coxsackie/Polio</em> → méningo-encéphalite chronique, dermatomyosite-like ; <strong>Aichivirus</strong> (hépatite/colite chronique), <strong>Astrovirus</strong> (encéphalite), Norovirus, SARS-CoV-2 prolongé.</li>
+                    <li><strong>Germes atypiques</strong> : <em>Mycoplasma / Ureaplasma</em> (arthrites septiques à cultures stériles), <em>Giardia lamblia</em> (diarrhée/malabsorption).</li>
+                    <li><strong>Signes cardinaux</strong> : <strong>amygdales absentes</strong> ; neutropénie inaugurale (10–25 %) réversible sous IgRT ; arthrite inflammatoire (16 % USIDNET, VS normale et auto-Ac négatifs).</li>
+                  </ul>
+                </div>
+                <div class="p-3.5 rounded-lg bg-[var(--background)] border border-[var(--card-border)] space-y-2">
+                  <div class="text-xs font-semibold uppercase tracking-wider text-[var(--primary)]">Phénotype immunologique &amp; biomarqueurs</div>
+                  <ul class="list-disc pl-4 space-y-1.5 text-xs">
+                    <li><strong>Lymphocytes B (CD19+/CD20+)</strong> : <strong>&lt; 2 %</strong> (souvent &lt; 0,1 %).</li>
+                    <li><strong>Immunoglobulines</strong> : pan-hypo-Ig profonde (IgG &lt; 2 g/L après 6 mois, IgA et IgM indétectables) ; isoagglutinines et Ac vaccinaux absents.</li>
+                    <li><strong>Lymphocytes T &amp; NK</strong> : <strong>normaux</strong> en nombre et fonction.</li>
+                    <li><strong>Cytométrie BTK (monocytes)</strong> : absente/effondrée (~85–90 %) ; <strong>profil bimodal en mosaïque chez la mère conductrice</strong>.</li>
+                    <li><strong>Biomarqueurs modernes</strong> : <strong>KREC</strong> indétectables sur buvard néonatal ; <strong>sBCMA sérique</strong> effondré (marqueur sensible de l'absence de plasmocytes/B).</li>
+                    <li><strong>Confirmation</strong> : séquençage <em>BTK</em> (+ WGS/cDNA si WES négatif).</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- 6. Complications & Défis non résolus -->
+            <div id="sec-complic" class="space-y-3">
+              <h3 class="text-base font-semibold text-[var(--foreground)] border-b border-[var(--card-border)] pb-1">6. Complications à long terme &amp; Défis non résolus (Kanegane &amp; Ochs, 2025)</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                <div class="p-3.5 rounded-lg bg-[var(--background)] border border-[var(--card-border)] space-y-1">
+                  <div class="font-semibold text-[var(--foreground)]">1. Bronchectasies &amp; BPCO précoce</div>
+                  <p class="text-[var(--muted-foreground)]">Première cause de morbidité adulte malgré les IgRT (absence d'IgA/IgM muqueuses non substituées), pouvant conduire jusqu'à la transplantation pulmonaire.</p>
+                </div>
+                <div class="p-3.5 rounded-lg bg-[var(--background)] border border-[var(--card-border)] space-y-1">
+                  <div class="font-semibold text-[var(--foreground)]">2. Neurodégénérescence progressive non infectieuse</div>
+                  <p class="text-[var(--muted-foreground)]">15 cas rapportés (début moyen à 10,15 ans ; <strong>létale dans 10/13 cas</strong> malgré IgRT). Pistes : virus occulte du SNC (astrovirus/picornavirus) et/ou <strong>dysfonction microgliale BTK-dépendante</strong>.</p>
+                </div>
+                <div class="p-3.5 rounded-lg bg-[var(--background)] border border-[var(--card-border)] space-y-1">
+                  <div class="font-semibold text-[var(--foreground)]">3. Néphrites XLA : CGN vs TIN</div>
+                  <p class="text-[var(--muted-foreground)]"><strong>CGN</strong> (IgAN/MPGN/GEM) : formes atypiques/leaky (B résiduels), bon pronostic sous corticoïdes/IEC. <strong>TIN</strong> : XLA classique après &gt; 10 ans d'IgIV (infiltrat CD8+ + dépôts IgG), risque d'IRC/IRCT → discuter passage aux <strong>IgSC</strong>.</p>
+                </div>
+                <div class="p-3.5 rounded-lg bg-[var(--background)] border border-[var(--card-border)] space-y-1">
+                  <div class="font-semibold text-[var(--foreground)]">4. Cancers digestifs précoces &amp; Hémopathies</div>
+                  <p class="text-[var(--muted-foreground)]"><strong>Adénocarcinomes gastriques/colorectaux</strong> : <strong>13/15 cas avaient &lt; 40 ans (8 ≤ 30 ans !)</strong>, liés à l'inflammation chronique (<em>H. pylori</em>). <strong>LAL-B/LAM</strong> : modèle <em>two-hit</em> (blocage <em>BTK</em> + <em>CDKN2A/TP53</em>/monosomie 7).</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 7. Avenues thérapeutiques -->
+            <div id="sec-therap" class="space-y-2.5">
+              <h3 class="text-base font-semibold text-[var(--foreground)] border-b border-[var(--card-border)] pb-1">7. Avenues thérapeutiques</h3>
+              <ul class="list-disc pl-5 space-y-1.5 text-sm">
+                <li><strong>Substitution en Ig (IgRT) à vie</strong> : <strong>IgIV 400–600 mg/kg / 3–4 sem</strong> ou <strong>IgSC 100–150 mg/kg/sem</strong> (ou fSCIG). Objectif : IgG résiduelles <strong>&gt; 7–8 g/L</strong> (<strong>&gt; 9–10 g/L</strong> si bronchectasies), adapté au « <em>biological trough level</em> » clinique.</li>
+                <li><strong>Antibiothérapie &amp; Antiviraux</strong> : traitement curatif prolongé (10–14 j ; <strong>≥ 6 sem</strong> si NHPH <em>H. cinaedi</em>) ; prophylaxie (azithromycine/amoxicilline) si bronchectasies. Pour les <strong>entérovirus sévères / poliovirus chronique</strong> : IgIV fortes doses + <strong>combinaisons antivirales précoces</strong> (<strong>remdesivir</strong>, <strong>pocapavir</strong> [40,9 % de résistances en monothérapie], <strong>fluoxétine</strong>, <strong>favipiravir</strong>, nitazoxanide).</li>
+                <li><strong>Allogreffe de CSH (HSCT — thérapie de sauvetage)</strong> : enquête internationale récente (<strong>n = 22</strong>) : prise de greffe <strong>95 %</strong>, survie globale à 2 ans <strong>86 %</strong>, EFS <strong>77 %</strong>, et <strong>89 % d'arrêt des IgRT à 1 an</strong> (conditionnement RIC à la fludarabine privilégié).</li>
+                <li><strong>Édition génomique CRISPR-Cas9 / rAAV6 (préclinique avancé 2025)</strong> : insertion site-spécifique de l'ADNc <em>BTK</em> dans l'intron 1 ou l'exon 2 endogène (Luthers &amp; Kohn, UCLA, 2025) — régulation lignée-spécifique conservée, avantage sélectif splénique fort (~10–15 % médullaire → ~35 % splénique) permettant d'envisager un conditionnement RIC.</li>
+              </ul>
+            </div>
+
+            <!-- 8. Section pratique (Guidelines, Schéma 2, DDx, Pearls) -->
+            <div id="sec-pratique" class="space-y-4">
+              <h3 class="text-base font-semibold text-[var(--foreground)] border-b border-[var(--card-border)] pb-1">8. Section pratique — Guidelines, Algorithme (Schéma 2), Diagnostic différentiel &amp; Perles</h3>
+
+              <!-- SCHÉMA 2 : ALGORITHME DIAGNOSTIQUE & PRISE EN CHARGE -->
+              <div id="sec-schema2" class="rounded-xl border border-[var(--border)] bg-[var(--background)] p-4 space-y-2">
+                <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+                  <span class="font-semibold text-[var(--foreground)]">Schéma 2 — Algorithme diagnostique et de prise en charge multidisciplinaire de la XLA</span>
+                  <span class="font-mono text-[var(--muted-foreground)]">Critères ESID · Suivi pédiatrique &amp; adulte</span>
+                </div>
+                <div class="overflow-x-auto">
+                  <svg viewBox="0 0 820 315" class="w-full h-auto min-w-[640px]" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Algorithme diagnostique et thérapeutique de la XLA">
+                    <!-- Step 1: Entry -->
+                    <rect x="16" y="14" width="380" height="48" rx="8" fill="var(--card)" stroke="var(--primary)" stroke-width="1.5"/>
+                    <text x="206" y="33" text-anchor="middle" font-size="11" font-weight="700" fill="var(--primary)">SUSPICION CLINIQUE OU DÉPISTAGE NÉONATAL</text>
+                    <text x="206" y="50" text-anchor="middle" font-size="10" fill="var(--foreground)">KREC bas (buvard) OU Garçon ≥ 4–6 mois : encapsulés / neutropénie / amygdales absentes</text>
+
+                    <line x1="396" y1="38" x2="432" y2="38" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arr)"/>
+
+                    <!-- Step 2: 1st line lab -->
+                    <rect x="436" y="14" width="368" height="48" rx="8" fill="var(--card)" stroke="var(--border)" stroke-width="1.5"/>
+                    <text x="620" y="33" text-anchor="middle" font-size="11" font-weight="700" fill="var(--foreground)">BILAN DE 1re INTENTION</text>
+                    <text x="620" y="50" text-anchor="middle" font-size="10" fill="var(--muted-foreground)">NFS + IgG/A/M + Phénotypage T/B/NK → Pan-hypo-Ig · CD19+ &lt; 2 % · T/NK normaux</text>
+
+                    <!-- Down to Step 3 -->
+                    <line x1="620" y1="62" x2="620" y2="90" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arr)"/>
+
+                    <!-- Step 3: Confirmation -->
+                    <rect x="240" y="94" width="564" height="48" rx="8" fill="var(--card)" stroke="var(--primary)" stroke-width="1.5"/>
+                    <text x="522" y="113" text-anchor="middle" font-size="11" font-weight="700" fill="var(--foreground)">CONFIRMATION PROTÉIQUE &amp; GÉNÉTIQUE (ESID)</text>
+                    <text x="522" y="130" text-anchor="middle" font-size="10" fill="var(--muted-foreground)">Cytométrie intracellulaire BTK (monocytes patient + profil bimodal mère) + Séquençage BTK (Panel / WES)</text>
+
+                    <!-- Left branch: WES negative -->
+                    <line x1="240" y1="118" x2="210" y2="118" stroke="var(--warning)" stroke-width="1.5" marker-end="url(#arr)"/>
+                    <rect x="16" y="88" width="190" height="72" rx="8" fill="var(--secondary)" stroke="var(--warning)"/>
+                    <text x="111" y="106" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--warning)">Si WES négatif :</text>
+                    <text x="111" y="122" text-anchor="middle" font-size="9.5" fill="var(--foreground)">• WGS / cDNA / SpliceAI</text>
+                    <text x="111" y="136" text-anchor="middle" font-size="9.5" fill="var(--foreground)">  (promoteur / intron profond)</text>
+                    <text x="111" y="150" text-anchor="middle" font-size="9.5" fill="var(--foreground)">• Ou ARA (IGHM, SPI1…)</text>
+
+                    <!-- Down to Management pillars -->
+                    <line x1="522" y1="142" x2="522" y2="176" stroke="var(--success)" stroke-width="1.5" marker-end="url(#arr)"/>
+                    <line x1="148" y1="176" x2="682" y2="176" stroke="var(--border)" stroke-width="1.5"/>
+                    <line x1="148" y1="176" x2="148" y2="194" stroke="var(--border)" stroke-width="1.5" marker-end="url(#arr)"/>
+                    <line x1="415" y1="176" x2="415" y2="194" stroke="var(--border)" stroke-width="1.5" marker-end="url(#arr)"/>
+                    <line x1="682" y1="176" x2="682" y2="194" stroke="var(--border)" stroke-width="1.5" marker-end="url(#arr)"/>
+
+                    <!-- Pillar 1: IgRT -->
+                    <rect x="16" y="198" width="256" height="104" rx="8" fill="var(--card)" stroke="var(--success)" stroke-width="1.5"/>
+                    <text x="30" y="217" font-size="11" font-weight="700" fill="var(--success)">1. Traitement pivot (IgRT à vie)</text>
+                    <text x="30" y="235" font-size="10" fill="var(--foreground)">• IgIV 400–600 mg/kg / 3–4 sem</text>
+                    <text x="30" y="251" font-size="10" fill="var(--foreground)">• ou IgSC 100–150 mg/kg / sem</text>
+                    <text x="30" y="267" font-size="10" fill="var(--foreground)">• Cible IgG &gt; 7–8 g/L (&gt; 9–10 si DDB)</text>
+                    <text x="30" y="283" font-size="10" fill="var(--muted-foreground)">• ATB précoce / prophylaxie si DDB</text>
+
+                    <!-- Pillar 2: Vaccines & Traps -->
+                    <rect x="284" y="198" width="256" height="104" rx="8" fill="var(--card)" stroke="var(--error)" stroke-width="1.5"/>
+                    <text x="298" y="217" font-size="11" font-weight="700" fill="var(--error)">2. Règles de sécurité critiques</text>
+                    <text x="298" y="235" font-size="10" fill="var(--foreground)">• VPO, ROR, Varicelle, FJ : INTERDITS</text>
+                    <text x="298" y="251" font-size="10" fill="var(--foreground)">• Grippe &amp; COVID (inactivés) : OUI</text>
+                    <text x="298" y="267" font-size="10" fill="var(--foreground)">• Jamais de sérologie → PCR / cultures</text>
+                    <text x="298" y="283" font-size="10" fill="var(--muted-foreground)">• Vérifier TIMM8A si surdité/dystonie</text>
+
+                    <!-- Pillar 3: Multidisciplinary follow-up -->
+                    <rect x="552" y="198" width="252" height="104" rx="8" fill="var(--card)" stroke="var(--primary)" stroke-width="1.5"/>
+                    <text x="566" y="217" font-size="11" font-weight="700" fill="var(--primary)">3. Suivi multidisciplinaire</text>
+                    <text x="566" y="235" font-size="10" fill="var(--foreground)">• 3–6 mois : IgG, NFS, BU/créat (TIN)</text>
+                    <text x="566" y="251" font-size="10" fill="var(--foreground)">• 1/an : EFR, audiométrie, ECBC</text>
+                    <text x="566" y="267" font-size="10" fill="var(--foreground)">• 2–5 ans : TDM-HR thoracique</text>
+                    <text x="566" y="283" font-size="10" fill="var(--muted-foreground)">• Adulte : PCR H. pylori &amp; endoscopies</text>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Differential Diagnosis Table -->
+              <div class="space-y-1.5">
+                <div class="text-xs font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Diagnostic différentiel des IEI apparentées</div>
+                <div class="overflow-x-auto rounded-lg border border-[var(--border)]">
+                  <table class="w-full text-left text-xs border-collapse">
+                    <thead class="bg-[var(--secondary)] text-[var(--muted-foreground)]">
+                      <tr>
+                        <th class="p-2.5 font-semibold">Entité</th>
+                        <th class="p-2.5 font-semibold">IUIS</th>
+                        <th class="p-2.5 font-semibold">Gène / Transm.</th>
+                        <th class="p-2.5 font-semibold">CD19+</th>
+                        <th class="p-2.5 font-semibold">Éléments clés de distinction</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-[var(--card-border)]">
+                      <tr>
+                        <td class="p-2.5 font-medium">XLA (Bruton)</td>
+                        <td class="p-2.5 font-mono">III.1</td>
+                        <td class="p-2.5 font-mono"><em>BTK</em> (XL)</td>
+                        <td class="p-2.5 font-mono">&lt; 2 %</td>
+                        <td class="p-2.5">Garçon (~85 %), BTK absente sur monocytes, profil bimodal maternel.</td>
+                      </tr>
+                      <tr>
+                        <td class="p-2.5 font-medium">Agammaglobulinémies AR</td>
+                        <td class="p-2.5 font-mono">III.1</td>
+                        <td class="p-2.5 font-mono"><em>IGHM, IGLL1, CD79A/B, BLNK</em> (AR)</td>
+                        <td class="p-2.5 font-mono">&lt; 2 %</td>
+                        <td class="p-2.5">Touche aussi les <strong>filles</strong>, consanguinité, début souvent plus précoce/sévère (<em>IGHM</em>), BTK normale.</td>
+                      </tr>
+                      <tr>
+                        <td class="p-2.5 font-medium">PU.MA (Déficit en PU.1)</td>
+                        <td class="p-2.5 font-mono">III.1</td>
+                        <td class="p-2.5 font-mono"><em>SPI1</em> (AD)</td>
+                        <td class="p-2.5 font-mono">&lt; 2 %</td>
+                        <td class="p-2.5">Déficit associé en <strong>cellules dendritiques (cDC/pDC)</strong> ; PU.1 active le promoteur de <em>BTK</em>.</td>
+                      </tr>
+                      <tr>
+                        <td class="p-2.5 font-medium">Syndrome de Good</td>
+                        <td class="p-2.5 font-mono">Acquis</td>
+                        <td class="p-2.5">Non monogénique</td>
+                        <td class="p-2.5 font-mono">Très bas</td>
+                        <td class="p-2.5"><strong>Adulte &gt; 40 ans</strong>, <strong>thymome</strong> au TDM thoracique, déficit T associé.</td>
+                      </tr>
+                      <tr>
+                        <td class="p-2.5 font-medium">DICV (CVID)</td>
+                        <td class="p-2.5 font-mono">III.2</td>
+                        <td class="p-2.5">Polygénique / <em>NFKB1…</em></td>
+                        <td class="p-2.5 font-mono">Souvent &gt; 2 %</td>
+                        <td class="p-2.5">Auto-immunité et splénomégalie fréquentes (piège : <em>BTK</em> hypomorphe !).</td>
+                      </tr>
+                      <tr>
+                        <td class="p-2.5 font-medium">Hyper-IgM lié à l'X</td>
+                        <td class="p-2.5 font-mono">I.3</td>
+                        <td class="p-2.5 font-mono"><em>CD40LG</em> (XL)</td>
+                        <td class="p-2.5 font-mono">Normaux</td>
+                        <td class="p-2.5"><strong>IgM normales/hautes</strong>, <em>Pneumocystis</em>, <em>Cryptosporidium</em>, cholangite.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Clinical Pearls -->
+              <div class="pearl-card rounded-xl p-4 space-y-2">
+                <div class="text-xs font-semibold uppercase tracking-wider text-[var(--warning)]">Perles cliniques &amp; Pièges à ne jamais oublier</div>
+                <ol class="list-decimal pl-4 space-y-1.5 text-xs">
+                  <li><strong>Sérologies ininterprétables</strong> : faussement négatives avant IgRT, et reflet des donneurs sous IgRT → toujours utiliser <strong>PCR / antigènes / cultures</strong> (<em>H. pylori</em>, entérovirus, <em>Mycoplasma</em>).</li>
+                  <li><strong>Un WES négatif n'exclut pas une XLA</strong> : ~1 % de variants non codants (promoteur PU.1/Sp1, exon −1) ou introniques profonds (<em>c.840-272G&gt;T</em>) → coupler à la <strong>cytométrie BTK</strong> et au <strong>WGS/cDNA</strong>.</li>
+                  <li><strong>Cellulite chronique / ulcères cutanés / pyoderma gangrenosum sous IgRT</strong> : penser aux <strong><em>Helicobacter</em> entérohépatiques (<em>H. cinaedi</em>, <em>H. bilis</em>)</strong> → hémocultures prolongées + PCR 16S + ≥ 6 sem d'antibiotiques.</li>
+                  <li><strong>Arthrite chronique à culture stérile</strong> : prescrire une <strong>PCR <em>Mycoplasma / Ureaplasma</em></strong> (et noter que VS et auto-Ac sont faussement normaux/négatifs !).</li>
+                  <li><strong>Surdité neurosensorielle progressive</strong> : ne pas tout imputer aux otites → dépister une délétion contiguë <strong><em>BTK–TIMM8A</em> (XLA-MTS)</strong>.</li>
+                  <li><strong>Suivi rénal &amp; digestif adulte</strong> : ajouter la <strong>bandelette urinaire</strong> (CGN vs TIN sous IgIV) et débuter la <strong>surveillance endoscopique digestive précocement (&lt; 30–40 ans)</strong>.</li>
+                </ol>
+              </div>
+            </div>
+
+            <!-- 9. Nouveautés 2024-2026 -->
+            <div id="sec-news" class="space-y-2.5">
+              <h3 class="text-base font-semibold text-[var(--foreground)] border-b border-[var(--card-border)] pb-1">9. Nouveautés &amp; Littérature récente (2024–2026)</h3>
+              <div class="space-y-2.5 text-xs">
+                <div class="p-3.5 rounded-lg bg-[var(--background)] border border-[var(--card-border)] space-y-1">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <span class="font-semibold text-sm text-[var(--foreground)]">Revue de référence « Revisiting X-linked agammaglobulinemia »</span>
+                    <span class="font-mono text-[var(--muted-foreground)]">Kanegane &amp; Ochs · J Hum Immun · Avr 2025 · PMID 42170232</span>
+                  </div>
+                  <p class="text-[var(--muted-foreground)]">
+                    Synthèse majeure sur les 6 défis non résolus : variants non codants/introniques profonds de <em>BTK</em> (&gt; 2 400 variants LOVD), délétions contiguës XLA-MTS (23 cas), <em>Helicobacter</em> NHPH, neurodégénérescence microgliale (15 cas, 10/13 létaux), néphrites CGN vs TIN, cancers digestifs précoces (13/15 &lt; 40 ans) et cohorte internationale HSCT (n = 22, 89 % d'arrêt des IgRT à 1 an).
+                  </p>
+                </div>
+                <div class="p-3.5 rounded-lg bg-[var(--background)] border border-[var(--card-border)] space-y-1">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <span class="font-semibold text-sm text-[var(--foreground)]">Dépistage néonatal KREC + NGS de seconde intention (N = 110 491)</span>
+                    <span class="font-mono text-[var(--muted-foreground)]">J Clin Immunol · Nov 2025 · PMID 41203922</span>
+                  </div>
+                  <p class="text-[var(--muted-foreground)]">
+                    Sur 110 491 buvards testés par multiplex TREC/KREC, 136 présentaient des KREC abaissés ; l'ajout d'un panel NGS ciblé de 73 gènes en seconde intention s'est révélé la méthode la plus efficace pour réduire les faux positifs et diagnostiquer la XLA avant le déclin des IgG maternelles.
+                  </p>
+                </div>
+                <div class="p-3.5 rounded-lg bg-[var(--background)] border border-[var(--card-border)] space-y-1">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <span class="font-semibold text-sm text-[var(--foreground)]">Édition génomique site-spécifique CRISPR-Cas9 / rAAV6 de <em>BTK</em></span>
+                    <span class="font-mono text-[var(--muted-foreground)]">Luthers &amp; Kohn · Mol Ther Methods Clin Dev · Août 2025 · PMID 40917692</span>
+                  </div>
+                  <p class="text-[var(--muted-foreground)]">
+                    L'insertion ciblée d'un ADNc <em>BTK</em> dans l'intron 1 ou l'exon 2 endogène chez la souris <em>Btk/Tec−/−</em> restaure la maturation B, la diversité BCR, les 4 isotypes d'Ig et les réponses vaccinales T-dépendantes, avec régulation lignée-spécifique préservée et avantage sélectif splénique (~10–15 % → ~35 %), ouvrant la voie à un conditionnement RIC.
+                  </p>
+                </div>
+                <div class="p-3.5 rounded-lg bg-[var(--background)] border border-[var(--card-border)] space-y-1">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <span class="font-semibold text-sm text-[var(--foreground)]">Combinaisons antientérovirales &amp; pathogènes émergents (Aichivirus)</span>
+                    <span class="font-mono text-[var(--muted-foreground)]">PMC12574243 (2025) &amp; PMC13577962 (Sept 2026)</span>
+                  </div>
+                  <p class="text-[var(--muted-foreground)]">
+                    Clairance rapide du poliovirus chronique sous remdesivir et pocapavir, mais résistances fréquentes en monothérapie (40,9 % sous pocapavir) → rationnel pour des combinaisons précoces (IgIV + fluoxétine/favipiravir/remdesivir). Confirmation du bénéfice coût-efficacité du dépistage KREC (Sept 2026).
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 10. Références -->
+            <div id="sec-refs" class="space-y-2">
+              <h3 class="text-base font-semibold text-[var(--foreground)] border-b border-[var(--card-border)] pb-1">10. Références vérifiées</h3>
+              <ol class="list-decimal pl-5 space-y-1 text-xs text-[var(--muted-foreground)]">
+                <li>Poli MC et al. <em>Human inborn errors of immunity: 2024 update on the classification from the IUIS Expert Committee.</em> J Hum Immun. 2025;1(1):e20250003. PMID: 41608114.</li>
+                <li>Kanegane H, Tanita K, ..., Ochs HD. <em>Revisiting X-linked agammaglobulinemia.</em> J Hum Immun. 2025;1(1):e20250020. PMID: 42170232.</li>
+                <li>Luthers CR, ..., Kohn DB. <em>Hematopoietic stem cell gene therapy for the treatment of X-linked agammaglobulinemia.</em> Mol Ther Methods Clin Dev. 2025;33(3):101555. PMID: 40917692.</li>
+                <li><em>Next-generation Sequencing and Other Second Tier Tests in Newborn Screening for (X-linked) Agammaglobulinemia.</em> J Clin Immunol. 2025 Nov 8. PMID: 41203922.</li>
+                <li>Cardenas-Morales M, Hernandez-Trujillo VP. <em>Agammaglobulinemia: from X-linked to Autosomal Forms of Disease.</em> Clin Rev Allergy Immunol. 2021. PMCID: PMC8269404.</li>
+                <li><em>Current infectious disease management challenges in inborn errors of immunity.</em> 2025. PMCID: PMC12574243.</li>
+                <li><em>The Evolving Role of Bruton's Tyrosine Kinase Inhibitors in B Cell Malignancies.</em> 2024. PMCID: PMC11276629.</li>
+                <li><em>Self-reported Clinical Outcomes and Quality of Life in X-Linked Agammaglobulinemia.</em> 2025 Aug 28. PMCID: PMC12378137.</li>
+                <li><em>The cost-benefit of newborn screening for X-linked agammaglobulinemia.</em> 2026 Sep 15. PMCID: PMC13577962.</li>
+                <li>Bruton OC. <em>Agammaglobulinemia.</em> Pediatrics. 1952;9(6):722–728.</li>
+                <li>Smith CIE, Berglöf A. <em>X-Linked Agammaglobulinemia.</em> GeneReviews® [Internet]. NBK1453.</li>
+              </ol>
+            </div>
+          </article>
+        </div>
+        </div><!-- /fiche-xla-btk -->
+
+        <!-- ==================== FICHE #002: DICV / CVID ==================== -->
+        <div id="fiche-cvid">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+            <!-- Sticky Sidebar TOC -->
+            <aside class="lg:col-span-3 lg:sticky lg:top-28 bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 space-y-3">
+              <div class="text-xs font-semibold uppercase tracking-wider text-[var(--muted-foreground)]">Sommaire — Deep Research</div>
+              <ul class="space-y-1 text-xs">
+                <li><a href="#cvid-tldr" class="block py-1 px-2 rounded hover:bg-[var(--secondary)] text-[var(--foreground)]">1. TL;DR</a></li>
+                <li><a href="#cvid-hist" class="block py-1 px-2 rounded hover:bg-[var(--secondary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]">2. Contexte historique</a></li>
+                <li><a href="#cvid-epi" class="block py-1 px-2 rounded hover:bg-[var(--secondary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]">3. Épidémiologie &amp; Registres</a></li>
+                <li><a href="#cvid-physio" class="block py-1 px-2 rounded hover:bg-[var(--secondary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]">4. Physiopathologie &amp; Schéma 1</a></li>
+                <li><a href="#cvid-clinique" class="block py-1 px-2 rounded hover:bg-[var(--secondary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]">5. Clinique, Pathogènes &amp; EUROclass</a></li>
+                <li><a href="#cvid-complic" class="block py-1 px-2 rounded hover:bg-[var(--secondary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]">6. Complications &amp; Risque tumoral</a></li>
+                <li><a href="#cvid-therap" class="block py-1 px-2 rounded hover:bg-[var(--secondary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]">7. Avenues thérapeutiques</a></li>
+                <li><a href="#cvid-pratique" class="block py-1 px-2 rounded hover:bg-[var(--secondary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]">8. Pratique, Schéma 2 &amp; Perles</a></li>
+                <li><a href="#cvid-news" class="block py-1 px-2 rounded hover:bg-[var(--secondary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]">9. Nouveautés (2023–2025)</a></li>
+                <li><a href="#cvid-refs" class="block py-1 px-2 rounded hover:bg-[var(--secondary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]">10. Références vérifiées (11)</a></li>
+              </ul>
+              <div class="pt-3 border-t border-[var(--card-border)] space-y-1.5 text-xs">
+                <div class="flex justify-between"><span class="text-[var(--muted-foreground)]">Table IUIS</span><span class="font-medium">III.2</span></div>
+                <div class="flex justify-between"><span class="text-[var(--muted-foreground)]">Gènes</span><span class="font-mono italic font-semibold">NFKB1, TACI, ICOS…</span></div>
+                <div class="flex justify-between"><span class="text-[var(--muted-foreground)]">Monogénique</span><span class="font-mono">~25–35 %</span></div>
+                <div class="flex justify-between"><span class="text-[var(--muted-foreground)]">Transmission</span><span class="font-mono">Polygén. / AD / AR</span></div>
+                <div class="flex justify-between"><span class="text-[var(--muted-foreground)]">OMIM</span><span class="font-mono">#607594</span></div>
+                <div class="flex justify-between"><span class="text-[var(--muted-foreground)]">Priorité</span><span class="font-mono text-[var(--primary)]">#2 / 555</span></div>
+              </div>
+              <button onclick="switchTab('quiz')" class="w-full py-2 px-3 rounded-lg bg-[var(--primary)] text-[var(--primary-foreground)] text-xs font-medium cursor-pointer hover:opacity-90 transition">
+                Tester mes connaissances (Quiz)
+              </button>
+            </aside>
+
+            <!-- Main Review Article Content -->
+            <article class="lg:col-span-9 bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 sm:p-7 space-y-6 leading-relaxed text-sm">
+              <!-- Article Header -->
+              <div class="border-b border-[var(--card-border)] pb-4 space-y-2">
+                <div class="flex flex-wrap items-center gap-2 text-xs">
+                  <span class="badge-done px-2 py-0.5 rounded font-medium">Fiche #002 · Deep Research</span>
+                  <span class="badge-queue px-2 py-0.5 rounded font-medium">2 schémas SVG intégrés</span>
+                  <span class="badge-pending px-2 py-0.5 rounded font-mono">Table III.2 · Déficits prédominants de l'immunité humorale</span>
+                  <span class="badge-pending px-2 py-0.5 rounded font-mono">Polygénique / NFKB1, NFKB2, TACI, ICOS…</span>
+                </div>
+                <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-[var(--foreground)]">
+                  Déficit immunitaire commun variable (DICV / CVID)
+                </h2>
+                <p class="text-xs text-[var(--muted-foreground)]">
+                  <em>Common Variable Immunodeficiency Disorders</em> · OMIM #607594 · IEI symptomatique la plus fréquente chez l'adulte
+                </p>
+              </div>
+
+              <!-- 1. TL;DR -->
+              <div id="cvid-tldr" class="tldr-box rounded-r-lg p-4 space-y-1.5">
+                <div class="text-xs font-semibold uppercase tracking-wider text-[var(--primary)]">1. TL;DR — Synthèse exécutive</div>
+                <p class="text-sm text-[var(--foreground)]">
+                  Le <strong>déficit immunitaire commun variable (DICV / CVID)</strong> est l'IEI symptomatique la plus fréquente en pratique clinique (<strong>~1 : 25 000 à 1 : 50 000</strong>), diagnostiquée surtout entre <strong>20 et 40 ans</strong> après un retard médian de 4 à 7 ans. Il résulte d'un <strong>défaut de différenciation terminale des lymphocytes B</strong> dans le centre germinatif (effondrement des <strong>B mémoires commutés CD27+IgD−IgM−</strong>, expansion des B <strong>CD21low</strong> autoréactifs), provoquant une hypogammaglobulinémie (IgG &lt; −2 DS + IgA et/ou IgM basses) et un défaut de réponse vaccinale. Environ <strong>25–35 %</strong> des cas sont aujourd'hui résolus sur le plan moléculaire (<em>NFKB1</em> #1 en Europe, <em>NFKB2</em>, <em>IKZF1</em>, <em>CTLA4/LRBA</em>, modificateur <em>TNFRSF13B</em>/TACI). Deux phénotypes s'opposent : une forme <strong>purement infectieuse</strong> (sinopulmonaire, bronchectasies) bien contrôlée par substitution en Ig (IgIV/IgSC), et une forme <strong>dysimmunitaire</strong> (30–68 % : cytopénies auto-immunes, <strong>GLILD</strong>, entéropathie/norovirus, <strong>NRH hépatique</strong>, lymphomes B et cancer gastrique) associée à une <strong>mortalité multipliée par 11 (HR = 10,95)</strong> et nécessitant un séquençage précoce pour accéder aux thérapies ciblées.
+                </p>
+              </div>
+
+              <!-- 2. Contexte historique -->
+              <div id="cvid-hist" class="space-y-2">
+                <h3 class="text-base font-semibold text-[var(--foreground)] border-b border-[var(--card-border)] pb-1">2. Contexte historique</h3>
+                <ul class="list-disc pl-5 space-y-1.5 text-sm text-[var(--foreground)]">
+                  <li><strong>1953 — Description princeps (Janeway et al.)</strong> : Un an après Bruton (XLA), description des premiers cas d'agammaglobulinémie acquise/tardive chez l'adulte, incluant des femmes.</li>
+                  <li><strong>1971 — Création du terme « CVID » (OMS)</strong> : Regroupement des hypogammaglobulinémies primitives hétérogènes distinctes des déficits mendéliens classiques.</li>
+                  <li><strong>2003–2018 — Démembrement génétique</strong> : Identification d'<em>ICOS</em> (Grimbacher, 2003), <em>TNFRSF13B</em>/TACI (2005), <em>CD19</em> (2006), <em>NFKB2</em> (2013) et <strong><em>NFKB1</em></strong> (Fliegauf 2015 ; Tuijnenburg 2018, première cause monogénique européenne).</li>
+                  <li><strong>2008–2016 — Classifications &amp; Consensus</strong> : <strong>EUROclass</strong> (Wehr et al., <em>Blood</em> 2008), définition du <strong>LOCID</strong> par la cohorte française <strong>DEFI</strong> (Malphettes, 2009), critères ESID révisés (2014/2019) et consensus international <strong>ICON</strong> (Bonilla, 2016).</li>
+                </ul>
+              </div>
+
+              <!-- 3. Épidémiologie & Registres -->
+              <div id="cvid-epi" class="space-y-3">
+                <h3 class="text-base font-semibold text-[var(--foreground)] border-b border-[var(--card-border)] pb-1">3. Épidémiologie &amp; Données de registres</h3>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
+                  <div class="p-3 rounded-lg bg-[var(--background)] border border-[var(--card-border)]">
+                    <div class="text-[var(--muted-foreground)]">Prévalence</div>
+                    <div class="font-mono font-semibold text-sm text-[var(--foreground)] mt-0.5">1 : 25 000 – 50 000</div>
+                    <div class="text-[var(--muted-foreground)] mt-0.5">IEI symptomatique #1</div>
+                  </div>
+                  <div class="p-3 rounded-lg bg-[var(--background)] border border-[var(--card-border)]">
+                    <div class="text-[var(--muted-foreground)]">Retard diagnostique</div>
+                    <div class="font-mono font-semibold text-sm text-[var(--warning)] mt-0.5">4 – 7 ans</div>
+                    <div class="text-[var(--muted-foreground)] mt-0.5">Pic diag. 20–40 ans</div>
+                  </div>
+                  <div class="p-3 rounded-lg bg-[var(--background)] border border-[var(--card-border)]">
+                    <div class="text-[var(--muted-foreground)]">Formes dysimmunitaires</div>
+                    <div class="font-mono font-semibold text-sm text-[var(--error)] mt-0.5">30 – 68 %</div>
+                    <div class="text-[var(--muted-foreground)] mt-0.5">HR mortalité = 10,95</div>
+                  </div>
+                  <div class="p-3 rounded-lg bg-[var(--background)] border border-[var(--card-border)]">
+                    <div class="text-[var(--muted-foreground)]">Rendement WES/WGS</div>
+                    <div class="font-mono font-semibold text-sm text-[var(--primary)] mt-0.5">25 – 35 %</div>
+                    <div class="text-[var(--muted-foreground)] mt-0.5">31 % Mount Sinai (n=405)</div>
+                  </div>
+                </div>
+                <ul class="list-disc pl-5 space-y-1.5 text-sm">
+                  <li><strong>ESID (n = 2 212, Gathmann et al., <em>JACI</em> 2014)</strong> : sex-ratio ~1:1 ; début pédiatrique (&lt; 10 ans) chez <strong>33,7 %</strong> des patients (39,8 % des garçons) ; retard diagnostique directement corrélé à la mortalité.</li>
+                  <li><strong>Mount Sinai — New York (n = 473 sur 40 ans, Resnick et al., <em>Blood</em> 2012)</strong> : 94 % d'infections ; <strong>68 %</strong> de complications non infectieuses (auto-immunité 28,6 %, pneumopathie chronique 28,5 %, entéropathie 15,4 %, granulomes 9,7 %, hépatopathie 9,1 %, lymphome 8,2 %). Mortalité 19,6 %, <strong>risque de décès ×11</strong> en cas de complication non infectieuse (<em>p</em> &lt; 0,0001).</li>
+                  <li><strong>Cohorte française DEFI (n = 313, Malphettes et al., 2009)</strong> : <strong>8,9 %</strong> répondent aux critères de <strong>LOCID</strong> (infection opportuniste et/ou CD4+ &lt; 200/mm³), avec forte enrichissement en consanguinité (29 % vs 8 %).</li>
+                </ul>
+              </div>
+
+              <!-- 4. Physiopathologie & Schéma 1 -->
+              <div id="cvid-physio" class="space-y-4">
+                <h3 class="text-base font-semibold text-[var(--foreground)] border-b border-[var(--card-border)] pb-1">4. Physiopathologie, Génétique moléculaire &amp; Schéma 1</h3>
+                <p>
+                  À la différence de la XLA (blocage médullaire précoce), ~90 % des patients DICV ont des lymphocytes B circulants présents, mais souffrent d'un <strong>défaut périphérique de maturation dans le centre germinatif</strong> : effondrement des <strong>B mémoires commutés (CD27+IgD−IgM− &lt; 2 %)</strong>, défaut de différenciation plasmocytaire et défaut épigénétique de déméthylation CpG. L'expansion de <strong>B CD21low (&gt; 10 %)</strong> autoréactifs, la perte des <strong>T CD4+ naïfs et Treg</strong>, la signature <strong>IFN-I/II</strong> et la <strong>translocation microbienne intestinale</strong> (sCD14, LPS, zonuline) alimentent la dysrégulation systémique.
+                </p>
+
+                <!-- SCHÉMA 1 SVG — Physiopathologie & EUROclass -->
+                <div class="rounded-xl border border-[var(--border)] bg-[var(--background)] p-4 space-y-2">
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="font-semibold text-[var(--foreground)]">Schéma 1 — Voies moléculaires, blocage du centre germinatif et phénotypes EUROclass du DICV</span>
+                    <span class="font-mono text-[var(--muted-foreground)]">SVG adaptatif</span>
+                  </div>
+                  <div class="overflow-x-auto">
+                    <svg viewBox="0 0 820 350" class="w-full h-auto min-w-[640px]" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Physiopathologie et classification EUROclass du DICV">
+                      <defs>
+                        <marker id="arr-c" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                          <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--muted-foreground)"/>
+                        </marker>
+                        <marker id="arr-c-err" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                          <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--error)"/>
+                        </marker>
+                      </defs>
+
+                      <!-- Top Band: Genetic Drivers -->
+                      <text x="14" y="18" font-size="11" font-weight="600" fill="var(--muted-foreground)">ARCHITECTURE GÉNÉTIQUE (~25–35 % MONOGÉNIQUE / 65–75 % POLYGÉNIQUE &amp; ÉPIGÉNÉTIQUE)</text>
+                      <rect x="14" y="26" width="185" height="54" rx="8" fill="var(--card)" stroke="var(--primary)" stroke-width="1.2"/>
+                      <text x="106" y="44" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--primary)">Voie NF-κB (AD)</text>
+                      <text x="106" y="60" text-anchor="middle" font-size="9.5" fill="var(--foreground)">NFKB1 (#1 Europe) · NFKB2</text>
+                      <text x="106" y="73" text-anchor="middle" font-size="9" fill="var(--muted-foreground)">Pénétrance incomplète</text>
+
+                      <rect x="212" y="26" width="185" height="54" rx="8" fill="var(--card)" stroke="var(--chart-2)" stroke-width="1.2"/>
+                      <text x="304" y="44" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--chart-2)">Co-récepteurs &amp; T-B</text>
+                      <text x="304" y="60" text-anchor="middle" font-size="9.5" fill="var(--foreground)">ICOS · CD19/81/20/21 · BAFF-R</text>
+                      <text x="304" y="73" text-anchor="middle" font-size="9" fill="var(--muted-foreground)">TACI (TNFRSF13B) modificateur</text>
+
+                      <rect x="410" y="26" width="185" height="54" rx="8" fill="var(--card)" stroke="var(--warning)" stroke-width="1.2"/>
+                      <text x="502" y="44" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--warning)">Transcription B</text>
+                      <text x="502" y="60" text-anchor="middle" font-size="9.5" fill="var(--foreground)">IKZF1 · TCF3 · BACH2 · IRF2BP2</text>
+                      <text x="502" y="73" text-anchor="middle" font-size="9" fill="var(--muted-foreground)">Défaut déméthylation CpG</text>
+
+                      <rect x="608" y="26" width="198" height="54" rx="8" fill="var(--card)" stroke="var(--error)" stroke-width="1.2"/>
+                      <text x="707" y="44" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--error)">Phénocopies CVID-like</text>
+                      <text x="707" y="60" text-anchor="middle" font-size="9.5" fill="var(--foreground)">CTLA4 · LRBA · PIK3CD/R1 · STAT3</text>
+                      <text x="707" y="73" text-anchor="middle" font-size="9" fill="var(--muted-foreground)">Cibles : Abatacept / Léniolisib</text>
+
+                      <!-- Arrows down to Germinal Center -->
+                      <line x1="106" y1="80" x2="290" y2="112" stroke="var(--muted-foreground)" stroke-width="1.2" marker-end="url(#arr-c)"/>
+                      <line x1="304" y1="80" x2="360" y2="112" stroke="var(--muted-foreground)" stroke-width="1.2" marker-end="url(#arr-c)"/>
+                      <line x1="502" y1="80" x2="460" y2="112" stroke="var(--muted-foreground)" stroke-width="1.2" marker-end="url(#arr-c)"/>
+                      <line x1="707" y1="80" x2="540" y2="112" stroke="var(--error)" stroke-width="1.2" stroke-dasharray="4 2" marker-end="url(#arr-c-err)"/>
+
+                      <!-- Middle: Germinal Center Defect -->
+                      <rect x="180" y="114" width="460" height="56" rx="10" fill="var(--secondary)" stroke="var(--primary)" stroke-width="1.6"/>
+                      <text x="410" y="135" text-anchor="middle" font-size="12" font-weight="700" fill="var(--foreground)">BLOCAGE DU CENTRE GERMINATIF &amp; DIFFÉRENCIATION B TERMINALE</text>
+                      <text x="410" y="153" text-anchor="middle" font-size="10" fill="var(--muted-foreground)">Défaut de commutation isotypique (CSR), d'hypermutation somatique (SHM) &amp; de génération de plasmocytes</text>
+
+                      <!-- Left Branch: Humoral failure -->
+                      <line x1="290" y1="170" x2="200" y2="204" stroke="var(--muted-foreground)" stroke-width="1.5" marker-end="url(#arr-c)"/>
+                      <rect x="14" y="206" width="380" height="130" rx="10" fill="var(--card)" stroke="var(--border)" stroke-width="1.2"/>
+                      <text x="28" y="226" font-size="11" font-weight="700" fill="var(--primary)">1. DÉFAUT HUMORAL (Phénotype infectieux pur ~35–50 %)</text>
+                      <text x="28" y="246" font-size="10" fill="var(--foreground)">• <strong>EUROclass smB−</strong> : B mémoires commutés CD27+IgD−IgM− &lt; 2 %</text>
+                      <text x="28" y="264" font-size="10" fill="var(--foreground)">• <strong>IgG &lt; −2 DS</strong> + IgA et/ou IgM basses · Réponse vaccinale abolie</text>
+                      <text x="28" y="282" font-size="10" fill="var(--muted-foreground)">• Infections sinopulmonaires (<em>S. pneumoniae</em>, <em>H. influenzae</em>) → Bronchectasies</text>
+                      <text x="28" y="299" font-size="10" fill="var(--muted-foreground)">• Digestif : <em>Giardia</em>, <em>Campylobacter</em>, <em>H. pylori</em>, Norovirus</text>
+                      <rect x="28" y="309" width="352" height="18" rx="4" fill="var(--secondary)"/>
+                      <text x="204" y="321" text-anchor="middle" font-size="9.5" font-weight="600" fill="var(--success)">Pronostic proche de la normale sous IgIV/IgSC bien dosées</text>
+
+                      <!-- Right Branch: Immune dysregulation -->
+                      <line x1="530" y1="170" x2="610" y2="204" stroke="var(--error)" stroke-width="1.5" marker-end="url(#arr-c-err)"/>
+                      <rect x="416" y="206" width="390" height="130" rx="10" fill="var(--card)" stroke="var(--error)" stroke-width="1.4"/>
+                      <text x="430" y="226" font-size="11" font-weight="700" fill="var(--error)">2. DYSRÉGULATION IMMUNITAIRE (30–68 % · HR décès ×11)</text>
+                      <text x="430" y="246" font-size="10" fill="var(--foreground)">• <strong>EUROclass CD21low (&gt; 10 %)</strong> + baisse T CD4+ naïfs / Treg</text>
+                      <text x="430" y="264" font-size="10" fill="var(--foreground)">• <strong>Signature IFN-I/II</strong> + translocation microbienne (sCD14, LPS)</text>
+                      <text x="430" y="282" font-size="10" fill="var(--muted-foreground)">• Cytopénies AI (PTI/AHAI 18–22 %) · <strong>GLILD</strong> (10–20 %) · Splénomégalie (35 %)</text>
+                      <text x="430" y="299" font-size="10" fill="var(--muted-foreground)">• Entéropathie (atrophie sans plasmocytes) · <strong>NRH hépatique</strong> · Lymphomes B</text>
+                      <rect x="430" y="309" width="362" height="18" rx="4" fill="var(--secondary)"/>
+                      <text x="611" y="321" text-anchor="middle" font-size="9.5" font-weight="600" fill="var(--error)">Non prévenu par les IgRT → Immunomodulation / Thérapies ciblées</text>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 5. Présentation clinique & EUROclass -->
+              <div id="cvid-clinique" class="space-y-3">
+                <h3 class="text-base font-semibold text-[var(--foreground)] border-b border-[var(--card-border)] pb-1">5. Présentation clinique, Pathogènes &amp; Phénotype EUROclass</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                  <div class="p-3.5 rounded-lg bg-[var(--background)] border border-[var(--card-border)] space-y-1.5">
+                    <div class="font-semibold text-[var(--foreground)]">Infections (~90–95 %)</div>
+                    <p class="text-[var(--muted-foreground)]">Sinopulmonaires récidivantes (75 % au diag.) : <em>S. pneumoniae</em>, <em>H. influenzae</em> non typable, <em>M. catarrhalis</em>, <em>Mycoplasma</em>. Digestives : <em>Giardia</em>, <em>Campylobacter</em>, <em>Salmonella</em>, <em>H. pylori</em>, <strong>norovirus chronique</strong> (7–11 %). Si opportunistes (PJP, CMV) → évoquer un <strong>LOCID</strong>.</p>
+                  </div>
+                  <div class="p-3.5 rounded-lg bg-[var(--background)] border border-[var(--card-border)] space-y-1.5">
+                    <div class="font-semibold text-[var(--foreground)]">Dysimmunité &amp; Lymphoprolifération (30–68 %)</div>
+                    <p class="text-[var(--muted-foreground)]"><strong>Cytopénies AI</strong> (18–22 % : PTI #1, AHAI, Evans — souvent inaugurales !), splénomégalie (35 %), adénopathies, granulomatose systémique et <strong>GLILD</strong> (10–20 %, mimant une sarcoïdose), entéropathie « sprue-like » (16 %), NRH hépatique.</p>
+                  </div>
+                </div>
+                <p class="text-xs text-[var(--muted-foreground)]">
+                  <strong>Classification EUROclass (Wehr 2008)</strong> : <code>B−</code> (CD19+ ≤ 1 %, éliminer XLA) vs <code>B+</code> subdivisé en <strong><code>smB−</code></strong> (B mémoires commutés ≤ 2 % → risque splénomégalie/granulomes) et <code>smB+</code> (&gt; 2 %), modulés par <strong><code>CD21low</code> (&gt; 10 %)</strong> (splénomégalie/auto-immunité) et <code>Trhigh</code> (&gt; 9 %, adénopathies).
+                </p>
+              </div>
+
+              <!-- 6. Complications à long terme -->
+              <div id="cvid-complic" class="space-y-3">
+                <h3 class="text-base font-semibold text-[var(--foreground)] border-b border-[var(--card-border)] pb-1">6. Complications à long terme &amp; Risque néoplasique</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                  <div class="p-3 rounded-lg bg-[var(--background)] border border-[var(--card-border)] space-y-1">
+                    <div class="font-semibold text-[var(--foreground)]">1. GLILD (Pneumopathie interstitielle)</div>
+                    <p class="text-[var(--muted-foreground)]">Associe LIP, bronchiolite folliculaire et granulomes non nécrosants. Évolution vers la fibrose et l'insuffisance respiratoire chronique (6,1 % sous O₂ dans Resnick 2012).</p>
+                  </div>
+                  <div class="p-3 rounded-lg bg-[var(--background)] border border-[var(--card-border)] space-y-1">
+                    <div class="font-semibold text-[var(--foreground)]">2. Entéropathie CVID &amp; Norovirus</div>
+                    <p class="text-[var(--muted-foreground)]">Atrophie villositaire sans plasmocytes, Ac anti-tTG négatifs, réfractaire au régime sans gluten. Rôle causal majeur du <strong>norovirus chronique</strong> (lésion CD8+ cytotoxique).</p>
+                  </div>
+                  <div class="p-3 rounded-lg bg-[var(--background)] border border-[var(--card-border)] space-y-1">
+                    <div class="font-semibold text-[var(--foreground)]">3. NRH hépatique &amp; HTP non cirrhotique</div>
+                    <p class="text-[var(--muted-foreground)]">Infiltration T CD8+ sinusoïdale → hyperplasie nodulaire régénérative (10–15 %) → cholestase anictérique (PAL/GGT), thrombopénie, varices œsophagiennes, ascite.</p>
+                  </div>
+                  <div class="p-3 rounded-lg bg-[var(--background)] border border-[var(--card-border)] space-y-1">
+                    <div class="font-semibold text-[var(--foreground)]">4. Néoplasies (~8,6 % global)</div>
+                    <p class="text-[var(--muted-foreground)]"><strong>Lymphomes non hodgkiniens B (4–8 %)</strong> : DLBCL, MALT (facteur de risque : IgM résiduelles élevées). <strong>Adénocarcinome gastrique (1,5 %, RR ×10–50)</strong> : gastrite atrophique / <em>H. pylori</em>.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 7. Avenues thérapeutiques -->
+              <div id="cvid-therap" class="space-y-2.5">
+                <h3 class="text-base font-semibold text-[var(--foreground)] border-b border-[var(--card-border)] pb-1">7. Avenues thérapeutiques</h3>
+                <ul class="list-disc pl-5 space-y-1.5 text-sm">
+                  <li><strong>Substitution en immunoglobulines (IgRT à vie)</strong> : IgIV 400–600 mg/kg/3–4 sem ou IgSC 100–150 mg/kg/sem (ou fSCIG). Cible IgG résiduelle <strong>≥ 6–8 g/L</strong> (<strong>≥ 8–10 g/L</strong> si bronchectasies). <em>Ne prévient pas les complications dysimmunitaires.</em></li>
+                  <li><strong>Cytopénies auto-immunes</strong> : corticoïdes courts + IgIV haute dose ; 2e ligne : <strong>rituximab</strong> ou agonistes TPO-R. <strong>Éviter la splénectomie</strong> (sepsis fulminant).</li>
+                  <li><strong>GLILD progressive</strong> : <strong>rituximab + azathioprine ou MMF</strong>, ou <strong>rituximab en monothérapie de 1re ligne</strong> (efficacité démontrée sur DLCO/CPT et TDM, Lougaris et al., 2023).</li>
+                  <li><strong>Médecine de précision (si monogénique)</strong> : <strong>abatacept</strong> (<em>CTLA4/LRBA</em>), <strong>léniolisib</strong> (APDS <em>PIK3CD/R1</em>), <strong>ruxolitinib</strong> (<em>STAT3</em> GOF). Allogreffe de CSH réservée aux formes réfractaires gravissimes (mortalité liée à la greffe élevée ~40–50 %).</li>
+                </ul>
+              </div>
+
+              <!-- 8. Pratique, Schéma 2 & Perles -->
+              <div id="cvid-pratique" class="space-y-4">
+                <h3 class="text-base font-semibold text-[var(--foreground)] border-b border-[var(--card-border)] pb-1">8. Section pratique (Critères ESID/ICON, Schéma 2, Différentiels &amp; Perles)</h3>
+                <p class="text-xs text-[var(--muted-foreground)]">
+                  <strong>Critères ESID/ICON</strong> : âge &gt; 4 ans + IgG &lt; −2 DS (x2 dosages) + IgA et/ou IgM basses + mauvaise réponse vaccinale et/ou B mémoires commutés &lt; 70 % N + exclusion formelle des causes secondaires (rituximab, LLC, myélome, fuites protéiques, thymome/Good) et d'un déficit T profond (LOCID). <strong>Suivi</strong> : IgG/NFS/bilan hépatique (PAL/GGT) tous les 3–6 mois ; EFR+DLCO annuel ; TDM thorax HR / FibroScan / FOGD selon risque. <strong>Vaccins</strong> : inactivés recommandés (grippe/COVID) ; vivants atténués à éviter.
+                </p>
+
+                <!-- SCHÉMA 2 SVG — Algorithme diagnostique et prise en charge -->
+                <div class="rounded-xl border border-[var(--border)] bg-[var(--background)] p-4 space-y-2">
+                  <div class="flex items-center justify-between text-xs">
+                    <span class="font-semibold text-[var(--foreground)]">Schéma 2 — Algorithme diagnostique et prise en charge multidisciplinaire du DICV</span>
+                    <span class="font-mono text-[var(--muted-foreground)]">SVG adaptatif</span>
+                  </div>
+                  <div class="overflow-x-auto">
+                    <svg viewBox="0 0 820 300" class="w-full h-auto min-w-[640px]" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Algorithme diagnostique et thérapeutique du DICV">
+                      <!-- Row 1 -->
+                      <rect x="14" y="16" width="235" height="62" rx="8" fill="var(--card)" stroke="var(--primary)" stroke-width="1.4"/>
+                      <text x="131" y="34" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--primary)">1. Suspicion clinique</text>
+                      <text x="131" y="50" text-anchor="middle" font-size="9.5" fill="var(--foreground)">Infections sinopulmonaires récidivantes</text>
+                      <text x="131" y="64" text-anchor="middle" font-size="9.5" fill="var(--muted-foreground)">OU PTI/AHAI · Sarcoïdose-like · Entéropathie</text>
+
+                      <line x1="249" y1="47" x2="282" y2="47" stroke="var(--muted-foreground)" stroke-width="1.4" marker-end="url(#arr-c)"/>
+
+                      <rect x="285" y="16" width="245" height="62" rx="8" fill="var(--card)" stroke="var(--border)" stroke-width="1.4"/>
+                      <text x="407" y="34" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--foreground)">2. Bilan humoral &amp; Exclusions</text>
+                      <text x="407" y="50" text-anchor="middle" font-size="9.5" fill="var(--foreground)">IgG &lt; −2 DS + IgA/IgM basses (x2, &gt; 4 ans)</text>
+                      <text x="407" y="64" text-anchor="middle" font-size="9.5" fill="var(--muted-foreground)">Exclure : Rituximab, LLC, Fuites, Good</text>
+
+                      <line x1="530" y1="47" x2="562" y2="47" stroke="var(--muted-foreground)" stroke-width="1.4" marker-end="url(#arr-c)"/>
+
+                      <rect x="565" y="16" width="241" height="62" rx="8" fill="var(--card)" stroke="var(--chart-2)" stroke-width="1.4"/>
+                      <text x="685" y="34" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--chart-2)">3. Confirmation ESID / ICON</text>
+                      <text x="685" y="50" text-anchor="middle" font-size="9.5" fill="var(--foreground)">Réponse vaccinale (tétanos/PPV23)</text>
+                      <text x="685" y="64" text-anchor="middle" font-size="9.5" fill="var(--muted-foreground)">Cytométrie B (EUROclass) + T (excl. LOCID)</text>
+
+                      <!-- Vertical arrow down -->
+                      <line x1="685" y1="78" x2="685" y2="112" stroke="var(--muted-foreground)" stroke-width="1.4" marker-end="url(#arr-c)"/>
+                      <line x1="407" y1="78" x2="407" y2="112" stroke="var(--muted-foreground)" stroke-width="1.4" marker-end="url(#arr-c)"/>
+
+                      <!-- Row 2: Two parallel pillars -->
+                      <rect x="14" y="115" width="390" height="72" rx="8" fill="var(--secondary)" stroke="var(--success)" stroke-width="1.4"/>
+                      <text x="28" y="135" font-size="10.5" font-weight="700" fill="var(--success)">SOCLE UNIVERSEL : IgRT + PRÉVENTION</text>
+                      <text x="28" y="152" font-size="9.5" fill="var(--foreground)">• IgIV (400–600 mg/kg/3–4 sem) ou IgSC (100–150 mg/kg/sem)</text>
+                      <text x="28" y="166" font-size="9.5" fill="var(--foreground)">• Cible IgG ≥ 6–8 g/L (≥ 8–10 si bronchectasies) · Azithromycine si besoin</text>
+                      <text x="28" y="180" font-size="9.5" fill="var(--muted-foreground)">• Vaccins inactivés (grippe/COVID) · Éviter vaccins vivants</text>
+
+                      <rect x="420" y="115" width="386" height="72" rx="8" fill="var(--secondary)" stroke="var(--primary)" stroke-width="1.4"/>
+                      <text x="434" y="135" font-size="10.5" font-weight="700" fill="var(--primary)">BILAN D'EXTENSION &amp; GÉNÉTIQUE (WES/PANEL)</text>
+                      <text x="434" y="152" font-size="9.5" fill="var(--foreground)">• Panel IEI / WES précoce (obligatoire si dysimmunité, enfant ou familial)</text>
+                      <text x="434" y="166" font-size="9.5" fill="var(--foreground)">• TDM thorax HR + EFR/DLCO (bronchectasies / GLILD)</text>
+                      <text x="434" y="180" font-size="9.5" fill="var(--muted-foreground)">• PAL/GGT + FibroScan (NRH) · FOGD + H. pylori · PCR Norovirus si diarrhée</text>
+
+                      <!-- Arrows to Row 3 -->
+                      <line x1="613" y1="187" x2="613" y2="214" stroke="var(--error)" stroke-width="1.4" marker-end="url(#arr-c-err)"/>
+                      <line x1="209" y1="187" x2="209" y2="214" stroke="var(--muted-foreground)" stroke-width="1.4" marker-end="url(#arr-c)"/>
+
+                      <!-- Row 3: Tailored Management -->
+                      <rect x="14" y="217" width="390" height="68" rx="8" fill="var(--card)" stroke="var(--border)" stroke-width="1.2"/>
+                      <text x="28" y="236" font-size="10.5" font-weight="700" fill="var(--foreground)">Phénotype infectieux pur</text>
+                      <text x="28" y="253" font-size="9.5" fill="var(--muted-foreground)">• Suivi semestriel (IgG résiduelle, NFS, PAL/GGT) + EFR annuel</text>
+                      <text x="28" y="269" font-size="9.5" fill="var(--muted-foreground)">• Kinésithérapie respiratoire · Dépistage cancers (FOGD / lymphome)</text>
+
+                      <rect x="420" y="217" width="386" height="68" rx="8" fill="var(--card)" stroke="var(--error)" stroke-width="1.4"/>
+                      <text x="434" y="236" font-size="10.5" font-weight="700" fill="var(--error)">Phénotype dysimmunitaire (RCP dédiée)</text>
+                      <text x="434" y="253" font-size="9.5" fill="var(--foreground)">• Cytopénies AI : Corticoïdes → Rituximab / TPO-RA (éviter splénectomie)</text>
+                      <text x="434" y="269" font-size="9.5" fill="var(--foreground)">• GLILD : Rituximab ± AZA/MMF · Monogénique : Abatacept / Léniolisib</text>
+                    </svg>
+                  </div>
+                </div>
+
+                <!-- Perles cliniques -->
+                <div class="pearl-card rounded-xl p-4 space-y-2">
+                  <div class="text-xs font-semibold uppercase tracking-wider text-[var(--warning)]">Perles cliniques &amp; Pièges à ne jamais oublier</div>
+                  <ul class="list-disc pl-5 space-y-1.5 text-xs text-[var(--foreground)]">
+                    <li><strong>Doser les IgG/IgA/IgM avant tout diagnostic de « sarcoïdose »</strong> : la GLILD mime parfaitement une sarcoïdose mais avec hypogammaglobulinémie.</li>
+                    <li><strong>Doser les Ig avant tout rituximab pour PTI/AHAI</strong> : une cytopénie inaugurale peut masquer un DICV latent.</li>
+                    <li><strong>Sérologies non fiables</strong> : utiliser la <strong>PCR</strong> (VHB/VHC/VIH, norovirus) et l'histologie plutôt que les sérologies.</li>
+                    <li><strong>Atrophie villositaire sans plasmocytes = entéropathie CVID</strong> (pas maladie cœliaque) → rechercher le <strong>norovirus chronique</strong>.</li>
+                    <li><strong>Éviter la splénectomie</strong> dans le PTI/AHAI du DICV ; surveiller <strong>PAL/GGT + plaquettes</strong> (NRH hépatique) et des <strong>IgM résiduelles élevées</strong> (sur-risque de lymphome B).</li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- 9. Nouveautés 2023-2025 -->
+              <div id="cvid-news" class="space-y-2.5">
+                <h3 class="text-base font-semibold text-[var(--foreground)] border-b border-[var(--card-border)] pb-1">9. Nouveautés &amp; Littérature récente (2023–2025)</h3>
+                <div class="space-y-2 text-xs">
+                  <div class="p-3 rounded-lg bg-[var(--background)] border border-[var(--card-border)]">
+                    <div class="font-semibold text-[var(--foreground)]">Cunningham-Rundles, Casanova &amp; Boisson — <em>Front Genet</em> 2024 (PMID: 38274105)</div>
+                    <p class="text-[var(--muted-foreground)] mt-1">Sur 405 patients CVID séquencés par WES/panel, 31 % portent un variant délétère/associé (<em>TACI</em> n=42, <em>NFKB1</em> n=16, <em>NFKB2</em> n=7, <em>CTLA4/IKZF1/IRF2BP2</em> n=6 chacun), dont 15 cas digéniques/oligogéniques ; enrichissement significatif des granulomatoses (17,7 % vs 7,5 %, <em>p</em>=0,046).</p>
+                  </div>
+                  <div class="p-3 rounded-lg bg-[var(--background)] border border-[var(--card-border)]">
+                    <div class="font-semibold text-[var(--foreground)]">Lougaris et al. — <em>J Clin Immunol</em> 2023 (PMID: 37755605 / PMC10661825)</div>
+                    <p class="text-[var(--muted-foreground)] mt-1">Le rituximab en monothérapie de 1re ligne dans la GLILD améliore significativement la DLCO, la CPT, le score TDM de Baumann, la qualité de vie et réduit les marqueurs d'activation T (sCD25, sTIM-3) sans toxicité sévère.</p>
+                  </div>
+                  <div class="p-3 rounded-lg bg-[var(--background)] border border-[var(--card-border)]">
+                    <div class="font-semibold text-[var(--foreground)]">Revue systématique mondiale — <em>J Hum Immun</em> 2025 (PMC13177467) &amp; Cunningham-Rundles — <em>Hematology ASH</em> 2024 (PMID: 39643993)</div>
+                    <p class="text-[var(--muted-foreground)] mt-1">Cartographie exhaustive du fardeau non infectieux (splénomégalie 35,2 %, diarrhée 27,8 %, cytopénies AI 18 %, entéropathie 16 %, PID/GLILD 8,7 %) confirmant l'impact majeur sur la survie et la nécessité d'un séquençage précoce.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 10. Références vérifiées -->
+              <div id="cvid-refs" class="space-y-2">
+                <h3 class="text-base font-semibold text-[var(--foreground)] border-b border-[var(--card-border)] pb-1">10. Références vérifiées</h3>
+                <ol class="list-decimal pl-5 space-y-1 text-xs text-[var(--muted-foreground)]">
+                  <li>Poli MC et al. IUIS 2024 Update. <em>J Hum Immun</em> 2025. <strong>PMID: 41608114 / PMC12829761</strong>.</li>
+                  <li>Wehr C et al. The EUROclass trial. <em>Blood</em> 2008;111:77–85. <strong>PMID: 17898316</strong>.</li>
+                  <li>Malphettes M et al. LOCID (DEFI study). <em>Clin Infect Dis</em> 2009;49:1329–38. <strong>PMID: 19807277</strong>.</li>
+                  <li>Resnick ES et al. Morbidity and mortality in CVID over 4 decades. <em>Blood</em> 2012;119:1650–7. <strong>PMID: 22180439 / PMC3286343</strong>.</li>
+                  <li>Gathmann B et al. 2212 patients with CVID (ESID). <em>JACI</em> 2014;134:116–26. <strong>PMID: 24582312</strong>.</li>
+                  <li>Bonilla FA et al. ICON: CVID Disorders. <em>JACI Pract</em> 2016;4:38–59. <strong>PMC4869529</strong>.</li>
+                  <li>Tuijnenburg P et al. LOF <em>NFKB1</em> variants in Europeans. <em>JACI</em> 2018;142:1285–96. <strong>PMID: 29477724</strong>.</li>
+                  <li>Lougaris V et al. Rituximab monotherapy first-line for GLILD. <em>J Clin Immunol</em> 2023;43:2091–2103. <strong>PMID: 37755605</strong>.</li>
+                  <li>Cunningham-Rundles C, Casanova JL, Boisson B. Genetics &amp; phenotypes in CVID. <em>Front Genet</em> 2024. <strong>PMID: 38274105</strong>.</li>
+                  <li>Cunningham-Rundles C. Autoimmune cytopenias &amp; molecular diagnosis. <em>Hematology ASH</em> 2024. <strong>PMID: 39643993</strong>.</li>
+                  <li>Systematic literature review of CVID noninfectious manifestations. <em>J Hum Immun</em> 2025. <strong>PMC13177467</strong>.</li>
+                </ol>
+              </div>
+            </article>
+          </div>
+        </div><!-- /fiche-cvid -->
+      </section>
+
+      <!-- ==================== VIEW 4: WEEKLY QUIZ ==================== -->
+      <section id="view-quiz" class="hidden space-y-4">
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 class="text-base font-semibold text-[var(--foreground)]">Quiz Hebdomadaire — Semaine 1 (Aperçu interactif)</h2>
+              <p class="text-xs text-[var(--muted-foreground)] mt-0.5">
+                Format définitif : <strong>5 questions sur les IEI de la semaine</strong> + <strong>5 questions rétrospectives</strong> (répétition espacée sur toutes les IEI déjà vues). 10 questions actives : 5 questions sur la Fiche #002 (DICV / CVID) + 5 questions rétrospectives sur la Fiche #001 (XLA).
+              </p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span id="quiz-score" class="px-3 py-1 rounded-lg bg-[var(--secondary)] border border-[var(--border)] font-mono text-xs font-semibold">Score : 0 / 10</span>
+              <button onclick="resetQuiz()" class="px-3 py-1 rounded-lg border border-[var(--border)] text-xs font-medium hover:bg-[var(--secondary)] cursor-pointer">Réinitialiser</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="quiz-container" class="space-y-3"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Modal for non-synthesized IEI preview -->
+  <div id="iei-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" style="background-color: rgba(0,0,0,0.45);">
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl max-w-lg w-full p-5 space-y-4 shadow-xl">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <div id="modal-table" class="text-xs font-mono text-[var(--muted-foreground)]"></div>
+          <h3 id="modal-name" class="text-base font-semibold text-[var(--foreground)] mt-0.5"></h3>
+        </div>
+        <button onclick="closeModal()" class="text-xs px-2 py-1 rounded hover:bg-[var(--secondary)] text-[var(--muted-foreground)] cursor-pointer">Fermer</button>
+      </div>
+      <div class="grid grid-cols-2 gap-2 text-xs">
+        <div class="p-2.5 rounded-lg bg-[var(--background)] border border-[var(--card-border)]">
+          <div class="text-[var(--muted-foreground)]">Gène(s)</div>
+          <div id="modal-gene" class="font-mono italic font-semibold mt-0.5"></div>
+        </div>
+        <div class="p-2.5 rounded-lg bg-[var(--background)] border border-[var(--card-border)]">
+          <div class="text-[var(--muted-foreground)]">Transmission &amp; OMIM</div>
+          <div id="modal-inh" class="font-mono mt-0.5"></div>
+        </div>
+      </div>
+      <p id="modal-note" class="text-xs text-[var(--muted-foreground)] leading-relaxed"></p>
+      <div class="p-3 rounded-lg bg-[var(--secondary)] text-xs space-y-1.5">
+        <div class="font-medium text-[var(--foreground)]">Fiche non encore synthétisée</div>
+        <div class="text-[var(--muted-foreground)]">Demandez-moi dans le chat : <span id="modal-prompt" class="font-mono text-[var(--primary)]"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ==================== IUIS 2024 DATA STRUCTURE ====================
+    const IUIS_TABLES = [
+      {
+        id: "I",
+        title: "Table I — Déficits immunitaires combinés (immunité cellulaire et humorale)",
+        enTitle: "Immunodeficiencies affecting cellular and humoral immunity",
+        totalEntries: 73,
+        subtables: [
+          {
+            code: "I.1",
+            name: "T-B+ SCID (Déficit immunitaire combiné sévère)",
+            entries: [
+              { id: "scid-il2rg", name: "Déficit en chaîne γ commune (SCID-X1 / CD132)", gene: "IL2RG", inh: "XL", omim: "300400", priority: 3, week: 1, status: "queue", summary: "SCID le plus fréquent (~40–50 % des SCID), phénotype T-B+NK-, urgence néonatale (TREC bas)." },
+              { id: "scid-jak3", name: "Déficit en JAK3", gene: "JAK3", inh: "AR", omim: "600802", priority: 26, week: 4, status: "queue", summary: "Phénocopie autosomique récessive du SCID-X1 (T-B+NK-)." },
+              { id: "scid-il7r", name: "Déficit en IL-7Rα", gene: "IL7R", inh: "AR", omim: "608971", priority: 27, week: 4, status: "queue", summary: "SCID T-B+NK+ (cellules NK préservées)." },
+              { id: "scid-cd3", name: "Déficits en CD3δ / CD3ε / CD3ζ", gene: "CD3D, CD3E, CD247", inh: "AR", omim: "615617", status: "pending", summary: "SCID T-B+NK+ avec absence de lymphocytes T γδ." }
+            ]
+          },
+          {
+            code: "I.2",
+            name: "T-B- SCID",
+            entries: [
+              { id: "scid-rag", name: "Déficit en RAG1 / RAG2 (SCID T-B-NK+ & Syndrome d'Omenn)", gene: "RAG1, RAG2", inh: "AR", omim: "179615", priority: 8, week: 2, status: "queue", summary: "Spectre allélique majeur : SCID typique T-B-NK+, syndrome d'Omenn, CID tardif avec granulomes/auto-immunité." },
+              { id: "scid-ada", name: "Déficit en adénosine désaminase (ADA-SCID)", gene: "ADA", inh: "AR", omim: "102700", priority: 11, week: 2, status: "queue", summary: "SCID T-B-NK- métabolique (accumulation dATP), protéinose alvéolaire, anomalies osseuses ; succès historique de la thérapie génique." },
+              { id: "scid-artemis", name: "Déficit en Artémis (DCLRE1C)", gene: "DCLRE1C", inh: "AR", omim: "602450", priority: 28, week: 4, status: "queue", summary: "SCID T-B-NK+ avec radiosensibilité (défaut de réparation NHEJ)." },
+              { id: "scid-nudcd3", name: "Déficit en NUDCD3", gene: "NUDCD3", inh: "AR", omim: "NA", isNew2024: true, status: "pending", summary: "Nouvelle entrée IUIS 2024 : séquestration nucléolaire de RAG1, syndrome d'Omenn et anomalie V(D)J." }
+            ]
+          },
+          {
+            code: "I.3",
+            name: "Déficits immunitaires combinés (CID) généralement moins profonds que les SCID",
+            entries: [
+              { id: "cid-cd40lg", name: "Déficit en CD40L (Syndrome d'hyper-IgM lié à l'X)", gene: "CD40LG", inh: "XL", omim: "308230", priority: 9, week: 2, status: "queue", summary: "Défaut de commutation isotypique + défaut cellulaire : PJP, Cryptosporidium, cholangite sclérosante, neutropénie." },
+              { id: "cid-dock8", name: "Déficit en DOCK8 (Hyper-IgE AR)", gene: "DOCK8", inh: "AR", omim: "243700", priority: 15, week: 3, status: "queue", summary: "Eczéma sévère, allergies alimentaires, infections virales cutanées extensives (HPV, HSV, molluscum), hyper-IgE, risque tumoral." },
+              { id: "cid-mhcii", name: "Déficit en CMH de classe II (Bare Lymphocyte Syndrome II)", gene: "CIITA, RFXANK, RFX5, RFXAP", inh: "AR", omim: "209920", priority: 22, week: 4, status: "queue", summary: "Lymphopénie CD4 sévère, défaut d'expression HLA-DR, infections respiratoires et digestives précoces." },
+              { id: "cid-irf4", name: "Déficit multimorphe en IRF4 (R95T)", gene: "IRF4", inh: "AD-neomorph", omim: "NA", isNew2024: true, status: "pending", summary: "Nouvelle entrée IUIS 2024 : agammaglobulinémie, PJP, CMV/EBV, mycobactéries." },
+              { id: "cid-psmb10", name: "Syndrome d'Omenn associé à PSMB10", gene: "PSMB10", inh: "AD", omim: "620807", isNew2024: true, status: "pending", summary: "Nouvelle entrée IUIS 2024 : variants hétérozygotes sporadiques avec phénotype SCID/Omenn." }
+            ]
+          }
+        ]
+      },
+      {
+        id: "II",
+        title: "Table II — Déficits immunitaires combinés avec manifestations syndromiques",
+        enTitle: "Combined immunodeficiencies with associated or syndromic features",
+        totalEntries: 78,
+        subtables: [
+          {
+            code: "II.1",
+            name: "Déficits immunitaires avec thrombopénie congénitale",
+            entries: [
+              { id: "was", name: "Syndrome de Wiskott-Aldrich (WAS)", gene: "WAS", inh: "XL", omim: "300392", priority: 6, week: 1, status: "queue", summary: "Triade microthrombopénie + eczéma + infections récidivantes ; auto-immunité, lymphome." }
+            ]
+          },
+          {
+            code: "II.2",
+            name: "Défauts de réparation de l'ADN",
+            entries: [
+              { id: "at-atm", name: "Ataxie-télangiectasie", gene: "ATM", inh: "AR", omim: "607585", priority: 10, week: 2, status: "queue", summary: "Ataxie cérébelleuse progressive, télangiectasies oculaires, AFP élevée, radiosensibilité majeure, risque de lymphome." },
+              { id: "nbs-nbn", name: "Syndrome de Nijmegen", gene: "NBN", inh: "AR", omim: "602667", priority: 29, week: 5, status: "queue", summary: "Microcéphalie, dysmorphie, radiosensibilité, forte prédisposition aux lymphomes." },
+              { id: "rts-recql4", name: "Syndrome de Rothmund-Thomson", gene: "RECQL4", inh: "AR", omim: "268400", isNew2024: true, status: "pending", summary: "Nouvelle entrée IUIS 2024 : poïkilodermie, retard statural, risque d'ostéosarcome." }
+            ]
+          },
+          {
+            code: "II.3",
+            name: "Défauts thymiques avec anomalies congénitales",
+            entries: [
+              { id: "digeorge", name: "Syndrome de DiGeorge / Délétion 22q11.2", gene: "Del 22q11.2 (TBX1)", inh: "AD", omim: "602054", priority: 5, week: 1, status: "queue", summary: "Hypoplasie/aplasie thymique, cardiopathie conotroncale, hypoparathyroïdie, insuffisance vélopalatine." },
+              { id: "charge", name: "Syndrome CHARGE", gene: "CHD7", inh: "AD", omim: "608892", priority: 30, week: 5, status: "queue", summary: "Colobome, cardiopathie, atrésie des choanes, retard de croissance, anomalies auriculaires ; parfois SCID-like." }
+            ]
+          },
+          {
+            code: "II.4–II.9",
+            name: "Dysplasies immuno-osseuses, Hyper-IgE (HIES), dyskératose, métabolisme & autres",
+            entries: [
+              { id: "hies-stat3", name: "Syndrome d'hyper-IgE autosomique dominant (Job / STAT3 LOF)", gene: "STAT3", inh: "AD DN", omim: "147060", priority: 7, week: 1, status: "queue", summary: "Abcès froids à S. aureus, pneumatocèles, candidose cutanéo-muqueuse, persistance des dents de lait, hyper-IgE, déficit Th17." },
+              { id: "chh-rmrp", name: "Hypoplasie cartilage-cheveux (CHH)", gene: "RMRP", inh: "AR", omim: "157660", priority: 31, week: 5, status: "queue", summary: "Nanisme micromélique, cheveux fins, déficit immunitaire variable (SCID à modéré), maladie de Hirschsprung." },
+              { id: "stat6-gof", name: "Déficit STAT6 gain de fonction (STAT6-GOF)", gene: "STAT6", inh: "AD GOF", omim: "NA", isNew2024: true, status: "pending", summary: "Nouvelle entrée IUIS 2024 : allergie sévère précoce, dermatite atopique, hyperéosinophilie, hyper-IgE." }
+            ]
+          }
+        ]
+      },
+      {
+        id: "III",
+        title: "Table III — Déficits prédominants de l'immunité humorale",
+        enTitle: "Predominantly antibody deficiencies",
+        totalEntries: 49,
+        subtables: [
+          {
+            code: "III.1",
+            name: "Réduction sévère de tous les isotypes d'Ig avec absence/réduction profonde des lymphocytes B",
+            entries: [
+              { id: "xla-btk", name: "Agammaglobulinémie liée à l'X (XLA / Maladie de Bruton)", gene: "BTK", inh: "XL", omim: "300755", priority: 1, week: 1, status: "done", summary: "Première IEI décrite (1952). Blocage pro-B → pré-B, CD19+ < 2 %, amygdales absentes, germes encapsulés & entérovirus." },
+              { id: "ara-ighm", name: "Déficit en chaîne lourde µ (Agammaglobulinémie AR)", gene: "IGHM", inh: "AR", omim: "601495", priority: 32, week: 5, status: "queue", summary: "Principale cause d'agammaglobulinémie autosomique récessive ; touche garçons et filles." },
+              { id: "pax5", name: "Déficit en PAX5", gene: "PAX5", inh: "AR", omim: "NA", isNew2024: true, status: "pending", summary: "Nouvelle entrée IUIS 2024 : hypogammaglobulinémie / lymphopénie B avec manifestations neurodéveloppementales." }
+            ]
+          },
+          {
+            code: "III.2",
+            name: "Réduction sévère d'au moins 2 isotypes d'Ig avec B normaux ou bas (Phénotype DICV / CVID)",
+            entries: [
+              { id: "cvid", name: "Déficit immunitaire commun variable (DICV / CVID)", gene: "Polygénique / NFKB1, TACI, ICOS…", inh: "Variable", omim: "607594", priority: 2, week: 1, status: "done", summary: "IEI symptomatique la plus fréquente (~1/25 000). Infections sinopulmonaires, GLILD, auto-immunité, lymphoprolifération, lymphome." },
+              { id: "apds", name: "Syndrome PI3Kδ activé (APDS1 / APDS2)", gene: "PIK3CD, PIK3R1", inh: "AD GOF / LOF", omim: "615513", priority: 12, week: 2, status: "queue", summary: "Lymphoprolifération, bronchectasies, CMV/EBV, hyper-IgM variable ; thérapie ciblée par léniolisib." },
+              { id: "nfkb1", name: "Haploinsuffisance NFKB1", gene: "NFKB1", inh: "AD", omim: "616576", priority: 20, week: 3, status: "queue", summary: "Cause monogénique la plus fréquente de phénotype CVID chez l'adulte européen." }
+            ]
+          },
+          {
+            code: "III.3",
+            name: "Déficits sélectifs en IgA, sous-classes d'IgG, défaut spécifique en Ac & hyper-IgM intrinsèques B",
+            entries: [
+              { id: "sigad", name: "Déficit sélectif en IgA (SIgAD)", gene: "Inconnu / Polygénique", inh: "Variable", omim: "137100", priority: 13, week: 2, status: "queue", summary: "Déficit humoral le plus fréquent (1/500), souvent asymptomatique ; association maladie cœliaque, auto-immunité, réactions transfusionnelles." },
+              { id: "aid-aicda", name: "Déficit en AID (Hyper-IgM de type 2)", gene: "AICDA", inh: "AR / AD", omim: "605258", priority: 25, week: 4, status: "queue", summary: "Défaut pur de commutation isotypique et d'hypermutation somatique ; hyperplasie lymphoïde géante, pas d'opportunistes T." }
+            ]
+          }
+        ]
+      },
+      {
+        id: "IV",
+        title: "Table IV — Maladies de la dysrégulation immunitaire",
+        enTitle: "Diseases of immune dysregulation",
+        totalEntries: 69,
+        subtables: [
+          {
+            code: "IV.1–IV.2",
+            name: "Lymphohistiocytose hémophagocytaire familiale (FHL) & syndromes avec hypopigmentation",
+            entries: [
+              { id: "fhl-prf1", name: "Lymphohistiocytose hémophagocytaire familiale (Perforine / FHL2)", gene: "PRF1", inh: "AR", omim: "603553", priority: 16, week: 3, status: "queue", summary: "Défaut de cytotoxicité NK/CD8, orage cytokinique fébrile, cytopénies, hyperferritinémie, hémophagocytose." },
+              { id: "chs-lyst", name: "Syndrome de Chediak-Higashi", gene: "LYST", inh: "AR", omim: "214500", priority: 33, week: 5, status: "queue", summary: "Albinisme oculo-cutané partiel, granules géants intraleucocytaires, phase accélérée HLH." }
+            ]
+          },
+          {
+            code: "IV.3–IV.7",
+            name: "Tregopathies, Auto-immunité, ALPS, Susceptibilité EBV & Colites précoces",
+            entries: [
+              { id: "ipex", name: "Syndrome IPEX (Déficit en FOXP3)", gene: "FOXP3", inh: "XL", omim: "304790", priority: 14, week: 2, status: "queue", summary: "Prototype des Tregopathies : entéropathie sévère néonatale, diabète de type 1 précoce, eczéma." },
+              { id: "ctla4", name: "Haploinsuffisance CTLA-4 (CHAI) & Déficit en LRBA", gene: "CTLA4, LRBA", inh: "AD / AR", omim: "616100", priority: 17, week: 3, status: "queue", summary: "Cytopénies auto-immunes, entéropathie, infiltration lymphocytaire pulmonaire/cérébrale ; thérapie ciblée par abatacept." },
+              { id: "alps-fas", name: "Syndrome lymphoprolifératif auto-immun (ALPS-FAS)", gene: "FAS", inh: "AD / AR", omim: "601859", priority: 18, week: 3, status: "queue", summary: "Défaut d'apoptose lymphocytaire, lymphocytes T doubles négatifs (DNT αβ > 2,5 %), vitamine B12 élevée, cytopénies auto-immunes." },
+              { id: "apeced", name: "APECED / APS-1 (Déficit en AIRE)", gene: "AIRE", inh: "AR / AD", omim: "240300", priority: 19, week: 3, status: "queue", summary: "Candidose cutanéo-muqueuse chronique, hypoparathyroïdie, insuffisance surrénalienne ; auto-anticorps anti-IFN de type I." },
+              { id: "xlp1", name: "Syndrome lymphoprolifératif lié à l'X (XLP1 / SAP)", gene: "SH2D1A", inh: "XL", omim: "308240", priority: 23, week: 4, status: "queue", summary: "Mononucléose infectieuse fulminante (HLH à EBV), lymphome B, hypogammaglobulinémie acquise." },
+              { id: "tlr7-gof", name: "Lupus monogénique lié à TLR7 / UNC93B1 GOF", gene: "TLR7, UNC93B1", inh: "XL / AD GOF", omim: "NA", isNew2024: true, status: "pending", summary: "Nouvelles entrées IUIS 2024 : lupus érythémateux systémique précoce par hyperactivation TLR7." }
+            ]
+          }
+        ]
+      },
+      {
+        id: "V",
+        title: "Table V — Déficits congénitaux des phagocytes (nombre ou fonction)",
+        enTitle: "Congenital defects of phagocyte number or function",
+        totalEntries: 46,
+        subtables: [
+          {
+            code: "V.1",
+            name: "Neutropénies congénitales",
+            entries: [
+              { id: "scn-elane", name: "Neutropénie congénitale sévère / cyclique (ELANE)", gene: "ELANE", inh: "AD", omim: "202700", priority: 21, week: 3, status: "queue", summary: "Cause la plus fréquente de NCS ; blocage promyélocytaire, traitement par G-CSF, surveillance risque SMD/LAM." }
+            ]
+          },
+          {
+            code: "V.2–V.4",
+            name: "Défauts de motilité (LAD), de bactéricidie (CGD) et autres défauts myéloïdes",
+            entries: [
+              { id: "cgd", name: "Granulomatose septique chronique (CGD)", gene: "CYBB (XL), NCF1, CYBA, NCF2, NCF4, CYBC1 (AR)", inh: "XL / AR", omim: "306400", priority: 4, week: 1, status: "queue", summary: "Défaut de la NADPH oxydase (test DHR123 négatif). Infections à germes catalase+ (S. aureus, Aspergillus, Burkholderia, Serratia) et granulomes/colite." },
+              { id: "lad1", name: "Déficit d'adhésion leucocytaire de type 1 (LAD-1)", gene: "ITGB2", inh: "AR", omim: "116920", priority: 24, week: 4, status: "queue", summary: "Retard de chute du cordon ombilical, hyperleucocytose majeure sans pus, parodontite sévère ; absence CD18." }
+            ]
+          }
+        ]
+      },
+      {
+        id: "VI",
+        title: "Table VI — Déficits de l'immunité intrinsèque et innée",
+        enTitle: "Defects in intrinsic and innate immunity",
+        totalEntries: 79,
+        subtables: [
+          {
+            code: "VI.1–VI.4",
+            name: "Susceptibilité mendélienne aux mycobactéries (MSMD), Épidermodysplasie, Infections bactériennes pyogènes",
+            entries: [
+              { id: "msmd-ifngr1", name: "Susceptibilité mendélienne aux mycobactéries (IFNGR1 / IL12RB1)", gene: "IL12RB1, IFNGR1", inh: "AR / AD", omim: "614891", priority: 34, week: 5, status: "queue", summary: "BCGite disséminée, mycobactéries atypiques et salmonelloses par rupture de l'axe IL-12/IFN-γ." },
+              { id: "irak4-myd88", name: "Déficits en IRAK4 / MyD88", gene: "IRAK4, MYD88", inh: "AR", omim: "607676", priority: 35, week: 5, status: "queue", summary: "Infections invasives précoces à pneumocoque/staphylocoque avec CRP et fièvre paradoxalement faibles." }
+            ]
+          },
+          {
+            code: "VI.5–VI.9",
+            name: "Candidose cutanéo-muqueuse chronique (CMC), Encéphalite herpétique (TLR3), Infections virales sévères (IFN-I)",
+            entries: [
+              { id: "stat1-gof", name: "STAT1 gain de fonction (CMC / Auto-immunité)", gene: "STAT1", inh: "AD GOF", omim: "614162", priority: 18, week: 3, status: "queue", summary: "Cause la plus fréquente de candidose cutanéo-muqueuse chronique ; auto-immunité, anévrismes cérébraux ; sensibilité aux inhibiteurs de JAK." },
+              { id: "tlr3-hse", name: "Prédisposition à l'encéphalite herpétique (voie TLR3–UNC93B1–TRIF)", gene: "TLR3, UNC93B1, TICAM1", inh: "AD / AR", omim: "613002", status: "pending", summary: "Encéphalite à HSV-1 isolée du SNC par défaut de production locale d'IFN-I/III." },
+              { id: "oas-misc", name: "Déficits en OAS1 / OAS2 / RNASEL (MIS-C post-SARS-CoV-2)", gene: "OAS1, OAS2, RNASEL", inh: "AR", omim: "NA", isNew2024: true, status: "pending", summary: "Nouvelles entrées IUIS 2024 : syndrome inflammatoire multisystémique pédiatrique (MIS-C) après COVID-19." }
+            ]
+          }
+        ]
+      },
+      {
+        id: "VII",
+        title: "Table VII — Maladies auto-inflammatoires",
+        enTitle: "Autoinflammatory disorders",
+        totalEntries: 68,
+        subtables: [
+          {
+            code: "VII.1",
+            name: "Interféronopathies de type I",
+            entries: [
+              { id: "ags", name: "Syndrome d'Aicardi-Goutières & SAVI (STING1)", gene: "TREX1, IFIH1, STING1…", inh: "AR / AD", omim: "225750", status: "pending", summary: "Signature interféron de type I élevée, calcifications cérébrales, engelures/vasculopathie pulmonaire." }
+            ]
+          },
+          {
+            code: "VII.2–VII.3",
+            name: "Défauts de l'inflammasome (FMF, CAPS, MKD) & maladies non liées à l'inflammasome",
+            entries: [
+              { id: "fmf-mefv", name: "Fièvre méditerranéenne familiale (FMF)", gene: "MEFV", inh: "AR / AD", omim: "249100", priority: 14, week: 2, status: "queue", summary: "Maladie auto-inflammatoire monogénique la plus fréquente. Accès fébriles + sérites (péritonite, pleurésie), risque d'amylose AA, colchicine." },
+              { id: "caps-nlrp3", name: "Cryopyrinopathies (CAPS : FCAS, Muckle-Wells, CINCA/NOMID)", gene: "NLRP3", inh: "AD (ou somatique)", omim: "191900", status: "pending", summary: "Éruption urticarienne au froid, surdité neurosensorielle, méningite aseptique ; réponse spectaculaire aux anti-IL-1." },
+              { id: "ha20", name: "Haploinsuffisance A20 (HA20)", gene: "TNFAIP3", inh: "AD", omim: "616744", status: "pending", summary: "Phénotype Behçet-like précoce (aphtose bipolaire, fièvres, arthrites, uvéite)." }
+            ]
+          }
+        ]
+      },
+      {
+        id: "VIII",
+        title: "Table VIII — Déficits du complément",
+        enTitle: "Complement deficiencies",
+        totalEntries: 37,
+        subtables: [
+          {
+            code: "VIII.1",
+            name: "Voie classique, voie alterne, complexe d'attaque membranaire (MAC) & régulateurs",
+            entries: [
+              { id: "hae-serping1", name: "Angiœdème héréditaire (Déficit en C1-inhibiteur)", gene: "SERPING1", inh: "AD", omim: "106100", priority: 16, week: 3, status: "queue", summary: "Œdèmes bradykiniques non prurigineux (laryngés, abdominaux, sous-cutanés) ; C4 abaissé, C1-INH bas ou dysfonctionnel." },
+              { id: "c5-c9", name: "Déficits terminaux du complément (C5–C9) & Properdine", gene: "C5, C6, C7, C8, C9, CFP", inh: "AR / XL", omim: "609536", status: "pending", summary: "Méningites invasives récidivantes à Neisseria meningitidis ; CH50 effondré." },
+              { id: "c1q-c2", name: "Déficits de la voie classique (C1q, C2, C4)", gene: "C1QA/B/C, C2, C4A/B", inh: "AR", omim: "613652", status: "pending", summary: "Forte prédisposition au lupus érythémateux systémique (C1q > 90 %) et infections encapsulées." }
+            ]
+          }
+        ]
+      },
+      {
+        id: "IX",
+        title: "Table IX — Insuffisances médullaires constitutionnelles",
+        enTitle: "Bone marrow failure",
+        totalEntries: 46,
+        subtables: [
+          {
+            code: "IX.1",
+            name: "Anémie de Fanconi, Téloméropathies, GATA2, SAMD9/9L & Syndromes d'insuffisance médullaire",
+            entries: [
+              { id: "gata2", name: "Déficit en GATA2 (MonoMAC / Syndrome d'Emberger)", gene: "GATA2", inh: "AD", omim: "614172", priority: 19, week: 3, status: "queue", summary: "Monocytopénie, déficit B/NK/DC, infections à mycobactéries atypiques & HPV, protéinose alvéolaire, lymphœdème, évolution SMD/LAM." },
+              { id: "fanconi", name: "Anémie de Fanconi", gene: "FANCA, FANCC, FANCG…", inh: "AR / XL", omim: "227650", status: "pending", summary: "Aplasie médullaire, malformations radiales/taches café-au-lait, cassures chromosomiques (DEB/MMC), risque tumoral élevé." }
+            ]
+          }
+        ]
+      },
+      {
+        id: "X",
+        title: "Table X — Phénocopies des erreurs innées de l'immunité",
+        enTitle: "Phenocopies of inborn errors of immunity",
+        totalEntries: 17,
+        subtables: [
+          {
+            code: "X.1",
+            name: "Associées à des mutations somatiques",
+            entries: [
+              { id: "vexas", name: "Syndrome VEXAS (Mutation somatique UBA1)", gene: "UBA1 (somatique)", inh: "XL somatique", omim: "301054", priority: 15, week: 3, status: "queue", summary: "Hommes > 50 ans : fièvre, polychondrite, dermatose neutrophilique, anémie macrocytaire, vacuoles myéloïdes, SMD." },
+              { id: "alps-sfas", name: "ALPS-sFAS (Mutation somatique FAS)", gene: "FAS (somatique)", inh: "Somatique", omim: "601859", status: "pending", summary: "Phénocopie somatique de l'ALPS germinal." }
+            ]
+          },
+          {
+            code: "X.2",
+            name: "Associées à des auto-anticorps anti-cytokines",
+            entries: [
+              { id: "aabs-ifni", name: "Auto-anticorps neutralisants anti-IFN de type I", gene: "Auto-Ac anti-IFN-α/ω", inh: "Acquis", omim: "NA", status: "pending", summary: "Formes graves de COVID-19, grippe, encéphalite West Nile, réactions sévères au vaccin fièvre jaune." },
+              { id: "aabs-ifng", name: "Auto-anticorps anti-IFN-γ", gene: "Auto-Ac anti-IFN-γ", inh: "Acquis", omim: "NA", status: "pending", summary: "Infections disséminées à mycobactéries non tuberculeuses chez l'adulte (prédominance Asie du Sud-Est)." },
+              { id: "aabs-il27", name: "Auto-anticorps anti-IL-27", gene: "Auto-Ac anti-IL-27", inh: "Acquis", omim: "NA", isNew2024: true, status: "pending", summary: "Nouvelle entrée IUIS 2024 : susceptibilité sévère à l'EBV (phénocopie du déficit AR en IL27RA)." }
+            ]
+          }
+        ]
+      }
+    ];
+
+    // ==================== PRIORITY STUDY QUEUE (WEEKS 1-4) ====================
+    const PRIORITY_WEEKS = [
+      {
+        week: 1,
+        theme: "Les 7 piliers historiques & cliniques incontournables",
+        items: [
+          { day: "J1", id: "xla-btk", name: "Agammaglobulinémie liée à l'X (XLA)", gene: "BTK", table: "III.1", status: "done", reason: "1re IEI décrite (1952), prototype humoral pur" },
+          { day: "J2", id: "cvid", name: "Déficit immunitaire commun variable (DICV / CVID)", gene: "Polygénique / NFKB1…", table: "III.2", status: "done", reason: "IEI symptomatique la plus fréquente en pratique" },
+          { day: "J3", id: "scid-il2rg", name: "SCID lié à l'X (Déficit en chaîne γc)", gene: "IL2RG", table: "I.1", status: "queue", reason: "SCID le plus fréquent, urgence néonatale (TREC)" },
+          { day: "J4", id: "cgd", name: "Granulomatose septique chronique (CGD)", gene: "CYBB / NCF1…", table: "V.3", status: "queue", reason: "Prototype phagocytaire, germes catalase+ & colite" },
+          { day: "J5", id: "digeorge", name: "Syndrome de DiGeorge (Del 22q11.2)", gene: "TBX1 / 22q11.2", table: "II.3", status: "queue", reason: "IEI syndromique la plus fréquente (1/4 000)" },
+          { day: "J6", id: "was", name: "Syndrome de Wiskott-Aldrich (WAS)", gene: "WAS", table: "II.1", status: "queue", reason: "Triade classique microthrombopénie-eczéma-infections" },
+          { day: "J7", id: "hies-stat3", name: "Hyper-IgE AD (Syndrome de Job)", gene: "STAT3 LOF", table: "II.5", status: "queue", reason: "Prototype axe Th17, pneumatocèles & abcès froids" }
+        ]
+      },
+      {
+        week: 2,
+        theme: "Déficits combinés majeurs, dysrégulation & auto-inflammation princeps",
+        items: [
+          { day: "J8", id: "scid-rag", name: "Déficits en RAG1/RAG2 (SCID T-B- & Omenn)", gene: "RAG1, RAG2", table: "I.2", status: "queue", reason: "Spectre allélique complet de SCID à auto-immunité" },
+          { day: "J9", id: "cid-cd40lg", name: "Syndrome d'hyper-IgM lié à l'X", gene: "CD40LG", table: "I.3", status: "queue", reason: "Coopération T-B, PJP, Cryptosporidium & cholangite" },
+          { day: "J10", id: "at-atm", name: "Ataxie-télangiectasie", gene: "ATM", table: "II.2", status: "queue", reason: "Prototype réparation ADN & radiosensibilité" },
+          { day: "J11", id: "scid-ada", name: "Déficit en ADA (ADA-SCID)", gene: "ADA", table: "I.2", status: "queue", reason: "SCID métabolique & succès de thérapie génique" },
+          { day: "J12", id: "apds", name: "Syndrome PI3Kδ activé (APDS1/2)", gene: "PIK3CD / PIK3R1", table: "III.2", status: "queue", reason: "Modèle de médecine de précision (léniolisib)" },
+          { day: "J13", id: "sigad", name: "Déficit sélectif en IgA (SIgAD)", gene: "Polygénique", table: "III.3", status: "queue", reason: "IEI la plus prévalente (1/500), pièges cliniques" },
+          { day: "J14", id: "fmf-mefv", name: "Fièvre méditerranéenne familiale (FMF)", gene: "MEFV", table: "VII.2", status: "queue", reason: "Maladie auto-inflammatoire monogénique #1" }
+        ]
+      },
+      {
+        week: 3,
+        theme: "Tregopathies, phénocopies adultes, complément & immunité innée",
+        items: [
+          { day: "J15", id: "vexas", name: "Syndrome VEXAS", gene: "UBA1 (somatique)", table: "X.1", status: "queue", reason: "Révolution des mutations somatiques chez l'adulte" },
+          { day: "J16", id: "hae-serping1", name: "Angiœdème héréditaire (C1-INH)", gene: "SERPING1", table: "VIII.1", status: "queue", reason: "Urgence vitale du complément, thérapies ciblées" },
+          { day: "J17", id: "ctla4", name: "Haploinsuffisance CTLA-4 & Déficit LRBA", gene: "CTLA4, LRBA", table: "IV.3", status: "queue", reason: "Points de contrôle immunitaires & abatacept" },
+          { day: "J18", id: "stat1-gof", name: "STAT1 Gain de fonction", gene: "STAT1 GOF", table: "VI.5", status: "queue", reason: "1re cause de CMC, JAK-inhibiteurs" },
+          { day: "J19", id: "gata2", name: "Déficit en GATA2 (MonoMAC)", gene: "GATA2", table: "IX.1", status: "queue", reason: "Interface immunologie / hématologie (SMD/LAM)" },
+          { day: "J20", id: "alps-fas", name: "Syndrome lymphoprolifératif auto-immun (ALPS)", gene: "FAS", table: "IV.4", status: "queue", reason: "Apoptose lymphocytaire & T doubles négatifs" },
+          { day: "J21", id: "ipex", name: "Syndrome IPEX", gene: "FOXP3", table: "IV.3", status: "queue", reason: "Prototype historique des Tregopathies" }
+        ]
+      }
+    ];
+
+    // ==================== QUIZ QUESTIONS (FICHE #001 XLA) ====================
+    const QUIZ_QUESTIONS = [
+      {
+        q: "[DICV / CVID] Une patiente de 34 ans suivie depuis 3 ans pour une « sarcoïdose » pulmonaire et ganglionnaire (nodules, verre dépoli, granulomes non nécrosants) présente 4 pneumonies en 18 mois. Quel examen simple aurait dû être réalisé dès le bilan initial ?",
+        options: [
+          "Dosage pondéral des immunoglobulines (IgG, IgA, IgM) pour dépister une GLILD sur DICV",
+          "Test à la sueur",
+          "Dosage de l'alpha-1-antitrypsine uniquement",
+          "Biopsie ostéomédullaire systématique"
+        ],
+        answer: 0,
+        explanation: "La GLILD du DICV mime parfaitement une sarcoïdose pulmonaire et ganglionnaire, mais s'accompagne d'une hypogammaglobulinémie (contrairement à l'hypergammaglobulinémie polyclonale classique de la sarcoïdose). Le dosage des Ig est indispensable devant toute suspicion de sarcoïdose."
+      },
+      {
+        q: "[DICV / CVID] Dans la cohorte longitudinale du Mount Sinai (Resnick et al., Blood 2012, n = 473), quel est l'impact pronostique des complications non infectieuses (lymphome, GLILD, hépatopathie, entéropathie) par rapport au phénotype purement infectieux ?",
+        options: [
+          "Aucun impact significatif depuis la généralisation des IgIV/IgSC",
+          "Un risque de mortalité multiplié par ~2",
+          "Un risque de mortalité multiplié par ~11 (HR = 10,95)",
+          "Un meilleur pronostic grâce au diagnostic plus précoce"
+        ],
+        answer: 2,
+        explanation: "Les complications non infectieuses / dysimmunitaires ne sont pas prévenues par les IgRT et multiplient le risque de décès par 11 (HR = 10,95 ; p < 0,0001) par rapport aux patients présentant un phénotype purement infectieux."
+      },
+      {
+        q: "[DICV / CVID] Quelle est la cause monogénique la plus fréquente de phénotype DICV chez l'adulte en Europe (identifiée par WGS dans Tuijnenburg et al., JACI 2018) ?",
+        options: [
+          "Déficit autosomique récessif en ICOS",
+          "Haploinsuffisance autosomique dominante de NFKB1 (p105/p50)",
+          "Déficit lié à l'X en BTK",
+          "Déficit autosomique récessif en CD19"
+        ],
+        answer: 1,
+        explanation: "Les variants perte de fonction hétérozygotes (haploinsuffisance AD à pénétrance incomplète) de NFKB1 constituent la 1re cause monogénique de DICV en Europe, avec un fort taux de splénomégalie (48 %) et d'auto-immunité (48 %)."
+      },
+      {
+        q: "[DICV / CVID] Un patient DICV présente une diarrhée chronique avec malabsorption. Les biopsies duodénales montrent une atrophie villositaire totale, mais les anticorps anti-transglutaminase sont négatifs et le régime sans gluten est inefficace. Quel élément histologique et quel pathogène devez-vous rechercher ?",
+        options: [
+          "Absence quasi-totale de plasmocytes dans la lamina propria + PCR selles pour norovirus chronique",
+          "Infiltrat massif à éosinophiles + sérologie ascaridiose",
+          "Présence de bacilles acido-alcoolo-résistants + sérologie Whipple",
+          "Hyperplasie des plasmocytes IgA+ + coproculture standard"
+        ],
+        answer: 0,
+        explanation: "L'atrophie villositaire avec absence de plasmocytes dans la lamina propria est quasi-pathognomonique de l'entéropathie CVID. Le norovirus chronique (~7–11 %) joue un rôle causal majeur via une cytotoxicité T CD8+ persistante."
+      },
+      {
+        q: "[DICV / CVID] Un homme de 42 ans suivi pour DICV développe une cholestase anictérique chronique (PAL/GGT élevées) et une thrombopénie progressive avec splénomégalie. Quelle complication hépatique typique du DICV faut-il suspecter ?",
+        options: [
+          "Une hépatite virale A chronique",
+          "Une hyperplasie nodulaire régénérative (NRH) compliquée d'hypertension portale non cirrhotique",
+          "Une hémochromatose secondaire aux perfusions d'IgIV",
+          "Un carcinome hépatocellulaire sur cirrhose alcoolique"
+        ],
+        answer: 1,
+        explanation: "La NRH est la première manifestation hépatique du DICV (10–15 %). Elle évolue vers une hypertension portale non cirrhotique (varices œsophagiennes, ascite) et doit être dépistée par bilan hépatique, échographie, élastométrie (FibroScan) et FOGD en cas d'HTP."
+      },
+      {
+        q: "Un garçon de 9 mois, sans antécédent familial, est hospitalisé pour un sepsis à Pseudomonas aeruginosa avec une neutropénie profonde (PNN 120/mm³). L'examen note des amygdales absentes. Quel bilan de première intention est le plus décisif ?",
+        options: [
+          "Dosage pondéral des IgG/IgA/IgM et immunophénotypage CD19+ (lymphocytes B)",
+          "Test DHR123 (explosion oxydative des neutrophiles)",
+          "Dosage du CH50 et des fractions C3/C4",
+          "Sérologies post-vaccinales anti-tétanos et anti-pneumocoque uniquement"
+        ],
+        answer: 0,
+        explanation: "La XLA (BTK) est sporadique dans 30–50 % des cas et se révèle par une neutropénie sévère transitoire dans 10–25 % des cas (souvent avec sepsis à Pseudomonas). L'absence d'amygdales oriente immédiatement vers une agammaglobulinémie : dosage des Ig + numération des CD19+ (< 2 %)."
+      },
+      {
+        q: "Un patient de 14 ans suivi pour une XLA (BTK) sous IgSC bien conduites développe une monoarthrite chronique du genou. Les ponctions articulaires montrent un liquide inflammatoire mais les cultures bactériennes standards restent stériles. Quel agent infectieux faut-il rechercher par PCR spécifique ?",
+        options: [
+          "Pneumocystis jirovecii",
+          "Mycoplasma ou Ureaplasma",
+          "Mycobacterium avium",
+          "Aspergillus fumigatus"
+        ],
+        answer: 1,
+        explanation: "Les patients atteints de XLA présentent une susceptibilité classique aux arthrites septiques érosives à Mycoplasma et Ureaplasma, qui ne poussent pas sur les milieux standards et nécessitent une PCR dédiée."
+      },
+      {
+        q: "Quel vaccin est STRICTEMENT contre-indiqué chez un patient atteint d'agammaglobulinémie liée à l'X en raison du risque de maladie vaccinale grave ou d'excrétion chronique ?",
+        options: [
+          "Vaccin antigrippal injectable inactivé",
+          "Vaccin anti-COVID-19 à ARNm",
+          "Vaccin antipoliomyélitique oral vivant atténué (VPO)",
+          "Vaccin antipneumococcique conjugué"
+        ],
+        answer: 2,
+        explanation: "Tous les vaccins vivants atténués — en particulier le polio oral (VPO) — sont contre-indiqués dans la XLA (risque de poliomyélite paralytique post-vaccinale et d'excrétion prolongée d'entérovirus). Les vaccins inactivés (grippe, COVID-19) sont sûrs et recommandés pour stimuler l'immunité T."
+      },
+      {
+        q: "Dans la physiopathologie de la XLA, à quel stade précis de la lymphopoïèse B survient le blocage médullaire dû au déficit en BTK ?",
+        options: [
+          "Cellule souche hématopoïétique → progéniteur lymphoïde commun",
+          "Transition pro-B → pré-B (défaut de signalisation du pré-BCR)",
+          "Commutation isotypique dans le centre germinatif (CD40/CD40L)",
+          "Différenciation terminale du lymphocyte B mémoire en plasmocyte"
+        ],
+        answer: 1,
+        explanation: "BTK est indispensable à la signalisation en aval du pré-BCR (phosphorylation de PLCγ2, flux calcique, NF-κB). Son absence bloque la maturation médullaire au stade pro-B → pré-B."
+      },
+      {
+        q: "D'après les travaux récents (Luthers & Kohn, Mol Ther Methods Clin Dev 2025), pourquoi l'édition génomique site-spécifique CRISPR-Cas9/rAAV6 au locus endogène BTK est-elle privilégiée face à l'addition génique lentivirale classique ?",
+        options: [
+          "Parce que les vecteurs lentiviraux ne peuvent pas infecter les cellules CD34+ humaines",
+          "Pour préserver la régulation physiologique lignée-spécifique de BTK et éviter le risque oncogénique lié à sa surexpression ou expression ectopique",
+          "Parce que la XLA est une maladie autosomique dominante nécessitant d'inactiver l'allèle muté",
+          "Parce que CRISPR-Cas9 supprime le besoin d'avantage sélectif des cellules B corrigées"
+        ],
+        answer: 1,
+        explanation: "La surexpression ou l'activation constitutive de BTK est impliquée dans les lymphopathies B (LLC, lymphome du manteau). L'insertion site-spécifique au locus endogène conserve le contrôle transcriptionnel physiologique tout en profitant de l'avantage sélectif splénique des précurseurs B corrigés."
+      }
+    ];
+
+    // ==================== STATE & RENDERING ====================
+    let currentFilter = 'all';
+    let openTables = new Set(['III', 'I']);
+    let quizAnswers = {};
+
+    function switchTab(tab) {
+      ['taxonomy', 'queue', 'article', 'quiz'].forEach(t => {
+        document.getElementById('view-' + t).classList.toggle('hidden', t !== tab);
+        const btn = document.getElementById('tab-' + t);
+        btn.classList.toggle('tab-active', t === tab);
+        btn.classList.toggle('tab-inactive', t !== tab);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setFilter(flt) {
+      currentFilter = flt;
+      ['all', 'done', 'queue', 'new2024'].forEach(f => {
+        const btn = document.getElementById('flt-' + f);
+        btn.classList.toggle('tab-active', f === flt);
+        btn.classList.toggle('tab-inactive', f !== flt);
+      });
+      if (flt !== 'all') {
+        IUIS_TABLES.forEach(t => openTables.add(t.id));
+      }
+      renderTaxonomy();
+    }
+
+    function toggleTable(id) {
+      if (openTables.has(id)) openTables.delete(id);
+      else openTables.add(id);
+      renderTaxonomy();
+    }
+
+    function statusBadge(entry) {
+      let badges = '';
+      if (entry.status === 'done') {
+        badges += '<span class="badge-done px-2 py-0.5 rounded text-xs font-medium">Synthétisée</span>';
+      } else if (entry.status === 'queue') {
+        badges += `<span class="badge-queue px-2 py-0.5 rounded text-xs font-medium">File S${entry.week} (#${entry.priority})</span>`;
+      } else {
+        badges += '<span class="badge-pending px-2 py-0.5 rounded text-xs">À synthétiser</span>';
+      }
+      if (entry.isNew2024) {
+        badges += ' <span class="badge-new2024 px-1.5 py-0.5 rounded text-xs font-medium">2024</span>';
+      }
+      return badges;
+    }
+
+    function renderTaxonomy() {
+      const q = (document.getElementById('search-input').value || '').trim().toLowerCase();
+      const container = document.getElementById('taxonomy-container');
+      let html = '';
+
+      IUIS_TABLES.forEach(tbl => {
+        // Filter entries
+        const filteredSubs = tbl.subtables.map(sub => {
+          const entries = sub.entries.filter(e => {
+            if (currentFilter === 'done' && e.status !== 'done') return false;
+            if (currentFilter === 'queue' && e.status !== 'queue' && e.status !== 'done') return false;
+            if (currentFilter === 'new2024' && !e.isNew2024) return false;
+            if (!q) return true;
+            return (
+              e.name.toLowerCase().includes(q) ||
+              e.gene.toLowerCase().includes(q) ||
+              (e.omim || '').toLowerCase().includes(q) ||
+              tbl.title.toLowerCase().includes(q) ||
+              sub.name.toLowerCase().includes(q)
+            );
+          });
+          return { ...sub, entries };
+        }).filter(sub => sub.entries.length > 0);
+
+        if (filteredSubs.length === 0) return;
+
+        const isOpen = q.length > 0 || openTables.has(tbl.id);
+        const doneCount = tbl.subtables.flatMap(s => s.entries).filter(e => e.status === 'done').length;
+
+        html += `
+          <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden">
+            <button onclick="toggleTable('${tbl.id}')" class="w-full px-4 py-3 flex items-center justify-between gap-3 text-left hover:bg-[var(--secondary)] transition cursor-pointer">
+              <div class="min-w-0">
+                <div class="text-sm font-semibold text-[var(--foreground)]">${tbl.title}</div>
+                <div class="text-xs text-[var(--muted-foreground)] mt-0.5">${tbl.enTitle}</div>
+              </div>
+              <div class="flex items-center gap-2 shrink-0 text-xs">
+                <span class="font-mono px-2 py-0.5 rounded bg-[var(--background)] border border-[var(--card-border)] text-[var(--muted-foreground)]">${tbl.totalEntries} entrées IUIS</span>
+                ${doneCount > 0 ? `<span class="badge-done px-2 py-0.5 rounded font-mono font-medium">${doneCount} fiche</span>` : ''}
+                <span class="text-[var(--muted-foreground)] font-mono">${isOpen ? '−' : '+'}</span>
+              </div>
+            </button>
+            ${isOpen ? `
+              <div class="border-t border-[var(--card-border)] p-4 space-y-4">
+                ${filteredSubs.map(sub => `
+                  <div class="space-y-2">
+                    <div class="text-xs font-semibold text-[var(--muted-foreground)] flex items-center gap-2">
+                      <span class="font-mono text-[var(--primary)]">${sub.code}</span>
+                      <span>${sub.name}</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      ${sub.entries.map(e => `
+                        <div onclick="openEntry('${e.id}')" class="p-3 rounded-lg bg-[var(--background)] border border-[var(--card-border)] hover:border-[var(--primary)] transition cursor-pointer flex flex-col justify-between gap-2">
+                          <div class="flex items-start justify-between gap-2">
+                            <div class="font-medium text-xs sm:text-sm text-[var(--foreground)]">${e.name}</div>
+                            <div class="shrink-0 flex items-center gap-1">${statusBadge(e)}</div>
+                          </div>
+                          <div class="text-xs text-[var(--muted-foreground)] line-clamp-2">${e.summary}</div>
+                          <div class="flex items-center justify-between text-xs pt-1 border-t border-[var(--card-border)]">
+                            <span class="font-mono italic text-[var(--foreground)]">${e.gene}</span>
+                            <span class="font-mono text-[var(--muted-foreground)]">${e.inh} · OMIM ${e.omim}</span>
+                          </div>
+                        </div>
+                      `).join('')}
+                    </div>
+                  </div>
+                `).join('')}
+                <div class="text-xs text-[var(--muted-foreground)] italic pt-1">
+                  Aperçu des entités phares et nouveautés 2024 de la Table ${tbl.id} (${tbl.totalEntries} entrées au total dans le rapport IUIS 2024 — toutes seront indexées et synthétisées progressivement).
+                </div>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      });
+
+      if (!html) {
+        html = `<div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-8 text-center text-sm text-[var(--muted-foreground)]">Aucune IEI ne correspond à votre recherche.</div>`;
+      }
+      container.innerHTML = html;
+    }
+
+    function renderQueue() {
+      const container = document.getElementById('queue-container');
+      container.innerHTML = PRIORITY_WEEKS.map(w => `
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden">
+          <div class="px-4 py-3 bg-[var(--secondary)] border-b border-[var(--card-border)] flex flex-wrap items-center justify-between gap-2">
+            <div class="text-sm font-semibold text-[var(--foreground)]">Semaine ${w.week} — ${w.theme}</div>
+            <span class="text-xs font-mono text-[var(--muted-foreground)]">7 fiches + Quiz (5 récentes + 5 rétrospectives)</span>
+          </div>
+          <div class="divide-y divide-[var(--card-border)]">
+            ${w.items.map(it => `
+              <div onclick="openEntry('${it.id}')" class="px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-[var(--background)] transition cursor-pointer">
+                <div class="flex items-start sm:items-center gap-3">
+                  <span class="font-mono text-xs font-semibold px-2 py-0.5 rounded bg-[var(--secondary)] text-[var(--primary)] shrink-0">${it.day}</span>
+                  <div>
+                    <div class="text-sm font-medium text-[var(--foreground)]">${it.name} <span class="font-mono italic text-xs text-[var(--muted-foreground)]">(${it.gene})</span></div>
+                    <div class="text-xs text-[var(--muted-foreground)]">${it.reason}</div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                  <span class="font-mono text-xs text-[var(--muted-foreground)]">Table ${it.table}</span>
+                  ${it.status === 'done'
+                    ? '<span class="badge-done px-2 py-0.5 rounded text-xs font-medium">Lire la fiche →</span>'
+                    : '<span class="badge-pending px-2 py-0.5 rounded text-xs">Planifiée</span>'}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function findEntryById(id) {
+      for (const tbl of IUIS_TABLES) {
+        for (const sub of tbl.subtables) {
+          for (const e of sub.entries) {
+            if (e.id === id) return { entry: e, table: tbl, sub };
+          }
+        }
+      }
+      return null;
+    }
+
+    let currentFiche = 'cvid';
+
+    function selectFiche(id) {
+      currentFiche = id;
+      ['xla-btk', 'cvid'].forEach(f => {
+        const el = document.getElementById('fiche-' + f);
+        const btn = document.getElementById('btn-fiche-' + f);
+        if (el) el.classList.toggle('hidden', f !== id);
+        if (btn) {
+          btn.classList.toggle('tab-active', f === id);
+          btn.classList.toggle('tab-inactive', f !== id);
+        }
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openArticle(id) {
+      selectFiche(id || currentFiche);
+      switchTab('article');
+    }
+
+    function openEntry(id) {
+      if (id === 'xla-btk' || id === 'cvid') {
+        openArticle(id);
+        return;
+      }
+      const found = findEntryById(id);
+      if (!found) return;
+      document.getElementById('modal-table').textContent = `Table ${found.table.id} · Sous-table ${found.sub.code} (${found.sub.name})`;
+      document.getElementById('modal-name').textContent = found.entry.name;
+      document.getElementById('modal-gene').textContent = found.entry.gene;
+      document.getElementById('modal-inh').textContent = `${found.entry.inh} · OMIM ${found.entry.omim}`;
+      document.getElementById('modal-note').textContent = found.entry.summary;
+      document.getElementById('modal-prompt').textContent = `"Fais-moi la fiche de synthèse sur : ${found.entry.name}"`;
+      document.getElementById('iei-modal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      document.getElementById('iei-modal').classList.add('hidden');
+    }
+
+    function renderQuiz() {
+      const container = document.getElementById('quiz-container');
+      let score = 0;
+      container.innerHTML = QUIZ_QUESTIONS.map((item, idx) => {
+        const chosen = quizAnswers[idx];
+        const answered = chosen !== undefined;
+        if (answered && chosen === item.answer) score++;
+
+        return `
+          <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 sm:p-5 space-y-3">
+            <div class="flex items-start gap-2.5">
+              <span class="font-mono text-xs font-semibold px-2 py-0.5 rounded bg-[var(--secondary)] text-[var(--primary)] shrink-0">Q${idx + 1}</span>
+              <p class="text-sm font-medium text-[var(--foreground)] leading-snug">${item.q}</p>
+            </div>
+            <div class="space-y-2">
+              ${item.options.map((opt, oIdx) => {
+                let cls = 'quiz-opt w-full text-left px-3.5 py-2.5 rounded-lg border border-[var(--border)] bg-[var(--background)] text-xs sm:text-sm cursor-pointer';
+                if (answered) {
+                  if (oIdx === item.answer) cls += ' quiz-correct font-medium';
+                  else if (oIdx === chosen) cls += ' quiz-wrong';
+                }
+                return `<button onclick="answerQuiz(${idx}, ${oIdx})" ${answered ? 'disabled' : ''} class="${cls}">${opt}</button>`;
+              }).join('')}
+            </div>
+            ${answered ? `
+              <div class="p-3 rounded-lg bg-[var(--secondary)] text-xs text-[var(--foreground)] leading-relaxed">
+                <strong>Explication :</strong> ${item.explanation}
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
+      document.getElementById('quiz-score').textContent = `Score : ${score} / ${QUIZ_QUESTIONS.length}`;
+    }
+
+    function answerQuiz(qIdx, oIdx) {
+      quizAnswers[qIdx] = oIdx;
+      renderQuiz();
+    }
+
+    function resetQuiz() {
+      quizAnswers = {};
+      renderQuiz();
+    }
+
+    // Close modal on backdrop click
+    document.getElementById('iei-modal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    // Initial render
+    renderTaxonomy();
+    renderQueue();
+    renderQuiz();
+    openArticle('cvid');
+  </script>
+</body>
+</html>
