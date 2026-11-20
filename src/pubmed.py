@@ -100,12 +100,15 @@ def fetch_recent_immunology_papers(days: int = 7, max_results: int = 60) -> List
         journal = article_node.findtext(".//Journal/Title", default="Revue inconnue").strip()
         pmid = article_node.findtext(".//MedlineCitation/PMID", default="").strip()
 
-        # Récupération du DOI si disponible
+        # Récupération du DOI et du PMCID (si Open Access)
         doi = ""
+        pmcid = ""
         for article_id in article_node.findall(".//ArticleId"):
-            if article_id.get("IdType") == "doi":
+            id_type = article_id.get("IdType")
+            if id_type == "doi" and not doi:
                 doi = article_id.text or ""
-                break
+            elif id_type == "pmc" and not pmcid:
+                pmcid = article_id.text or ""
 
         url = f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/" if pmid else (f"https://doi.org/{doi}" if doi else "")
 
@@ -113,6 +116,7 @@ def fetch_recent_immunology_papers(days: int = 7, max_results: int = 60) -> List
         if abstract and len(abstract) > 100:
             articles.append({
                 "pmid": pmid,
+                "pmcid": pmcid,
                 "doi": doi,
                 "title": title,
                 "journal": journal,

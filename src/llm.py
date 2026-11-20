@@ -1,15 +1,19 @@
 """
 Module d'analyse, classification et synthèse par LLM (Gemini / OpenAI).
-Gère la classification IUIS stricte, la structuration par pathologie,
-et l'écriture du script de podcast audio en français.
+Gère :
+  - Le filtrage strict sur les revues à fort impact (IF > 10 + Journal of Human Immunity)
+  - La rédaction au format exact « Inbox Immunologie » (3 Take-Home Messages, Contexte,
+    Principales conclusions, Implications en pratique clinique)
+  - Le mapping exact vers la base Notion « 🧬 Maladies IUIS 2024 » (617 entrées) ou les 12 dossiers thématiques
+  - L'écriture du script de podcast audio expert en français
 """
 
 import json
 import os
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Tuple
 
 
-# Liste canonique des sections selon la classification officielle IUIS
+# Liste canonique des sections pour le dossier "Veille immunologie"
 IUIS_SECTIONS = [
     "Déficits immunitaires combinés",
     "Déficits immunitaires avec anomalies syndromiques",
@@ -23,12 +27,46 @@ IUIS_SECTIONS = [
 ]
 
 
-def synthesize_and_classify(articles: List[Dict]) -> Tuple[List[Dict], str, str]:
+def _format_iuis_catalog(iuis_rows: Optional[List[Dict]], thematic_folders: Optional[Dict[str, str]]) -> str:
+    parts = []
+    if iuis_rows:
+        lines = [
+            f"{r['id']} | {r['title']} | Gene: {r.get('gene', '') or '-'} | {r.get('table', '')}"
+            for r in iuis_rows
+        ]
+        parts.append("=== BASE '🧬 Maladies IUIS 2024' (format: ID | Maladie | Gene | Table IUIS) ===\n" + "\n".join(lines))
+    if thematic_folders:
+        flines = [f"{fid} | {fname}" for fname, fid in thematic_folders.items()]
+        parts.append("=== DOSSIERS THÉMATIQUES (pour articles transversaux hors maladie unique) ===\n" + "\n".join(flines))
+    return "\n\n".join(parts)
+
+
+def _enrich_pubmed_metadata(classified: List[Dict], raw_articles: List[Dict]) -> List[Dict]:
+    """Réinjecte pmcid/doi depuis les articles PubMed bruts au cas où le LLM les omettrait."""
+    by_url = {a.get("url", ""): a for a in raw_articles if a.get("url")}
+    by_title = {a.get("title", "").lower().strip(): a for a in raw_articles if a.get("title")}
+    for item in classified:
+        src = by_url.get(item.get("url", "")) or by_title.get((item.get("original_title") or "").lower().strip())
+        if src:
+            if not item.get("pmcid") and src.get("pmcid"):
+                item["pmcid"] = src["pmcid"]
+            if not item.get("doi") and src.get("doi"):
+                item["doi"] = src["doi"]
+            if not item.get("url") and src.get("url"):
+                item["url"] = src["url"]
+    return classified
+
+
+def synthesize_and_classify(
+    articles: List[Dict],
+    iuis_rows: Optional[List[Dict]] = None,
+    thematic_folders: Optional[Dict[str, str]] = None,
+) -> Tuple[List[Dict], str, str]:
     """
     Analyse les articles avec Gemini (ou OpenAI si configuré).
     Retourne :
-      - classified_articles : liste d'articles classifiés (section, maladie, synthèse clinique)
-      - audio_script : script du podcast oralisé en français
+      - classified_articles : liste d'articles au format complet Inbox Immunologie + mapping IUIS 2024
+      - audio_script : script du podcast oralisé en français (niveau expert)
       - weekly_overview : vue d'ensemble écrite de la semaine
     """
     if not articles:
@@ -36,6 +74,7 @@ def synthesize_and_classify(articles: List[Dict]) -> Tuple[List[Dict], str, str]
 
     gemini_key = os.getenv("GEMINI_API_KEY")
     openai_key = os.getenv("OPENAI_API_KEY")
+    catalog_text = _format_iuis_catalog(iuis_rows, thematic_folders)
 
     prompt = f"""
 Tu es un médecin spécialiste de référence en immunologie clinique pédiatrique et adulte,
@@ -43,6 +82,8 @@ expert international des erreurs innées de l'immunité (DIP/IEI) et des patholo
 
 Voici la liste des articles scientifiques récents ({len(articles)} articles) récupérés sur PubMed :
 {json.dumps(articles, indent=2, ensure_ascii=False)}
+
+{catalog_text}
 
 Effectue une sélection et une analyse rigoureuses respectant les contraintes suivantes :
 
@@ -54,36 +95,43 @@ Ne retiens QUE les articles parus dans :
    - J Allergy Clin Immunol (JACI), Blood, Annals of the Rheumatic Diseases (ARD)
    - Nature Medicine, Journal of Clinical Investigation (JCI), Science Translational Medicine
    - Lancet Rheumatology, Nature Communications, Leukemia, Gut, Gastroenterology
-2. OU la revue spécialisée "Journal of Human Immunity" (ou "Human Immunology").
-ÉCARTE SYSTÉMATIQUEMENT toutes les revues avec un IF < 10 (exclure les revues de case reports mineurs comme 'Journal of Medical Case Reports', les revues prédatrices ou secondaires).
+2. OU la revue spécialisée "Journal of Human Immunity" (ou "Human Immunology" / "Journal of Clinical Immunology" si proche du seuil).
+ÉCARTE SYSTÉMATIQUEMENT toutes les revues mineures (exclure les journaux de case reports de bas rang comme 'Journal of Medical Case Reports', les revues prédatrices ou secondaires).
 Si aucun article de la semaine ne dépasse IF > 10, sélectionne les 2 à 3 meilleures études des revues de référence les plus proches de ce seuil.
 
-Effectue une analyse approfondie et produis un objet JSON contenant :
+Effectue une analyse approfondie au STANDARD EXACT DE LA BIBLIOTHÈQUE « 🛡️ Immunologie » et produis un objet JSON contenant :
 
 1. "classified_articles" : Liste des articles sélectionnés (idéalement 3 à 7 articles de haute volée).
-   Pour chaque article :
-   - "title": Titre clair en français
-   - "original_title": Titre original
+   Pour CHAQUE article :
+   - "title": Titre scientifique complet et propre en français
+   - "original_title": Titre original exact de PubMed
    - "journal": Revue de publication
-   - "impact_factor_est": Estimation de l'Impact Factor (ex: "IF ~14", "IF > 20")
-   - "url": URL PubMed ou DOI
-   - "section": DOIT ÊTRE STRICTEMENT l'une des catégories IUIS suivantes :
+   - "impact_factor_est": Estimation de l'Impact Factor (ex: "IF ~16", "IF > 20")
+   - "url": URL PubMed exacte
+   - "doi": DOI si disponible (sinon "")
+   - "pmcid": PMCID si disponible (sinon "")
+   - "section": DOIT ÊTRE STRICTEMENT l'une des catégories suivantes (pour le dossier Veille immunologie) :
 {json.dumps(IUIS_SECTIONS, indent=4, ensure_ascii=False)}
    - "disease_or_topic": Nom canonique et précis de la pathologie en français (ex: "Syndrome de Wiskott-Aldrich", "Déficit en ADA2 (DADA2)", "Syndrome VEXAS", "FMF", "DICV").
-   - "take_home_message": LE message clé pratique et immédiat pour le clinicien (1 à 2 phrases percutantes, actionnables).
-   - "main_conclusions": Les 2 ou 3 conclusions majeures démontrées dans l'étude (résultats chiffrés, cohorte, mécanisme prouvé).
-   - "clinical_impact": Implications concrètes en pratique (diagnostic précoce, nouvelle cible moléculaire, posologie/biothérapie, pronostic).
+   - "take_home_messages": Liste de EXACTEMENT 3 points clés cliniques percutants et directement actionnables (format court, concret).
+   - "context": Contexte physiopathologique, gène/voie moléculaire impliquée et objectif de l'étude (2 à 3 phrases précises).
+   - "key_findings": Liste de 3 à 4 conclusions majeures / résultats chiffrés ou mécanismes démontrés dans l'étude.
+   - "clinical_practice": Implications concrètes pour le diagnostic, le bilan biologique/génétique (NGS, tests fonctionnels) et la prise en charge thérapeutique (2 à 3 phrases).
    - "gene_pathway": Gène(s) muté(s) et voie de signalisation intracellulaire.
+   - "iuis_dest_id": L'ID EXACT (UUID) copié depuis la BASE '🧬 Maladies IUIS 2024' ci-dessus si l'article porte sur une maladie/gène/groupe immunologique, OU depuis les DOSSIERS THÉMATIQUES si l'article est transversal (hors maladie spécifique).
+   - "iuis_dest_type": "iuis_row" (si l'ID vient de la base IUIS 2024) ou "thematic_folder" (si l'ID vient d'un dossier thématique).
+   - "iuis_dest_name": Nom exact de la maladie IUIS ou du dossier thématique correspondant à cet ID.
+   - "iuis_table_name": Nom exact de la Table IUIS (ex: "07. Autoinflammatory disorders") si iuis_dest_type == "iuis_row", sinon "".
 
 2. "weekly_overview": Vue d'ensemble synthétique des grandes tendances de la semaine (format Markdown).
 
 3. "audio_script": Script de podcast audio de HAUT NIVEAU MÉDICAL (destiné aux immunologistes, internistes et hématologues) :
    - Ton : Rigueur académique, direct, professionnel, rythmé et captivant.
-   - Pas de vulgarisation simpliste : utiliser la terminologie exacte (cytokines, récepteurs, voies JAK/STAT, inflammasomes NLRP3, voies NF-kB, etc.).
+   - Pas de vulgarisation simpliste : utiliser la terminologie exacte (cytokines, récepteurs, voies JAK/STAT, inflammasomes NLRP3, voies NF-kB, panels NGS, etc.).
    - Structure pour chaque article présenté :
      a. L'enjeu clinique ou physiopathologique
-     b. Les principales conclusions
-     c. Le "Take-Home Message" explicite pour la pratique courante.
+     b. Les principales conclusions démontrées
+     c. Les "Take-Home Messages" explicites pour la pratique courante.
    - Durée : environ 5 à 7 minutes de parole fluide.
 
 RÉPONDS EXCLUSIVEMENT AVEC UN OBJET JSON VALIDE respectant ce schéma :
@@ -95,20 +143,19 @@ RÉPONDS EXCLUSIVEMENT AVEC UN OBJET JSON VALIDE respectant ce schéma :
 """
 
     if gemini_key:
-        print("🧠 Analyse et synthèse via Gemini API...")
+        print("🧠 Analyse, synthèse Inbox-grade & mapping IUIS 2024 via Gemini API...")
         try:
             from google import genai
             client = genai.Client(api_key=gemini_key)
-            
-            # Modèles disponibles selon l'état du serveur
+
             candidate_models = [
                 "gemini-3.1-flash-lite",
                 "gemini-3.8-flash",
                 "gemini-3.1-pro-preview",
                 "gemini-flash-latest",
-                "gemini-pro-latest"
+                "gemini-pro-latest",
             ]
-            
+
             response = None
             last_err = None
             for model_name in candidate_models:
@@ -117,7 +164,7 @@ RÉPONDS EXCLUSIVEMENT AVEC UN OBJET JSON VALIDE respectant ce schéma :
                     res = client.models.generate_content(
                         model=model_name,
                         contents=prompt,
-                        config={"response_mime_type": "application/json"}
+                        config={"response_mime_type": "application/json"},
                     )
                     if res and res.text:
                         response = res
@@ -127,11 +174,10 @@ RÉPONDS EXCLUSIVEMENT AVEC UN OBJET JSON VALIDE respectant ce schéma :
                     print(f"   ⚠️ Échec sur {model_name} : {model_err}")
                     last_err = model_err
                     continue
-            
+
             if not response or not response.text:
                 raise last_err or RuntimeError("Aucune réponse générée par Gemini.")
 
-            # Nettoyage au cas où des backticks markdown entourent le JSON
             raw_text = response.text.strip()
             if raw_text.startswith("```json"):
                 raw_text = raw_text[7:]
@@ -142,10 +188,11 @@ RÉPONDS EXCLUSIVEMENT AVEC UN OBJET JSON VALIDE respectant ce schéma :
             raw_text = raw_text.strip()
 
             data = json.loads(raw_text)
+            classified = _enrich_pubmed_metadata(data.get("classified_articles", []), articles)
             return (
-                data.get("classified_articles", []),
+                classified,
                 data.get("audio_script", ""),
-                data.get("weekly_overview", "")
+                data.get("weekly_overview", ""),
             )
         except Exception as e:
             print(f"⚠️ Erreur avec google-genai : {e}")
@@ -155,24 +202,27 @@ RÉPONDS EXCLUSIVEMENT AVEC UN OBJET JSON VALIDE respectant ce schéma :
         import urllib.request
         headers = {
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {openai_key}"
+            "Authorization": f"Bearer {openai_key}",
         }
         body = {
             "model": "gpt-4o",
             "messages": [{"role": "user", "content": prompt}],
-            "response_format": {"type": "json_object"}
+            "response_format": {"type": "json_object"},
         }
-        req = urllib.request.Request("https://api.openai.com/v1/chat/completions",
-                                     data=json.dumps(body).encode("utf-8"),
-                                     headers=headers)
+        req = urllib.request.Request(
+            "https://api.openai.com/v1/chat/completions",
+            data=json.dumps(body).encode("utf-8"),
+            headers=headers,
+        )
         with urllib.request.urlopen(req) as response:
             res_body = json.loads(response.read().decode("utf-8"))
             content = res_body["choices"][0]["message"]["content"]
             data = json.loads(content)
+            classified = _enrich_pubmed_metadata(data.get("classified_articles", []), articles)
             return (
-                data.get("classified_articles", []),
+                classified,
                 data.get("audio_script", ""),
-                data.get("weekly_overview", "")
+                data.get("weekly_overview", ""),
             )
 
     if not gemini_key and not openai_key:
@@ -182,43 +232,31 @@ RÉPONDS EXCLUSIVEMENT AVEC UN OBJET JSON VALIDE respectant ce schéma :
                 "title": "Thérapie génique lentivirale pour le syndrome de Wiskott-Aldrich : Résultats cliniques et immunologiques à long terme",
                 "original_title": articles[0].get("title", ""),
                 "journal": articles[0].get("journal", "Blood"),
+                "impact_factor_est": "IF ~21",
                 "url": articles[0].get("url", ""),
-                "section": "Déficits immunitaires combinés",
+                "section": "Déficits immunitaires avec anomalies syndromiques",
                 "disease_or_topic": "Syndrome de Wiskott-Aldrich",
-                "gene_pathway": "Gène WAS (Xp11.23), régulateur de la polymérisation de l'actine et du cytosquelette.",
-                "findings": "Survie globale de 94 % sur 8,5 ans de suivi après thérapie génique lentivirale autologue. Correction stable de la microthrombopénie et résolution durable de l'eczéma et des infections sévères.",
-                "clinical_impact": "Confirme la thérapie génique comme alternative thérapeutique pérenne et sécurisée à la greffe de moelle osseuse allogénique (sans maladie du greffon contre l'hôte)."
+                "take_home_messages": [
+                    "La thérapie génique lentivirale autologue offre une survie globale de 94 % à 8,5 ans dans le syndrome de Wiskott-Aldrich.",
+                    "Reconstitution hématopoïétique polyclonale stable sans oncogenèse insertionnelle ni maladie du greffon contre l'hôte.",
+                    "Alternative pérenne de choix chez les patients sans donneur HLA-identique.",
+                ],
+                "context": "Le syndrome de Wiskott-Aldrich (gène WAS, Xp11.23) associe microthrombopénie, eczéma, infections sévères et auto-immunité. Cette étude multicentrique évalue la sécurité et l'efficacité à long terme d'un vecteur lentiviral autologue.",
+                "key_findings": [
+                    "Cohorte de 35 patients suivis sur une médiane de 8,5 ans (survie globale : 94 %).",
+                    "Amélioration durable du taux plaquettaire et disparition des infections sévères et de l'eczéma.",
+                    "Absence de dominance clonale ou de leucémogenèse à l'analyse des sites d'intégration.",
+                ],
+                "clinical_practice": "Positionne la thérapie génique lentivirale comme une option curative validée à long terme dans le WAS en l'absence de donneur géno-identique.",
+                "gene_pathway": "Gène WAS (Xp11.23) / Polymérisation de l'actine et cytosquelette.",
+                "iuis_dest_id": "",
+                "iuis_dest_type": "iuis_row",
+                "iuis_dest_name": "Wiskott-Aldrich syndrome",
+                "iuis_table_name": "02. CID with syndromic features",
             }
         ]
-        if len(articles) > 1:
-            mock_classified.append({
-                "title": "L'inhibition précoce du TNF prévient les AVC ischémiques récurrents dans le déficit en adénosine désaminase 2 (DADA2)",
-                "original_title": articles[1].get("title", ""),
-                "journal": articles[1].get("journal", "JACI"),
-                "url": articles[1].get("url", ""),
-                "section": "Maladies auto-inflammatoires",
-                "disease_or_topic": "Déficit en ADA2 (DADA2)",
-                "gene_pathway": "Gène ADA2 (CECR1, 22q11.1), différenciation macrophagique et intégrité endothéliale.",
-                "findings": "Zéro récidive d'accident vasculaire cérébral après initiation des anti-TNF (adalimumab/étanercept) sur 180 patients-années, contre 1,8 AVC/an avant traitement.",
-                "clinical_impact": "Les anti-TNF constituent le traitement de référence de première intention pour neutraliser le risque neurovasculaire létal chez les patients pédiatriques atteints de DADA2."
-            })
-        
-        mock_overview = (
-            "Cette semaine met en lumière des avancées thérapeutiques majeures : la confirmation à très long terme (8 ans) "
-            "de l'efficacité de la thérapie génique dans le syndrome de Wiskott-Aldrich, et le rôle protecteur absolu des anti-TNF "
-            "face au risque d'AVC dans le déficit en ADA2 (DADA2)."
-        )
-        mock_script = (
-            "Bonjour et bienvenue dans votre point de veille hebdomadaire en immunologie clinique et maladies auto-inflammatoires. "
-            "Au programme cette semaine : deux avancées thérapeutiques déterminantes. "
-            "D'abord, dans les déficits immunitaires combinés, une étude majeure publiée dans Blood confirme l'efficacité durable à plus de 8 ans "
-            "de la thérapie génique lentivirale autologue pour les enfants atteints du syndrome de Wiskott-Aldrich. Les plaquettes se normalisent "
-            "et les épisodes infectieux sévères disparaissent sans risque de maladie du greffon. "
-            "Ensuite, du côté des maladies auto-inflammatoires, le Journal of Allergy and Clinical Immunology rapporte une cohorte pédiatrique "
-            "dans le déficit en adénosine désaminase 2, le DADA2. L'instauration précoce d'un anti-TNF comme l'adalimumab a totalement éliminé "
-            "le risque d'accident vasculaire cérébral ischémique récidivant. "
-            "Merci pour votre écoute, et à la semaine prochaine pour de nouvelles découvertes scientifiques."
-        )
+        mock_overview = "Confirmation à long terme (8,5 ans) de l'efficacité et de la sécurité de la thérapie génique dans le syndrome de Wiskott-Aldrich."
+        mock_script = "Bonjour à tous. Cette semaine, Blood confirme les résultats à plus de 8 ans de la thérapie génique lentivirale dans le syndrome de Wiskott-Aldrich."
         return mock_classified, mock_script, mock_overview
 
     raise ValueError("Aucune clé API configurée. Veuillez renseigner GEMINI_API_KEY ou OPENAI_API_KEY.")

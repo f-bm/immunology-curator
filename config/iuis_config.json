@@ -1,0 +1,30 @@
+{
+  "iuis_db_id": "41e27562-91a0-81de-ae73-dbd4df2eb6b9",
+  "iuis_ds_id": "41e27562-91a0-81cd-9bf2-000b6e3838ae",
+  "section_pages": {
+    "01. Combined immunodeficiencies": "41d27562-91a0-8133-94ab-d36954e28cd5",
+    "02. CID with syndromic features": "41d27562-91a0-8123-8add-f66a27ac18a4",
+    "03. Predominantly antibody deficiencies": "41d27562-91a0-8146-9bdc-df27a90626d2",
+    "04. Diseases of immune dysregulation": "41d27562-91a0-8102-bdbc-d7ac07082f46",
+    "05. Congenital defects of phagocytes": "41d27562-91a0-8189-aacf-e961b1d3bbe4",
+    "06. Defects in intrinsic & innate immunity": "41d27562-91a0-8192-8af5-e20be6ef3ee3",
+    "07. Autoinflammatory disorders": "41d27562-91a0-8194-b8c1-e8dc6a22ea7a",
+    "08. Complement deficiencies": "41d27562-91a0-81d6-ac1a-c75867312a9c",
+    "09. Bone marrow failure": "41d27562-91a0-8108-b0fa-edee75dfb501",
+    "10. Phenocopies of IEI": "41d27562-91a0-81a1-a9ff-f4990e2d8aa6"
+  },
+  "thematic_folders": {
+    "Génétique & Biologie moléculaire (Articles & Guidelines)": "41e27562-91a0-81cc-9d67-cac74f9004a7",
+    "Explorations — Cytométrie en flux & Tests immunologiques": "41e27562-91a0-8142-99df-fa01456d9ad8",
+    "Explorations — Bilans d'immunodéficience & Hypogammaglobulinémie": "41e27562-91a0-81da-a4ad-d18bd7acd63c",
+    "Thérapeutiques — Inhibiteurs de JAK (JAKi)": "41e27562-91a0-81d2-866c-c0ddbddd716f",
+    "Thérapeutiques — Immunoglobulines (IVIg / SCIg)": "41e27562-91a0-8194-aedd-d2c4b770c1c6",
+    "Thérapeutiques — Greffe de CSH (GMO / HSCT) & Greffe": "41e27562-91a0-81b6-8d36-c7951ab18688",
+    "Thérapeutiques — Thérapie génique & Thérapies cellulaires": "41e27562-91a0-81d8-b7e1-e53b3bad68d1",
+    "Thérapeutiques — Immunosuppresseurs & Biothérapies ciblées": "41e27562-91a0-812f-9392-ea66426f3a71",
+    "Thérapeutiques — Prophylaxies anti-infectieuses & Vaccinations": "41e27562-91a0-812a-ad43-d10585d142d9",
+    "Immunologie fondamentale — Classifications IUIS & Registres ESID": "41e27562-91a0-81dd-b689-d4f679586cd6",
+    "Immunologie fondamentale — Susceptibilité aux infections": "41e27562-91a0-8189-9860-f8ebd23bb537",
+    "Santé publique, Éthique & Société": "41d27562-91a0-8131-b592-deb66cb14db7"
+  }
+}

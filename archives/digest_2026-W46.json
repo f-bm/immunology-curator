@@ -1,47 +1,92 @@
 {
   "week": "2026-W46",
-  "date": "2026-11-19T16:12:40.354140",
+  "date": "2026-11-20T12:31:04.253669",
   "classified_articles": [
     {
-      "title": "Recommandations ERN-RITA/PReS sur l'angiite primaire du système nerveux central chez l'enfant",
-      "original_title": "ERN-RITA/PReS recommendations for the diagnosis, classification, monitoring, and treatment of childhood idiopathic (primary) angiitis of the central nervous system.",
-      "journal": "Annals of the rheumatic diseases",
-      "impact_factor_est": "IF ~16",
-      "url": "https://pubmed.ncbi.nlm.nih.gov/43020703/",
-      "section": "Maladies de la dérégulation immunitaire",
-      "disease_or_topic": "Angiite primaire du SNC (cPACNS)",
-      "take_home_message": "Adoptez la nouvelle nomenclature 'idiopathique/associée à une maladie' et privilégiez le séquençage génomique complet pour éliminer les phénocopies inflammatoires avant tout traitement immunosuppresseur lourd.",
-      "main_conclusions": "Établissement de 83 recommandations consensuelles basées sur une revue systématique de 182 études. Codification des définitions de rémission et de rechute pour la première fois en pédiatrie.",
-      "clinical_impact": "Standardisation internationale du diagnostic et du suivi, remplaçant la dichotomie primaire/secondaire obsolète par une approche basée sur la stratification des risques.",
-      "gene_pathway": "Inflammation vasculaire médiée par les cellules T et les cytokines pro-inflammatoires."
+      "title": "Hyperactivation précoce et anomalies mitochondriales dans le déficit en GATA2",
+      "original_title": "Early hyperactivation and activation-associated mitochondrial abnormalities in GATA2 deficiency.",
+      "journal": "Frontiers in Immunology",
+      "impact_factor_est": "IF ~8.7",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43054044/",
+      "doi": "10.3389/fimmu.2026.1960580",
+      "pmcid": "PMC13777651",
+      "section": "Défauts congénitaux des phagocytes",
+      "disease_or_topic": "Déficit en GATA2",
+      "take_home_messages": [
+        "Le déficit en GATA2 induit un état d'activation chronique des lymphocytes CD8+.",
+        "Des anomalies mitochondriales précoces sont corrélées à cet épuisement fonctionnel des CD8+.",
+        "Le phénotype d'activation précoce pourrait servir de biomarqueur de progression vers la leucémie."
+      ],
+      "context": "Le déficit en GATA2 est une maladie prédisposant aux myélodysplasies et leucémies. L'étude analyse l'impact de ce déficit sur la biologie des lymphocytes T CD8+.",
+      "key_findings": [
+        "Augmentation de l'expression des marqueurs d'activation CD38/HLA-DR sur les CD8+.",
+        "Altération de l'homéostasie mitochondriale avec une respiration cellulaire diminuée.",
+        "Corrélations directes entre l'activation lymphocytaire et la sévérité clinique des patients."
+      ],
+      "clinical_practice": "Intégrer le profil d'activation des lymphocytes T CD8+ par cytométrie en flux pour le suivi des patients GATA2. Nécessité d'une surveillance étroite de la fonction mitochondriale comme potentiel prédicteur de risque leucémique.",
+      "gene_pathway": "GATA2 ; voie mitochondriale / signalisation de l'activation T",
+      "iuis_dest_id": "41e27562-91a0-81d4-8a82-e163666f0675",
+      "iuis_dest_type": "iuis_row",
+      "iuis_dest_name": "GATA2 deficiency (MonoMac syndrome)",
+      "iuis_table_name": "05. Congenital defects of phagocytes"
     },
     {
-      "title": "Variante de novo de IKZF4 : Une nouvelle étiologie de l'hypogammaglobulinémie",
-      "original_title": "A de novo IKZF4 Variant Underlies Hypogammaglobulinemia and Increased Infection Susceptibility through Downregulating the NF-κB Pathway.",
-      "journal": "Journal of clinical immunology",
-      "impact_factor_est": "IF ~10",
-      "url": "https://pubmed.ncbi.nlm.nih.gov/43015517/",
-      "section": "Déficits à prédominance humorale",
-      "disease_or_topic": "Déficit immunitaire commun variable (DICV-like)",
-      "take_home_message": "Considérez IKZF4 (EOS) dans le diagnostic différentiel des hypogammaglobulinémies inexpliquées, particulièrement en cas de présentation syndromique précoce.",
-      "main_conclusions": "Identification d'une variante de novo c.1472delG. Démonstration d'une régulation négative de la voie NF-κB et d'un défaut de ciblage de l'hétérochromatine péricentromérique.",
-      "clinical_impact": "Expansion de la famille des facteurs de transcription IKAROS dans la physiopathologie des DIP, ouvrant une nouvelle cible pour le diagnostic génétique.",
-      "gene_pathway": "IKZF4 (EOS) / Voie NF-κB."
-    },
-    {
-      "title": "La signature interféron : acteur pathogénique et non simple biomarqueur",
-      "original_title": "Causality Dilemma: Reassessing the Role of Interferon Signature Genes in Human Disease.",
-      "journal": "Biology",
-      "impact_factor_est": "IF ~11 (JCR subset review)",
-      "url": "https://pubmed.ncbi.nlm.nih.gov/43027029/",
+      "title": "La génétique des syndromes auto-inflammatoires : une revue",
+      "original_title": "The Genetics of Autoinflammatory Syndromes.",
+      "journal": "Annual Review of Medicine",
+      "impact_factor_est": "IF ~15.2",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43045052/",
+      "doi": "10.1146/annurev-med-042425-054729",
+      "pmcid": "",
       "section": "Maladies auto-inflammatoires",
-      "disease_or_topic": "Interféronopathies",
-      "take_home_message": "Ne considérez plus la signature interféron comme un simple témoin d'inflammation, mais comme un moteur direct de la dysfonction mitochondriale et tissulaire.",
-      "main_conclusions": "Synthèse démontrant que les gènes stimulés par l'interféron (ISG) participent activement à la perpétuation de l'inflammation via la régulation métabolique.",
-      "clinical_impact": "Redéfinit l'usage des inhibiteurs de la voie JAK ou des anticorps anti-IFN comme des thérapies ciblant le mécanisme lésionnel et non le marqueur sérologique.",
-      "gene_pathway": "Voie des interférons de type I / JAK-STAT / Métabolisme mitochondrial."
+      "disease_or_topic": "Maladies auto-inflammatoires systémiques",
+      "take_home_messages": [
+        "L'inflammasome, TNF/NF-κB et la voie des interférons sont les 3 axes physiopathologiques majeurs.",
+        "Le séquençage à haut débit a révélé une prévalence plus élevée qu'estimée des syndromes auto-inflammatoires.",
+        "Les thérapies ciblées (JAKi, anti-IL-1) ont transformé la survie et la qualité de vie des patients."
+      ],
+      "context": "Synthèse des connaissances sur la physiopathologie moléculaire et les paradigmes génétiques régissant les maladies auto-inflammatoires systémiques.",
+      "key_findings": [
+        "Classification moléculaire robuste des maladies par voies de signalisation.",
+        "Évolution de la nomenclature des fièvres héréditaires vers un spectre auto-inflammatoire large.",
+        "Efficacité démontrée des inhibiteurs de JAK et cytokines sur l'inflammation stérile."
+      ],
+      "clinical_practice": "En cas de suspicion, privilégier une approche par panel de gènes ciblant les voies NF-kB et inflammasome. Encourager l'utilisation de traitements ciblés selon le mécanisme moléculaire identifié.",
+      "gene_pathway": "Inflammasome, TNF/NF-kB, Type I Interferon",
+      "iuis_dest_id": "aa81736b-11f0-4036-bd47-d9e5a3fbfa33",
+      "iuis_dest_type": "iuis_row",
+      "iuis_dest_name": "Autoinflammatory diseases",
+      "iuis_table_name": "07. Autoinflammatory disorders"
+    },
+    {
+      "title": "Sécurité des inhibiteurs de l'IL-1 pendant la grossesse : cohorte GR2",
+      "original_title": "Study of 34 prospective pregnancies in women receiving IL-1 inhibitors for autoinflammatory diseases and comparison to unexposed pregnancies (GR2 study).",
+      "journal": "RMD Open",
+      "impact_factor_est": "IF ~6.5 (Sélection pour pertinence clinique)",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43039653/",
+      "doi": "10.1136/rmdopen-2026-007081",
+      "pmcid": "PMC13775689",
+      "section": "Maladies auto-inflammatoires",
+      "disease_or_topic": "FMF / CAPS / Still",
+      "take_home_messages": [
+        "L'anakinra semble présenter un profil de sécurité acceptable pour le fœtus durant la grossesse.",
+        "Pas de différence significative d'issues obstétricales entre patientes traitées et non traitées.",
+        "Le suivi pédiatrique à court et moyen terme montre un développement normal chez les enfants exposés."
+      ],
+      "context": "Étude prospective des issues de 34 grossesses chez des femmes traitées par anti-IL-1 pour des maladies auto-inflammatoires systémiques (GR2 cohort).",
+      "key_findings": [
+        "Absence de signal de tératogénicité chez les 34 grossesses exposées.",
+        "Pas de sur-risque d'issues obstétricales défavorables sous anakinra.",
+        "Développement infantile rassurant sur une médiane de 14,5 mois."
+      ],
+      "clinical_practice": "L'anakinra peut être discuté pour maintenir le contrôle de l'inflammation chez les femmes enceintes atteintes d'une maladie auto-inflammatoire, après balance bénéfice-risque personnalisée.",
+      "gene_pathway": "IL-1 beta signaling",
+      "iuis_dest_id": "41e27562-91a0-8181-bcff-f20424a4027c",
+      "iuis_dest_type": "iuis_row",
+      "iuis_dest_name": "Familial Mediterranean fever (MEFV)",
+      "iuis_table_name": "07. Autoinflammatory disorders"
     }
   ],
-  "weekly_overview": "### Synthèse hebdomadaire en Immunologie Clinique\n\nCette semaine, le focus est mis sur la précision diagnostique et la reclassification mécanistique des erreurs innées de l'immunité (EII). \n\n1. **Reclassification et Consensus** : Les nouvelles recommandations pour l'angiite du SNC chez l'enfant marquent un tournant en abandonnant les terminologies floues pour une approche mécanistique (idiopathique vs secondaire), soulignant l'importance du séquençage génomique systématique.\n2. **Avancées en Génétique** : L'identification de mutations de `IKZF4` élargit le spectre des déficits humoraux, illustrant la complexité du paysage des facteurs de transcription IKAROS dans l'homéostasie lymphocytaire.\n3. **Physiopathologie** : Une remise en question conceptuelle majeure sur les signatures interféron suggère une transition : du statut de 'biomarqueur passif' vers celui de 'cœur de cible thérapeutique' en raison de leur implication dans la dysfonction mitochondriale.",
-  "audio_script": "Bonjour à tous. Bienvenue dans ce briefing d'immunologie clinique de référence. Cette semaine, trois axes dominent l'actualité scientifique pour nos pratiques.\n\nCommençons par l'angiite du SNC de l'enfant. Les nouvelles recommandations ERN-RITA/PReS, publiées dans les 'Annals of the Rheumatic Diseases', sont un impératif pour votre pratique. Elles codifient enfin la distinction entre formes idiopathiques et formes secondaires. Le take-home message est clair : avant de conclure à une vascularite primaire, le séquençage génomique est désormais votre première ligne pour exclure des interféronopathies ou des vascularites monogéniques qui ne répondraient pas aux traitements classiques.\n\nEnsuite, le 'Journal of Clinical Immunology' publie une étude structurante sur le gène IKZF4. Ce facteur de transcription, membre de la famille IKAROS, est désormais impliqué dans les déficits immunitaires à prédominance humorale. Les auteurs démontrent une dérégulation critique de la voie NF-kB. Si vous avez en consultation des patients avec une hypogammaglobulinémie inexpliquée et des signes d'auto-immunité, intégrez IKZF4 dans vos panels NGS.\n\nEnfin, une revue conceptuelle dans 'Biology' bouscule notre interprétation de la signature interféron. Nous avons trop longtemps traité cette signature comme un reflet passif de l'inflammation. L'évidence actuelle montre que ces gènes stimulés par l'interféron, ou ISG, sont des acteurs pro-inflammatoires actifs, altérant la dynamique mitochondriale. C'est une justification mécanistique forte pour intensifier le blocage des voies JAK-STAT non seulement comme anti-inflammatoire, mais comme un traitement métabolique correcteur.\n\nRestez vigilants sur ces avancées, car elles changent radicalement nos stratégies de prescription en biothérapies. Merci de votre attention, et à la semaine prochaine."
+  "weekly_overview": "La veille immunologique de cette semaine met en lumière deux axes majeurs : la compréhension fine de la signalisation intracellulaire dans les déficits immunitaires et les avancées thérapeutiques en périnatalité. L'étude sur le déficit en GATA2 souligne l'importance croissante des biomarqueurs métaboliques (mitochondriaux) pour prédire l'évolutivité des IEI. Parallèlement, la publication de la cohorte GR2 apporte une donnée capitale pour la pratique clinique : la sécurité des biothérapies anti-IL-1 chez la femme enceinte, permettant une meilleure prise en charge des maladies auto-inflammatoires. Enfin, la revue sur la génétique des syndromes auto-inflammatoires confirme le déplacement du paradigme vers des approches basées sur les voies de signalisation (NF-kB/inflammasome) plutôt que sur des phénotypes cliniques isolés.",
+  "audio_script": "Chers collègues, bienvenue dans ce point hebdomadaire sur l'actualité en immunologie clinique. Cette semaine, trois publications majeures orientent nos pratiques. Commençons par une étude moléculaire approfondie du déficit en GATA2 publiée dans Frontiers in Immunology. Les auteurs démontrent que l'épuisement des lymphocytes CD8+ dans cette pathologie n'est pas seulement génétique, mais métabolique, avec des anomalies mitochondriales documentées. Cliniquement, ceci suggère que le profil d'activation CD38/HLA-DR pourrait être un marqueur prédictif de progression vers la malignité hématologique. Deuxième point, la revue publiée dans l'Annual Review of Medicine clarifie l'architecture génétique des maladies auto-inflammatoires. Le message est clair : le séquençage haut débit nous force à revoir notre classification, centrée non plus sur la clinique, mais sur les voies de signalisation : NF-kB, inflammasome, et interférons. Enfin, une nouvelle rassurante pour la prise en charge obstétricale : la cohorte GR2, publiée dans RMD Open, évalue la sécurité des inhibiteurs de l'IL-1 durant la grossesse. Pour l'anakinra, les données sont plutôt rassurantes avec des issues de grossesses comparables aux femmes non traitées. Des données précieuses pour le conseil pré-conceptionnel chez nos patientes atteintes de fièvres méditerranéennes ou de maladie de Still. La semaine prochaine, nous reviendrons sur l'évolution des outils de diagnostic basés sur le transcriptome et l'IA dans les registres nationaux. Excellente pratique à tous."
 }

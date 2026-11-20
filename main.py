@@ -62,9 +62,23 @@ def run_pipeline(days: int = 7, dry_run: bool = False, skip_audio: bool = False,
         print("ℹ️ Aucun nouvel article scientifique trouvé sur cette période.")
         return
 
+    # 1b. Chargement du catalogue live IUIS 2024 & dossiers thématiques depuis Notion
+    notion_mgr = NotionImmunoManager()
+    iuis_rows = []
+    thematic_folders = notion_mgr.get_thematic_folders()
+    if notion_mgr.client and not mock:
+        print("\n--- 🧬 CHARGEMENT DU CATALOGUE IUIS 2024 ---")
+        try:
+            iuis_rows = notion_mgr.query_live_iuis_rows()
+            print(f"📚 {len(iuis_rows)} maladies IUIS 2024 + {len(thematic_folders)} dossiers thématiques chargés.")
+        except Exception as e:
+            print(f"⚠️ Impossible de charger le catalogue IUIS live ({e}).")
+
     # 2. Analyse, classification et rédaction par LLM
     print("\n--- 🧠 ANALYSE & CLASSIFICATION SCIENTIFIQUE ---")
-    classified_articles, audio_script, weekly_overview = synthesize_and_classify(articles)
+    classified_articles, audio_script, weekly_overview = synthesize_and_classify(
+        articles, iuis_rows=iuis_rows, thematic_folders=thematic_folders
+    )
     print(f"📊 Articles retenus pour l'analyse : {len(classified_articles)}")
 
     # Sauvegarde locale du rapport au format JSON pour archive
@@ -103,11 +117,10 @@ def run_pipeline(days: int = 7, dry_run: bool = False, skip_audio: bool = False,
             audio_file_path=audio_path
         )
 
-    # 5. Rangement hiérarchique dans Notion
+    # 5. Rangement hiérarchique dans Notion (Veille immunologie + Classification IUIS 2024)
     if not dry_run:
-        print("\n--- 📂 RANGEMENT DANS L'ARBORESCENCE NOTION ---")
-        notion_mgr = NotionImmunoManager()
-        notion_mgr.sync_all(classified_articles)
+        print("\n--- 📂 RANGEMENT DANS NOTION (VEILLE + CLASSIFICATION IUIS 2024) ---")
+        notion_mgr.sync_all(classified_articles, iuis_rows=iuis_rows if iuis_rows else None)
     else:
         print("⏭️ Mode DRY-RUN : Synchronisation Notion ignorée.")
 
