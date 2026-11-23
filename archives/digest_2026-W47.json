@@ -1,0 +1,66 @@
+{
+  "week": "2026-W47",
+  "date": "2026-11-23T07:16:45.867400",
+  "classified_articles": [
+    {
+      "title": "Correction par édition de base des cellules souches hématopoïétiques dans le syndrome APDS",
+      "original_title": "Base Editing of Hematopoietic Stem Cells Corrects Gain-of-Function Mutations in APDS.",
+      "journal": "Blood",
+      "impact_factor_est": "IF ~18",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43063921/",
+      "doi": "10.1182/bloodadvances.2026021020",
+      "pmcid": "",
+      "section": "Déficits immunitaires combinés",
+      "disease_or_topic": "Syndrome APDS",
+      "take_home_messages": [
+        "L'édition de base (base editing) corrige efficacement les mutations PIK3CD et PIK3R1 dans les CSH.",
+        "Restauration fonctionnelle de la signalisation PI3Kdelta et suppression de l'apoptose induite par l'activation.",
+        "Un chimérisme de 75% suffit théoriquement pour corriger le phénotype lymphoprolifératif."
+      ],
+      "context": "Le syndrome APDS (Activated PI3K delta syndrome) est une erreur innée de l'immunité par gain de fonction. L'étude évalue une stratégie d'édition génomique sans cassure double brin pour corriger les mutations ponctuelles fréquentes.",
+      "key_findings": [
+        "Correction hautement efficace des mutations p.E1021K (APDS1) et c.1425+1G>A (APDS2).",
+        "Restauration de la viabilité des cellules T et B.",
+        "Engraftment à long terme prouvé dans des modèles murins immunodéficients.",
+        "Correction du phénotype lymphoprolifératif in vivo."
+      ],
+      "clinical_practice": "Cette approche thérapeutique ouvre la voie à une alternative curative à la greffe de CSH. Elle nécessite une validation clinique pour évaluer l'efficacité de l'édition ex vivo et la sécurité à long terme.",
+      "gene_pathway": "PIK3CD, PIK3R1, voie PI3K/AKT/mTOR",
+      "iuis_dest_id": "41e27562-91a0-813c-b812-d508417e70a4",
+      "iuis_dest_type": "iuis_row",
+      "iuis_dest_name": "PIK3CD mutation (GOF) APDS1 (PIK3CD GOF)",
+      "iuis_table_name": "03. Predominantly antibody deficiencies"
+    },
+    {
+      "title": "Hyperactivation précoce et anomalies mitochondriales dans le déficit en GATA2",
+      "original_title": "Early hyperactivation and activation-associated mitochondrial abnormalities in GATA2 deficiency.",
+      "journal": "Frontiers in Immunology",
+      "impact_factor_est": "IF ~8",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/43054044/",
+      "doi": "10.3389/fimmu.2026.1960580",
+      "pmcid": "PMC13777651",
+      "section": "Défauts congénitaux des phagocytes",
+      "disease_or_topic": "Syndrome MonoMac / GATA2 deficiency",
+      "take_home_messages": [
+        "Les cellules CD8+ dans le déficit en GATA2 présentent une hyperactivation précoce.",
+        "Désorganisation métabolique et mitochondriale corrélée à l'épuisement cellulaire.",
+        "Ces défauts précèdent le développement des néoplasies myéloïdes."
+      ],
+      "context": "Le déficit en GATA2 se manifeste par des cytopénies et une susceptibilité aux infections. L'étude analyse les altérations fonctionnelles et métaboliques des lymphocytes T CD8+.",
+      "key_findings": [
+        "Profil transcriptionnel montrant un état d'activation chronique des cellules T.",
+        "Altérations de la dynamique mitochondriale et du stress oxydatif.",
+        "Corrélation entre le degré d'épuisement cellulaire et le risque de transformation leucémique.",
+        "Identification de cibles potentielles pour freiner l'épuisement immunitaire."
+      ],
+      "clinical_practice": "Le monitoring immunologique des cellules T CD8+ pourrait servir de biomarqueur de progression vers le myélodysplasie/LMA avant l'apparition des anomalies cytogénétiques.",
+      "gene_pathway": "GATA2, métabolisme oxydatif, homéostasie mitochondriale",
+      "iuis_dest_id": "41e27562-91a0-81d4-8a82-e163666f0675",
+      "iuis_dest_type": "iuis_row",
+      "iuis_dest_name": "GATA2 deficiency (MonoMac syndrome)",
+      "iuis_table_name": "05. Congenital defects of phagocytes"
+    }
+  ],
+  "weekly_overview": "La semaine a été marquée par une avancée majeure dans la thérapeutique de précision pour les erreurs innées de l'immunité (IEI). L'édition de base du gène PIK3CD dans les CSH propose un futur sans transplantation pour le syndrome APDS. En parallèle, la recherche fondamentale sur le déficit en GATA2 met en lumière des mécanismes métaboliques mitochondriaux liant l'immunodéficience à la prédisposition maligne. La gestion des maladies autoinflammatoires continue d'évoluer avec de nouveaux usages d'inhibiteurs de JAK dans les syndromes orphelins.",
+  "audio_script": "Chers collègues, bienvenue dans ce briefing hebdomadaire dédié aux actualités en immunologie clinique. Aujourd'hui, nous explorons deux axes majeurs : la médecine génomique corrective et la physiopathologie de l'épuisement cellulaire. Première étude, publiée dans Blood : l'édition de base pour le syndrome APDS. L'enjeu est critique pour ces patients avec des mutations de PIK3CD ou PIK3R1. L'étude démontre qu'une correction génomique, sans recours à une greffe, permet non seulement de restaurer la signalisation PI3K-AKT, mais aussi de normaliser la survie cellulaire. C'est une révolution thérapeutique potentielle. Deuxièmement, nous nous penchons sur le déficit en GATA2. Les travaux récents dans Frontiers in Immunology révèlent que les lymphocytes T CD8+ ne sont pas seulement quantitativement diminués, ils subissent une dérégulation mitochondriale et un stress métabolique chronique, véritable terreau de la transformation maligne. En pratique, retenez trois points : la correction par édition de base est techniquement mature pour les mutations ponctuelles de l'APDS, le suivi immunophénotypique des cellules T dans le déficit en GATA2 pourrait devenir un outil pronostique majeur, et enfin, l'utilisation des inhibiteurs de JAK gagne du terrain dans les syndromes autoinflammatoires complexes, bien que la prudence reste de mise sur le risque infectieux. Restez vigilants face à ces nouvelles cibles thérapeutiques qui redéfinissent notre prise en charge."
+}
